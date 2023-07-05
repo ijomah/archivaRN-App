@@ -21,10 +21,19 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.jacobianijo.ArchivaApp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "react-native-document-scanner-plugin"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "232e3626-3783-4044-9c00-696481d7488e"
+      }
     }
   }
 }
