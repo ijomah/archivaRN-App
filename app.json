@@ -30,6 +30,7 @@
     "plugins": [
       "react-native-document-scanner-plugin"
     ],
+    "scheme": "achivaapp",
     "extra": {
       "eas": {
         "projectId": "232e3626-3783-4044-9c00-696481d7488e"

@@ -3,13 +3,16 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import { DocumentScanner } from 'react-native-document-scanner-plugin';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
+import  PreDropDown from './app/pages/preDropDown';
+import FormPage from './app/pages/form';
 // in App.js
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faFile } from '@fortawesome/free-regular-svg-icons';
+import { faUserXmark } from '@fortawesome/free-solid-svg-icons';
+import { 
+  faIdCard, 
+  faFile } from '@fortawesome/free-regular-svg-icons';
 
-
-
-library.add(faFile)
+library.add(faFile, faUserXmark, faIdCard)
 
 
 export default function App() {
@@ -32,22 +35,26 @@ export default function App() {
 
   useEffect(() => {
     // call scanDocument on load
-    scanningDocument()
+    // scanningDocument()
   }, []);
   return (
     <View style={styles.container}>
       
-      <Image
+      {/* <Image
       resizeMode="contain"
       style={{ width: '100%', height: '90%' }}
       source={{ uri: scannedImage }}
-    />
-      <View style={styles.buttonContainer}>
+    /> */}
+      <View>
+        <PreDropDown />
+        {/* <FormPage /> */}
+      </View>
+      {/* <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.prevBox}>
           <FontAwesomeIcon icon="fa-regular fa-file" />
           <Text style={styles.text}>2</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
     </View>
   );
 }

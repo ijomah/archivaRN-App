@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { useState } from 'react';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Button } from 'react-native';
 import { DocumentScanner } from 'react-native-document-scanner-plugin';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
+//import ScannedImgCounter from '../../proj/tinyParts/counter;'
 
 export default function Scanner() {
   const [scannedImage, setScannedImage] = useState();
@@ -18,22 +19,33 @@ export default function Scanner() {
     // get back an array with scanned image file paths
     if (scannedImages.length > 0) {
       // set the img src, so we can view the first scanned image
-      setScannedImage(scannedImages[0])
+      setScannedImage(scannedImages)
     }
+    // To see the scannedImg items on the state
+    console.log(scannedImage);
   }
 
-  useEffect(() => {
-    // call scanDocument on load
-    scanningDocument()
-  }, []);
+  // useEffect(() => {
+  //   // call scanDocument on load
+  //   scanningDocument()
+  // }, []);
   return (
     <View style={styles.container}>
-      
-      <Image
+      <View style={styles.imgCountStyle}>
+        {/* <ScannedImgCounter 
+          numberOfScannedImg={scannedImage.length}
+        /> */}
+      </View>
+      <Button 
+        title='Scan'
+        style={styles.scannerBtn}
+        onPress={scanningDocument}
+      />
+      {/* <Image
       resizeMode="contain"
       style={{ width: '100%', height: '90%' }}
       source={{ uri: scannedImage }}
-    />
+    /> */}
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.prevBox}>
           <FontAwesomeIcon icon="fa-regular fa-file" sty />
