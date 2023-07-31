@@ -6,7 +6,7 @@ export default FormPage = () => {
         <View>
             <View style={styles.formPage}>
                 <View style={styles.appliNo}>
-                    <Text>Application Number:</Text>
+                    <Text>File Number:</Text>
                     <TextInput
                         style={styles.input}
                         placeholder="Application Nunmber:"
@@ -15,7 +15,7 @@ export default FormPage = () => {
                     />
                 </View>
                 <View style={styles.appliName}>
-                    <Text>Application Name:</Text>
+                    <Text>File Type:</Text>
                     <TextInput
                         style={styles.input}
                         placeholder="Application Nunmber:"
@@ -23,6 +23,36 @@ export default FormPage = () => {
                         // onChangeText={setApplyNo}
                     />
                 </View>
+                <View style={styles.appliName}>
+                    <Text>File Name:</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Application Nunmber:"
+                        // value={applicationNo}
+                        // onChangeText={setApplyNo}
+                    />
+                </View>
+                
+                <View style={styles.appliName}>
+                    <Text>File Description:</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Application Nunmber:"
+                        // value={applicationNo}
+                        // onChangeText={setApplyNo}
+                    />
+                </View>
+                <View style={styles.appliName}>
+                    <Text>Year file was Opened:</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Application Nunmber:"
+                        // value={applicationNo}
+                        // onChangeText={setApplyNo}
+                    />
+                </View>
+                {/* Ability to add additional input field by the user
+                Use a fontawesome icon to give the use this ability */}
                 <View>
                     <TouchableOpacity>
                         <Text>Submit</Text>

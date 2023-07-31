@@ -2,22 +2,24 @@ import { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, SafeAreaView, ImageBackground } from 'react-native';
 import { DocumentScanner } from 'react-native-document-scanner-plugin';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { Link } from 'expo-router';
+import { Link, Stack } from 'expo-router';
 import { LinearGradient } from 'react-native-svg';
 
 import  PreDropDown from './pages/preDropDown';
 import FileComponents from './pages/filePartsToScan';
+import HomePage from './pages/home';
+import ImageHeader from '../proj/tinyParts/headerLogo';
 // import FormPage from './proj/pages/form';
 // in App.js
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faUserXmark } from '@fortawesome/free-solid-svg-icons';
+import { faUserXmark, faRightToBracket, faListOl } from '@fortawesome/free-solid-svg-icons';
 import { 
   faIdCard, 
   faFile } from '@fortawesome/free-regular-svg-icons';
 
 
 
-library.add(faFile, faUserXmark, faIdCard)
+library.add(faFile, faUserXmark, faRightToBracket, faListOl, faIdCard)
 
 
 export default function App() {
@@ -31,28 +33,33 @@ export default function App() {
  
   return (
     <SafeAreaView style={styles.container}>
-      <LinearGradient
+      <Stack.Screen
+        options={{
+          title: 'Home',
+          headerTitle: () => <ImageHeader />,
+          headerTitleAlign: 'center'
+          // headerBackground:  () => <ImageHeader />,
+        }} 
+      />
+      {/* <LinearGradient
         colors={['blue', 'red']}
         style={styles.linearGrad}
-      />
+      /> */}
 
-      <LinearGradient 
+      {/* <LinearGradient 
         colors={['red', 'green']}
         style={styles.linearGrad}
-      >
+      > */}
         <ImageBackground 
-        style={styles.imgBg} 
-        source={require('../assets/bgpixel.jpg')} 
-        resizeMode='cover'
-      >
-        {/* <View>
-          <Link href='/pages/preDropDown'>
-            <Text>Document Selection Dropdown</Text>
-          </Link>
-        </View> */}
+          style={styles.imgBg} 
+          source={require('../assets/bgpixel.jpg')} 
+          resizeMode='cover'
+          imageStyle={styles.bgImgStyle}
+        >
         
         <View style={styles.homePg}>
           <HomePage />
+          {/* <Link href="/pages/home">Go Home</Link> */}
         </View>
       {/* <View>
         <PreDropDown onPassDocsTitle={passDocsTitleForScanning} />
@@ -62,14 +69,9 @@ export default function App() {
         <FileComponents docsName={titlesOfDocs} />
         <FormPage />
       </View> */}
-      {/* <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.prevBox}>
-          <FontAwesomeIcon icon="fa-regular fa-file" />
-          <Text style={styles.text}>2</Text>
-        </TouchableOpacity>
-      </View> */}
+
         </ImageBackground>
-      </LinearGradient>
+      {/* </LinearGradient> */}
     </SafeAreaView>
   );
 }
@@ -77,7 +79,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#5CBFAB',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -86,13 +88,17 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     width: '100%',
-    height: '100%'
-    // opacity: 0.7
+    height: '100%',
+    // opacity: 0.3
   },
 
-  linearGrad: {
-    flex: 1
+  bgImgStyle: {
+    opacity: 0.3
   },
+
+  // linearGrad: {
+  //   // flex: 1
+  // },
 
   buttonContainer: {
     backgroundColor: 'steelblue',

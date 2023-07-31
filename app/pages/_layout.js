@@ -1,16 +1,26 @@
 import { Drawer } from 'expo-router/drawer';
+import ImageHeader from '../../proj/tinyParts/headerLogo';
 
 export default function DropDownLayout() {
     return (
-         <Drawer 
-            name='pages'
+        <Drawer 
+            name=''
             screenOptions={{
                 drawerPosition: 'right',
-                drawerIcon: ''
+                drawerIcon: '',
+                headerTitle: () => <ImageHeader />,
+                headerTitleAlign: 'center'
             }}
-            options={{
+        >
                 
-            }}>
+            <Drawer.Screen 
+                name='home'
+                options={{
+                    drawerLabel: 'Home',
+                    headerTintColor: '#FFEDD6',
+                    // title: 'home'
+                }}
+            />
             <Drawer.Screen 
                 name='preDropDown'
                 options={{
@@ -22,11 +32,12 @@ export default function DropDownLayout() {
             />
 
             <Drawer.Screen 
-                name='filePartsToScan'
+                name='filePartsToScan'                
                 options={{
                     drawerLabel: 'Selected Document Title',
                     headerTintColor: '#FFEDD6',
-                    title: 'Seleceted Document Names'
+                    title: 'Seleceted Document Names',
+                    
                 }}
             />
 

@@ -1,10 +1,23 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity, TextInputComponent, TextInput } from 'react-native';
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 
 export default PreviewPart = () => {
     const [prevImg, setPrevImg] = useState();
-
+    
+    const getStoreImg = async () => {
+        try {
+            const imgUnserialized =  await AsyncStorage.getItem(IMAGESYOUSCANNED);
+            const imgYouScannedArr = JSON.parse(imgUnserialized);
+            if (imgYouScannedArr !== undefined) {
+                setPrevImg([...prevImg, imgYouScannedArr]);
+                console.log(imgYouScannedArr);
+            }
+        } catch(e) {
+            console.log(e)
+        }
+    }
+    useEffect(getStoreImg, [])
     return (
         <View>
             <View>

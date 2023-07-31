@@ -44,8 +44,8 @@ const styles = StyleSheet.create({
         width: 410,
         borderColor: '#B7E0F7',
         borderWidth: 1,
-        backgroundColor: '#F7DBB6',
-        opacity: 0.5
+        //backgroundColor: '#F7DBB6',
+        //opacity: 0.5
     },
     vendorLogo: {
         height: 250,
@@ -56,18 +56,19 @@ const styles = StyleSheet.create({
     },
 
     vendorLogoContainer: {
-        backgroundColor: '#5CBFAB',
+        //backgroundColor: '#5CBFAB',
         // height: 100
     },
-    homeLine: {
-
-    },
-
     navLink: {
         backgroundColor: '#B7E0F7',
-        width: 80,
-        alignSelf: 'center'
+        width: 90,
+        alignItems: 'center',
+        alignSelf: 'center',
         // height: 500
+        borderRadius: 20,
+        borderWidth: 2,
+        borderColor: '#FFEDD6',
+        padding: 2,
     },
     archivaLogo: {
         height: 100,

@@ -1,20 +1,27 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity, TextInputComponent, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, TextInputComponent, TextInput, Button } from 'react-native';
+import { router } from 'expo-router';
 
 export default LogoutPage = () => {
     const [logout, setLogout] = useState();
     
     const handleSubmit = () => {
         console.log('Logout triggered');
+        router.replace('/login');
     }
     return (
         <View>
             <View style={styles.logoutForm}>  
-                <View style={styles.logoutBtn}>
-                    <TouchableOpacity>
+                <TouchableOpacity onPress={handleSubmit}>
+                    <View style={styles.logoutBtn}>
+                        <Button
+                            title="Log out"
+                            color='#AB906D'
+                        />
                         <Text>Log Out</Text>
-                    </TouchableOpacity>
-                </View>
+                    
+                    </View>
+                </TouchableOpacity>
             </View>
         </View>
     )

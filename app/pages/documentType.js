@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import React, { useState } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Button } from 'react-native';
 import { MultiSelect } from "react-native-element-dropdown";
-import { Link } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import { ALLDOCTITLES } from "../../util/const";
 
 import FileComponents from "./filePartsToScan";
@@ -10,28 +10,31 @@ import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import  AsyncStorage from '@react-native-async-storage/async-storage';
 
+export default function DocumentType() {
+    // Add your logics
+    const itemTitles = [
+        {label: "Front Cover", value: '1'},
+        {label: "Back Cover", value: '2'},
+        {label: "Survey Plan", value: '3'},
+        {label: "Receipts", value: '4'},
+        {label: "title document", value: '5'},
+        {label: "Vetting and Recommendation", value: '6'},
+        {label: "Electrical drawing", value: '7'},
+        {label: "Structural drawing", value: '8'},
+        {label: "Architectural drawing", value: '9'},
+        {label: "Mechanical drawing", value: '10'},
+        {label: "Application form", value: '11'},
+        {label: "Query", value: '12'}
+    ]
+    
 
-export default function PreDropDown({listArr}) {
-    // const itemTitles = [
-    //     {label: "Front Cover", value: '1'},
-    //     {label: "Back Cover", value: '2'},
-    //     {label: "Survey Plan", value: '3'},
-    //     {label: "Receipts", value: '4'},
-    //     {label: "title document", value: '5'},
-    //     {label: "Vetting and Recommendation", value: '6'},
-    //     {label: "Electrical drawing", value: '7'},
-    //     {label: "Structural drawing", value: '8'},
-    //     {label: "Architectural drawing", value: '9'},
-    //     {label: "Mechanical drawing", value: '10'},
-    //     {label: "Application form", value: '11'},
-    //     {label: "Query", value: '12'}
-    // ]
 
-    // const arrOfDocsTitle = []
     const [arrOfDocsTitle, setArrOfDocsTitle] = useState([{ label: "Sample document title", value: '200'}])
     const [selected, setSelected] = useState([]);
     const [documentTitle, setDocumentTilte] = useState();
     const [selectedArrOfObj, setSelectedArrOfObj] = useState([{}])
+
+    const routing = useRouter();
 
     const saveToStorage = async (selectedTitles) => {
       try {
@@ -56,8 +59,10 @@ export default function PreDropDown({listArr}) {
     const getAllDocTitlesArr = () => {
       const selectedDocsTitlesArr = getSelectedDocTitlesObjIntoArr();
       const combinedDocsTitlesArr = [...selectedDocsTitlesArr, ...arrOfDocsTitle];
-      props.onPassDocsTitle(combinedDocsTitlesArr);
+    //   props.onPassDocsTitle(combinedDocsTitlesArr);
       saveToStorage(combinedDocsTitlesArr)
+      routing.push('./filePartToScan');
+      
     }
     const renderItem = item => {
         return (
@@ -120,7 +125,7 @@ export default function PreDropDown({listArr}) {
                 selectedTextStyle={styles.selecetedTextStyle}
                 inputSearchStyle={styles.inputSearchStyle}
                 iconStyle={styles.iconStyle}
-                data={listArr}
+                data={itemTitles}
                 labelField="label"
                 valueField="value"
                 placeholder="Select item"
@@ -309,4 +314,4 @@ const styles = StyleSheet.create({
       marginRight: 5,
       fontSize: 16,
     },
-  });
+});

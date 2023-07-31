@@ -1,20 +1,29 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity, TextInputComponent, TextInput } from 'react-native';
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+export default ItemsCounter = ({numberOfItems}) => {
+    // const [count, setCount] = useState(0);
 
-export default ScannedImgCounter = (props) => {
-    const [count, setCount] = useState();
-
-    const saveCount = () => {
-        setCount(props.numberOfScannedImg)
-    }
+    // const onIncrementCount = () => {
+        // setCount(count + numberOfItems)
+    // }
     return (
         <View>
-            <View style={styles.counter}>
-                <Text>{count}</Text>
+            <View style={styles.counter}> 
+                <Text style={{fontSize: 20, fontWeight: 800}}>
+                    {numberOfItems === 0? '' : numberOfItems }
+                </Text>
                 <Text>
-                    <FontAwesomeIcon icon="fa-solid fa-list-ol" />
+                    {/* <FontAwesomeIcon icon="fa-solid fa-list-ol" size={40} /> */}
                 </Text>
             </View>
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    counter: {
+        width: 30,
+        height: 30
+    }
+})

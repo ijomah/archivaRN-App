@@ -3,39 +3,36 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Button } from 'react-native';
 import { MultiSelect } from "react-native-element-dropdown";
 import { Link } from 'expo-router';
-import { ALLDOCTITLES } from "../../util/const";
+import { ALLFILEINFO } from "../../util/const";
 
-import FileComponents from "./filePartsToScan";
 import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import  AsyncStorage from '@react-native-async-storage/async-storage';
 
+export default function FileType() {
+    // Add your logics
+    const fileTypeArr = [
+        {label: 'Patient', value: '1'},
+        {label: 'Admin', value: '2'},
+        {label: 'Vendor', value: '3'},
+        {label: 'General', value: '4'},
+        {label: 'Laboratory', value: '5'},
+        {label: 'Staff', value: '6'},
+        {label: 'Contract', value: '7'},
+        {label: 'Business', value: '8'},
+        {label: 'Customer', value: '9'},
+        {label: 'Inventory', value: '10'}
+    ]
 
-export default function PreDropDown({listArr}) {
-    // const itemTitles = [
-    //     {label: "Front Cover", value: '1'},
-    //     {label: "Back Cover", value: '2'},
-    //     {label: "Survey Plan", value: '3'},
-    //     {label: "Receipts", value: '4'},
-    //     {label: "title document", value: '5'},
-    //     {label: "Vetting and Recommendation", value: '6'},
-    //     {label: "Electrical drawing", value: '7'},
-    //     {label: "Structural drawing", value: '8'},
-    //     {label: "Architectural drawing", value: '9'},
-    //     {label: "Mechanical drawing", value: '10'},
-    //     {label: "Application form", value: '11'},
-    //     {label: "Query", value: '12'}
-    // ]
-
-    // const arrOfDocsTitle = []
-    const [arrOfDocsTitle, setArrOfDocsTitle] = useState([{ label: "Sample document title", value: '200'}])
+    const [arrOfDocsTitle, setArrOfDocsTitle] = useState([{ label: "Sample File Information", value: '200'}])
     const [selected, setSelected] = useState([]);
-    const [documentTitle, setDocumentTilte] = useState();
+    const [fileInfo, setFileInfo] = useState();
     const [selectedArrOfObj, setSelectedArrOfObj] = useState([{}])
 
-    const saveToStorage = async (selectedTitles) => {
+    const saveToStorage = async (selectedFileInfo) => {
       try {
-        await AsyncStorage.setItem(ALLDOCTITLES, JSON.stringify(selectedTitles))
+        console.log('ERR from saving to asyncStore:', selectedFileInfo);
+        await AsyncStorage.setItem(ALLFILEINFO, JSON.stringify(selectedFileInfo))
       } catch(e) {
         console.log('ERR from saving to asyncStore:',e);
       }
@@ -43,7 +40,7 @@ export default function PreDropDown({listArr}) {
     
     const getSelectedDocTitlesObjIntoArr = () => {
       const arrOfTitles = [];
-      for (var obj of itemTitles) {
+      for (var obj of fileTypeArr) {
         for (var thg of selected) {
           if (obj.value === thg) {
             arrOfTitles.push(obj)
@@ -56,7 +53,7 @@ export default function PreDropDown({listArr}) {
     const getAllDocTitlesArr = () => {
       const selectedDocsTitlesArr = getSelectedDocTitlesObjIntoArr();
       const combinedDocsTitlesArr = [...selectedDocsTitlesArr, ...arrOfDocsTitle];
-      props.onPassDocsTitle(combinedDocsTitlesArr);
+    //   props.onPassDocsTitle(combinedDocsTitlesArr);
       saveToStorage(combinedDocsTitlesArr)
     }
     const renderItem = item => {
@@ -74,12 +71,12 @@ export default function PreDropDown({listArr}) {
 
     
     const changeTitleTextToObj = (text) => {
-      setDocumentTilte(text);
+      setFileInfo(text);
     }
 
     const submitDocTitles = () => {
       let titleObj = {
-        label: documentTitle,
+        label: fileInfo,
         value: Math.random().toString(36).substring(7)
       }
       // console.log("Current target", arrOfDocsTitle, "titleObj3", titleObj)
@@ -87,7 +84,7 @@ export default function PreDropDown({listArr}) {
       setArrOfDocsTitle([...arrOfDocsTitle, titleObj]);
       // arrOfDocsTitle.push(titleObj);
       // console.log("Arr", arrOfDocsTitle)
-      setDocumentTilte(' ')
+      setFileInfo(' ')
     }
 
     return(
@@ -120,7 +117,7 @@ export default function PreDropDown({listArr}) {
                 selectedTextStyle={styles.selecetedTextStyle}
                 inputSearchStyle={styles.inputSearchStyle}
                 iconStyle={styles.iconStyle}
-                data={listArr}
+                data={fileTypeArr}
                 labelField="label"
                 valueField="value"
                 placeholder="Select item"
@@ -182,7 +179,7 @@ export default function PreDropDown({listArr}) {
                 <Text style={styles.inputDocsTitle}>Enter a Name for your Document</Text>
                 <TextInput 
                   style={styles.docsTitleTextInput}
-                  value={documentTitle}
+                  value={fileInfo}
                   onChangeText={changeTitleTextToObj}
                   onSubmitEditing={submitDocTitles}
                   placeholder="Eg: car paper, Employee agreement"                  
