@@ -40,7 +40,7 @@ export default function DocumentType() {
       try {
         await AsyncStorage.setItem(ALLDOCTITLES, JSON.stringify(selectedTitles))
       } catch(e) {
-        console.log('ERR from saving to asyncStore:',e);
+        console.log('ERR from saving to asyncStore:', e);
       }
     }
     

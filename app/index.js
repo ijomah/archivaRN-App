@@ -16,6 +16,7 @@ import { faUserXmark, faRightToBracket, faListOl } from '@fortawesome/free-solid
 import { 
   faIdCard, 
   faFile } from '@fortawesome/free-regular-svg-icons';
+import ScanPreview from './scanPart/scanPreview';
 
 
 
@@ -58,7 +59,8 @@ export default function App() {
         >
         
         <View style={styles.homePg}>
-          <HomePage />
+          {/* <HomePage /> */}
+          <ScanPreview />
           {/* <Link href="/pages/home">Go Home</Link> */}
         </View>
       {/* <View>

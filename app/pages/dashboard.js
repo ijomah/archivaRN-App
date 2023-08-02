@@ -4,18 +4,31 @@ import { ScrollView } from "react-native-gesture-handler";
 import { Link, useRouter } from "expo-router";
 import apiCalls from "../../apiCalls";
 import Card from "../../proj/tinyParts/card";
+import { dynamicColors } from "../../util/Colors";
 
 export default DashboardPage = () => {
+    let docItmList = [
+        {id: 200, file: 'Certificate', colour: dynamicColors[Math.floor(Math.random()*dynamicColors.length)]},
+        {id: 2, file: 'Receipt', colour: dynamicColors[Math.floor(Math.random()*dynamicColors.length)]},
+        {id: 80000, file: 'Invoice', colour: dynamicColors[Math.floor(Math.random()*dynamicColors.length)]},
+        {id: 4, file: 'My Picture', colour: dynamicColors[Math.floor(Math.random()*dynamicColors.length)]},
+        {id: 9, file: 'Important Sheet', colour: dynamicColors[Math.floor(Math.random()*dynamicColors.length)]},
+        {id: 650, file: 'Light Bill', colour: dynamicColors[Math.floor(Math.random()*dynamicColors.length)]}
+    ]
+
+    const [documentList, setDocumentList] = useState(docItmList);
     const router = useRouter();
     const getData = () => {
         apiCalls('http://localhost:3000/api/v1/files/single')
-        .then(data => console.log(data))
+        .then(data => {
+            console.log(data);
+            setDocumentList(...documentList, data)
+        })
     }
     return (
         <View>
             <View style={styles.AprovalPage}>
-                {/* <Text>You have no file in your Cabinet yet!</Text> */}
-            
+                {/* <Text>You have no file in your Cabinet yet!</Text> */}            
                 <Text>Categories of Files in your Cabinet</Text>
             </View>
             <View>
@@ -24,25 +37,28 @@ export default DashboardPage = () => {
                 <Button 
                     title='Tap to view'
                     color='#5C8FAB'
-                    onPress={() => apiCalls(url)}
+                    onPress={getData}
                 />
             </View>
-            <ScrollView>
+
+            <View>
+                <Button 
+                    title='Scan a new file'
+                    onPress={() => router.push('./fileType')}
+                />
+            </View>
+            
+            
                 {/* Display data from the api call */}
                 <View>
-                    <Text>{'File categories from the api'}</Text>
+                    <Card 
+                        flatListData={docItmList}
+                    />    
                 </View>
-            </ScrollView>
-            {/* <Link href='/fileType'> */}
-                <View>
-                    <Button 
-                        title='Scan a new file'
-                        onPress={() => router.push('./fileType')}
-                    />
-                </View>
-            {/* </Link> */}
+
+                
             {/* image preview or an icon should be in this card's children */}
-            <Card />
+            
         </View>
     )
 }

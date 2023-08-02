@@ -10,7 +10,7 @@ export default ItemsCounter = ({numberOfItems}) => {
     return (
         <View>
             <View style={styles.counter}> 
-                <Text style={{fontSize: 20, fontWeight: 800}}>
+                <Text style={{fontSize: 20, width: '200%', fontWeight: 400}}>
                     {numberOfItems === 0? '' : numberOfItems }
                 </Text>
                 <Text>
@@ -24,6 +24,6 @@ export default ItemsCounter = ({numberOfItems}) => {
 const styles = StyleSheet.create({
     counter: {
         width: 30,
-        height: 30
+        height: 30,
     }
 })

@@ -5,32 +5,31 @@ import ItemsCounter from './counter';
 import { dynamicColors } from "../../util/Colors";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ScrollView } from "react-native-gesture-handler";
+import { FontAwesome5 } from '@expo/vector-icons';
 
-export default Card = () => {
-    let itmList = [
-        {id: 1, file: 'Vendor Files', colour: dynamicColors[Math.floor(Math.random()*dynamicColors.length)]},
-        {id: 2, file: 'Patient Files', colour: dynamicColors[Math.floor(Math.random()*dynamicColors.length)]},
-        {id: 3, file: 'Staff Files', colour: dynamicColors[Math.floor(Math.random()*dynamicColors.length)]},
-        {id: 4, file: 'Admin Files', colour: dynamicColors[Math.floor(Math.random()*dynamicColors.length)]},
-        {id: 5, file: 'Lab   Files', colour: dynamicColors[Math.floor(Math.random()*dynamicColors.length)]},
-        {id: 6, file: 'General Files', colour: dynamicColors[Math.floor(Math.random()*dynamicColors.length)]}
-    ]
+export default Card = ({flatListData}) => {
+   
 
     const itmsToRender = ({item}) => {
         return (
             <View 
                 key={item.id}
-                style={[styles.card, {backgroundColor: item.colour}]}  
+                style={[styles.card, {borderColor: item.colour}]}  
             >
                 <View>
                     <Text style={styles.cardHead}>{item.file}</Text>
                 </View>
                 <View>
-                    {/* <i class="fa fa-file-text-o" aria-hidden="true"></i> */}
+                    <FontAwesome5 
+                        name="file-image"  
+                        size={54} 
+                        // color="#AB906D" 
+                        color={item.colour}
+                    />
                 </View>
                 <View>
                         <Text style={styles.ItemsCounterStyling}>
-                            <ItemsCounter numberOfItems={"10"} />
+                            <ItemsCounter numberOfItems={item.id} />
                         </Text>
                 </View>
             </View>
@@ -39,13 +38,11 @@ export default Card = () => {
     return (
         <SafeAreaView style={styles.fileListStyle}>
             <FlatList 
-                data={itmList}
+                data={flatListData}
                 renderItem={itmsToRender}
                 numColumns={2}
-                keyExtractor={itmList.id}
-                
-            />
-            
+                keyExtractor={flatListData.id}
+            />  
         </SafeAreaView>
     )
 }
@@ -54,28 +51,24 @@ const styles = StyleSheet.create({
     card: {
         width: 150,
         height: 140,
-        //backgroundColor: dynamicColors[Math.floor(Math.random()*dynamicColors.length)],
-        // borderBottomWidth: 4,
-        // borderStyle: 'solid',
-        // borderColor: dynamicColors[Math.floor(Math.random()*dynamicColors.length)],
+        borderWidth: 2,
+        borderStyle: 'solid',
         // borderColor: '#' + Math.floor(Math.random()*16777215).toString(16),
         borderRadius: 20,
-        // opacity: 0.8,
         color: 'white',
         padding: 5,
         margin: 10,
-
-        // alignSelf: 'center',
         // alignItems: 'center'
     },
     cardHead: {
-        fontSize: 32,
-        fontWeight: 500,
+        fontSize: 18,
+        // fontWeight: 300,
         textAlign: 'center'
     },
 
     ItemsCounterStyling: {
-        alignSelf: 'center'
+        // alignSelf: 'center',
+        // width: 100
     },
 
     fileListStyle: {
