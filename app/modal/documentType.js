@@ -1,49 +1,52 @@
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { AntDesign } from '@expo/vector-icons';
 import React, { useState } from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Button, ToastAndroid } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Button } from 'react-native';
 import { MultiSelect } from "react-native-element-dropdown";
-import { Link } from 'expo-router';
-import { ALLFILEINFO } from "../../util/const";
+import { Link, useRouter } from 'expo-router';
+import { ALLDOCTITLES } from "../../util/const";
 
+import FileComponents from "../pages/partsToScan";
 import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import  AsyncStorage from '@react-native-async-storage/async-storage';
-import { useRouter } from "expo-router";
 
-export default function FileType() {
+export default function DocumentType() {
     // Add your logics
-    const fileTypeArr = [
-        {label: 'Patient', value: '1'},
-        {label: 'Admin', value: '2'},
-        {label: 'Vendor', value: '3'},
-        {label: 'General', value: '4'},
-        {label: 'Laboratory', value: '5'},
-        {label: 'Staff', value: '6'},
-        {label: 'Contract', value: '7'},
-        {label: 'Business', value: '8'},
-        {label: 'Customer', value: '9'},
-        {label: 'Inventory', value: '10'}
+    const itemTitles = [
+        {label: "Front Cover", value: '1'},
+        {label: "Back Cover", value: '2'},
+        {label: "Survey Plan", value: '3'},
+        {label: "Receipts", value: '4'},
+        {label: "title document", value: '5'},
+        {label: "Vetting and Recommendation", value: '6'},
+        {label: "Electrical drawing", value: '7'},
+        {label: "Structural drawing", value: '8'},
+        {label: "Architectural drawing", value: '9'},
+        {label: "Mechanical drawing", value: '10'},
+        {label: "Application form", value: '11'},
+        {label: "Query", value: '12'}
     ]
+    
 
-    const [arrOfDocsTitle, setArrOfDocsTitle] = useState([{ label: "Sample File Information", value: '200'}])
+
+    const [arrOfDocsTitle, setArrOfDocsTitle] = useState([{ label: "Sample document title", value: '200'}])
     const [selected, setSelected] = useState([]);
-    const [fileInfo, setFileInfo] = useState();
+    const [documentTitle, setDocumentTilte] = useState();
     const [selectedArrOfObj, setSelectedArrOfObj] = useState([{}])
-    const routering = useRouter();
 
-    const saveToStorage = async (selectedFileInfo) => {
+    const routing = useRouter();
+
+    const saveToStorage = async (selectedTitles) => {
       try {
-        console.log('ERR from saving to asyncStore:', selectedFileInfo);
-        await AsyncStorage.setItem(ALLFILEINFO, JSON.stringify(selectedFileInfo))
+        await AsyncStorage.setItem(ALLDOCTITLES, JSON.stringify(selectedTitles))
       } catch(e) {
-        console.log('ERR from saving to asyncStore:',e);
+        console.log('ERR from saving to asyncStore:', e);
       }
     }
     
     const getSelectedDocTitlesObjIntoArr = () => {
       const arrOfTitles = [];
-      for (var obj of fileTypeArr) {
+      for (var obj of itemTitles) {
         for (var thg of selected) {
           if (obj.value === thg) {
             arrOfTitles.push(obj)
@@ -57,8 +60,9 @@ export default function FileType() {
       const selectedDocsTitlesArr = getSelectedDocTitlesObjIntoArr();
       const combinedDocsTitlesArr = [...selectedDocsTitlesArr, ...arrOfDocsTitle];
     //   props.onPassDocsTitle(combinedDocsTitlesArr);
-      saveToStorage(combinedDocsTitlesArr);
-      routering.push('/scanner');
+      saveToStorage(combinedDocsTitlesArr)
+      routing.push('/pages/partsToScan');
+      
     }
     const renderItem = item => {
         return (
@@ -69,19 +73,18 @@ export default function FileType() {
                     color="skyblue" 
                     size={15}
                 />
-                {/* <AntDesign name="delete" size={15} color="Skyblue" /> */}
             </View>
         );
     };
 
     
     const changeTitleTextToObj = (text) => {
-      setFileInfo(text);
+      setDocumentTilte(text);
     }
 
     const submitDocTitles = () => {
       let titleObj = {
-        label: fileInfo,
+        label: documentTitle,
         value: Math.random().toString(36).substring(7)
       }
       // console.log("Current target", arrOfDocsTitle, "titleObj3", titleObj)
@@ -89,25 +92,13 @@ export default function FileType() {
       setArrOfDocsTitle([...arrOfDocsTitle, titleObj]);
       // arrOfDocsTitle.push(titleObj);
       // console.log("Arr", arrOfDocsTitle)
-      setFileInfo(' ')
-      
-    }
-
-    const deleteTitleBox = (removeVAL) => {
-      //get the index of the exact item
-      // pass it to the splice method
-      const arrOfDocsTitleToRemoveFrom = [...arrOfDocsTitle]
-      const indexOfItemTodelete = arrOfDocsTitleToRemoveFrom.findIndex(titleItm => titleItm.label === removeVAL.label );
-      arrOfDocsTitleToRemoveFrom.splice(indexOfItemTodelete, 1);
-      setArrOfDocsTitle(arrOfDocsTitleToRemoveFrom);
-      // console.log('deleting', arrOfDocsTitleToRemoveFrom)
-      ToastAndroid.show('Deleted', ToastAndroid.SHORT)
+      setDocumentTilte(' ')
     }
 
     return(
         <SafeAreaView style={styles.dropdownPages}>
             <View>
-                <Text style={styles.docsTitle}> Select File Title:</Text>
+                <Text style={styles.docsTitle}>Document Titles:</Text>
                 {/* As docs title is typed and submitted, the array
                 is populated. The SelectDropdown comp picks from that
                 array.
@@ -134,7 +125,7 @@ export default function FileType() {
                 selectedTextStyle={styles.selecetedTextStyle}
                 inputSearchStyle={styles.inputSearchStyle}
                 iconStyle={styles.iconStyle}
-                data={fileTypeArr}
+                data={itemTitles}
                 labelField="label"
                 valueField="value"
                 placeholder="Select item"
@@ -151,7 +142,6 @@ export default function FileType() {
                         color="steelblue" 
                         size={20}
                     />
-                    
                 )}
                 onChangeText={(datum) => console.log("onchangeTxt:", datum) }
                 onConfirmSelectItem={(datum) => console.log("onConfirmSelect", datum)}
@@ -162,12 +152,11 @@ export default function FileType() {
                     }>
                         <View style={styles.selectedStyle}>
                             <Text style={styles.textSelectedStyle}>{item.label}</Text>
-                            {/* <FontAwesomeIcon 
+                            <FontAwesomeIcon 
                                 color="steelblue"
                                 icon="fa-solid fa-user-xmark" 
                                 size={15}
-                            /> */}
-                            <AntDesign name="delete" size={15} color="steelblue" />
+                            />
                         </View>
                         
                     </TouchableOpacity>
@@ -175,31 +164,30 @@ export default function FileType() {
             />
 
             {/* From input box */}
-            
+            <TouchableOpacity onPress={() => console.log("From input manually")}>
               <View> 
                 {arrOfDocsTitle.map(itm => {
                   return(
-                      <TouchableOpacity onPress={(itm) => deleteTitleBox(itm)} key={itm.value} style={styles.selectedStyle}>
+                      <View key={itm.value} style={styles.selectedStyle}>
                         <Text style={styles.textSelectedStyle}>{itm.label}</Text>
-                        {/* <FontAwesomeIcon 
+                        <FontAwesomeIcon 
                                 color="steelblue"
                                 icon="fa-solid fa-user-xmark" 
                                 size={15}
-                            /> */}
-                            <AntDesign name="delete" size={15} color="steelblue" />
-                      </TouchableOpacity>
+                            />
+                      </View>
                   )
                 })}
               </View>
-            
+            </TouchableOpacity>
           </ScrollView>
 
             {/* <View style={styles.space}></View> */}
             <View style={styles.inputSelect}>
-                <Text style={styles.inputDocsTitle}>Enter a Name or Title for your File</Text>
+                <Text style={styles.inputDocsTitle}>Enter a Name for your Document</Text>
                 <TextInput 
                   style={styles.docsTitleTextInput}
-                  value={fileInfo}
+                  value={documentTitle}
                   onChangeText={changeTitleTextToObj}
                   onSubmitEditing={submitDocTitles}
                   placeholder="Eg: car paper, Employee agreement"                  
@@ -208,7 +196,7 @@ export default function FileType() {
                 />
                 {/* <View> */}
                   {/* <Text>{selected}</Text> */}
-                  <Link href='/filePartsToScan'>
+                  <Link href='/pages/partsToScan'>
                     <Button 
                       title='Submit'
                       onPress={getAllDocTitlesArr}
@@ -233,7 +221,7 @@ const styles = StyleSheet.create({
   //    },
     dropdown: {
       height: 50,
-      width: 410,
+      width: 400,
       backgroundColor: '#B7E0F7',
       borderRadius: 12,
       padding: 12,
@@ -247,24 +235,26 @@ const styles = StyleSheet.create({
       
       elevation: 2,
     },
-    docsTitle: {
-      padding: 5,    
-    },
+    // docsTitle: {
+    //   fontSize: 50,
+    //   fontWeight: 900
+    // },
     inputDocsTitle: {
+      borderWidth: 5,
+      fontWeight: 400,
       padding: 5,
       borderColor: 'transparent',
       width: 400,
-      color: 'black'
+      // color: '#F7DBB6'
     },
-    // space: {
-    //   // width: 5,
-    //   //height: 200
-    // },
+    space: {
+      // width: 5,
+      height: 200
+    },
     inputSelect: {
       position: "relative",
       // zIndex: 0,
       // top: 605
-      marginBottom: 5
     },
     docsTitleTextInput: {
       borderColor: '#5C8FAB',
@@ -324,4 +314,4 @@ const styles = StyleSheet.create({
       marginRight: 5,
       fontSize: 16,
     },
-  });
+});

@@ -6,6 +6,9 @@ export default function DropDownLayout() {
         <Drawer 
             name=''
             screenOptions={{
+                headerStyle: {
+                    backgroundColor: '#FFEDD6'
+                },
                 drawerPosition: 'right',
                 drawerIcon: '',
                 headerTitle: () => <ImageHeader />,
@@ -21,7 +24,7 @@ export default function DropDownLayout() {
                     // title: 'home'
                 }}
             />
-            <Drawer.Screen 
+            {/* <Drawer.Screen 
                 name='preDropDown'
                 options={{
                     drawerLabel: 'Document Title',
@@ -29,12 +32,12 @@ export default function DropDownLayout() {
                     title: 'Document Names',
                     drawerPosition: 'right'
                 }}
-            />
+            /> */}
 
             <Drawer.Screen 
-                name='filePartsToScan'                
+                name='partsToScan'                
                 options={{
-                    drawerLabel: 'Selected Document Title',
+                    drawerLabel: 'Scanned Titles',
                     headerTintColor: '#FFEDD6',
                     title: 'Seleceted Document Names',
                     
@@ -45,7 +48,7 @@ export default function DropDownLayout() {
                 name='form'
                 options={{
                     drawerLabel: 'File Information',
-                    headerTintColor: '#FFEDD6',
+                    // headerTintColor: '#FFEDD6',
                     title: 'File Information'
                 }}
             />
@@ -54,7 +57,7 @@ export default function DropDownLayout() {
                 name='approval'
                 options={{
                     drawerLabel: 'Approved Documents',
-                    headerTintColor: '#FFEDD6',
+                    // headerTintColor: '#FFEDD6',
                     title: 'Approved Documents'
                 }}
             />

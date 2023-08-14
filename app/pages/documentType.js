@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
       height: 200
     },
     inputSelect: {
-      position: "absolute",
+      position: "relative",
       // zIndex: 0,
       top: 605
     },

@@ -1,34 +1,17 @@
-import { useState } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, Button } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, ToastAndroid, Text, View, Image, TouchableOpacity, Button } from 'react-native';
 import { DocumentScanner } from 'react-native-document-scanner-plugin';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import ItemsCounter from '../../proj/tinyParts/counter';
 import { useRouter } from 'expo-router';
 import AsyncStorage  from '@react-native-async-storage/async-storage';
 import { IMAGESYOUSCANNED } from '../../util/const';
+
 //import ScannedImgCounter from '../../proj/tinyParts/counter;'
 
 export default function Scanner() {
   const [scannedImage, setScannedImage] = useState();
   let routing = useRouter()
-
- 
-  const scanningDocument = async () => {
-    // start the document scanner
-    const { scannerImages } = await DocumentScanner.scanDocument({
-      letUserAdjustCrop: false,
-      croppedImageQuality: 80,
-      maxNumDocuments: 20
-    })
-  
-    // get back an array with scanned image file paths
-    if (scannerImages.length > 0) {
-      // set the img src, so we can view the first scanned image
-      setScannedImage(scannerImages)
-    }
-    // To see the scannedImg items on the state
-    console.log(scannerImages);
-  }
 
   const saveToStore = async (imgFromScanner) => {
     try {
@@ -38,41 +21,68 @@ export default function Scanner() {
     }
   }
 
-  const gotoPreview = () => {
-    saveToStore(scannedImage);
-    routing.push('./scanPreview');
+  const scanningDocument = async () => {
+    // start the document scanner
+    const { scannedImages } = await DocumentScanner.scanDocument({
+      letUserAdjustCrop: false,
+      croppedImageQuality: 80,
+      maxNumDocuments: 20
+    })
+  
+    // get back an array with scanned image file paths
+    if (scannedImages.length > 0) {
+      // set the img src, so we can view the first scanned image
+      setScannedImage(scannedImages)
+      // ToastAndroid.show(scannedImages[0], ToastAndroid.LONG);
+      saveToStore(scannedImages);
+    }
+    // To see the scannedImg items on the state
+    console.log(scannedImages);
+    
   }
-  // useEffect(() => {
-  //   // call scanDocument on load
-  //   scanningDocument()
-  // }, []);
+
+  
+
+  // const gotoPreview = () => {
+  //   saveToStore(scannedImage);
+  //   routing.push('/scanPart/scanPreview');
+  // }
+  useEffect(() => {
+    // call scanDocument on load
+    scanningDocument();
+    
+  }, []);
   return (
-    <View style={styles.container}>
-      <View style={styles.imgCountStyle}>
-        {/* <ScannedImgCounter 
-          numberOfScannedImg={scannedImage.length}
+    <View style={{flex: 1, top: 10}}>
+      <View style={styles.container}>
+        {/* <View style={styles.imgCountStyle}> */}
+          {/* <ScannedImgCounter 
+            numberOfScannedImg={scannedImage.length}
+          /> */}
+        {/* </View> */}
+        
+        {/* <Image
+        resizeMode="contain"
+        style={{ width: '50%', height: '50%' }}
+        source={{ uri: scannedImage }}
         /> */}
-      </View>
-      <Button 
-        title='Scan'
-        style={styles.scannerBtn}
-        onPress={scanningDocument}
-      />
-      {/* <Image
-      resizeMode="contain"
-      style={{ width: '100%', height: '90%' }}
-      source={{ uri: scannedImage }}
-    /> */}
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity 
+
+        
+        {/* <TouchableOpacity 
           onPress={gotoPreview}
-          style={styles.prevBox}
-        >
-          <FontAwesomeIcon icon="fa-regular fa-file" size={15} />
-          <ItemsCounter 
-            noOfItems={scannedImage.length}
-          />
+          style={styles.buttonContainer}>
+            <FontAwesomeIcon style={{marginTop: 3}} color='white' icon="fa-regular fa-file" size={25} />
+            <ItemsCounter 
+              // noOfItems={scannedImage.length}
+            />        
         </TouchableOpacity>
+
+        <Button 
+          title='Scan'
+          color='#5C8FAB'
+          style={styles.scannerBtn}
+          onPress={scanningDocument}
+        /> */}
       </View>
     </View>
   );
@@ -80,33 +90,38 @@ export default function Scanner() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
+    flex: 0.1,
+    backgroundColor: '#F7DBB6',
+    top: 520,
+    width: '50%',
+    alignSelf: 'flex-end',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    padding: 17,
+    borderRadius: 50
   },
 
   buttonContainer: {
-    backgroundColor: 'steelblue',
-    height: '7%',
-    width: '95%',
-    padding: 10,
-    borderRadius: 20
+    height: '50%',
+    width: '30%',
+    borderRadius: 5,
+    // justifyContent: 'center',
+    alignItems: 'center',
+    padding: 3,
+    backgroundColor: '#5C8FAB'
   },
 
-  prevBox: {
-    backgroundColor: 'skyblue',
-    width: 20,
-    height: 25,
-    padding: 3,
-    borderRadius: 5,
-    width: '10%',
-  },
+  // prevBox: {
+  //   backgroundColor: 'skyblue',
+  //   width: 20,
+  //   height: 35,
+  //   padding: 3,
+  //   borderRadius: 5,
+  //   width: '10%',
+  // },
 
   scannerBtn: {
-    width: '30%',
-    borderRadius: '50%',
-    backgroundColor: 'white',
-    alignSelf: 'center'
+    
   }
 });

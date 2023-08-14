@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
         color: 'white',
         padding: 5,
         margin: 10,
-        // alignItems: 'center'
+        alignItems: 'center'
     },
     cardHead: {
         fontSize: 18,

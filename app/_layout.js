@@ -27,6 +27,24 @@ export default function Layout() {
             />
 
             <Stack.Screen 
+                name='pages'
+                options={{
+                    title: 'My Drawer',
+                    headerShown: false
+                }}
+                
+            />
+
+            <Stack.Screen 
+                name='modal/scanningChoiceModal'
+                options={{
+                    title: 'Scan Document or File?',
+                    headerShown: true,
+                    presentation: 'modal'
+                }}
+            />
+
+            <Stack.Screen 
                 name='scanPart/scanner'
                 options={{
                     title: 'Scanner',
@@ -34,13 +52,13 @@ export default function Layout() {
                 
             />
 
-            <Stack.Screen 
+            {/* <Stack.Screen 
                 name='scanPart/beforeScan'
                 options={{
                     title: 'Prescan',
                 }}
                 
-            />
+            /> */}
         </Stack>
         
     )

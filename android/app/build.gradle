@@ -113,9 +113,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace 'com.jacobianijo.ArchivaApp'
+    namespace 'com.jacobianijo.archapp'
     defaultConfig {
-        applicationId 'com.jacobianijo.ArchivaApp'
+        applicationId 'com.jacobianijo.archapp'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

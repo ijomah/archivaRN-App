@@ -74,7 +74,9 @@ export default LoginPage = () => {
                     </TouchableOpacity>
                 </View>
                 <View>
-                    <Text>Register</Text>
+                    <Link href='./regForm'>
+                        <Text>Register</Text>
+                    </Link>
                 </View>
                 <View>
                     <Text>Forgot Password!</Text>

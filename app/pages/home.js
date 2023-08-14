@@ -15,7 +15,7 @@ export default HomePage = () => {
                 <View style={styles.vendorLogoContainer}>
                    <Image
                         style={styles.vendorLogo} 
-                        source={require('../../assets/icon1.jpg')} 
+                        source={require('../../assets/icon.png')} 
                     />
                     <View style={styles.navLink}>
                         <Link href='/auth/login'>

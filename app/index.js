@@ -5,8 +5,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { Link, Stack } from 'expo-router';
 import { LinearGradient } from 'react-native-svg';
 
-import  PreDropDown from './pages/preDropDown';
-import FileComponents from './pages/filePartsToScan';
+import  PreDropDown from '../scanner/preDropDown';
+import FileComponents from './pages/partsToScan';
 import HomePage from './pages/home';
 import ImageHeader from '../proj/tinyParts/headerLogo';
 // import FormPage from './proj/pages/form';
@@ -17,6 +17,7 @@ import {
   faIdCard, 
   faFile } from '@fortawesome/free-regular-svg-icons';
 import ScanPreview from './scanPart/scanPreview';
+import DocumentType from './modal/documentType';
 
 
 
@@ -59,8 +60,9 @@ export default function App() {
         >
         
         <View style={styles.homePg}>
-          {/* <HomePage /> */}
-          <ScanPreview />
+          <HomePage />
+          {/* <DocumentType /> */}
+          {/* <ScanPreview /> */}
           {/* <Link href="/pages/home">Go Home</Link> */}
         </View>
       {/* <View>

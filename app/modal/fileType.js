@@ -34,10 +34,9 @@ export default function FileType() {
 
     const saveToStorage = async (selectedFileInfo) => {
       try {
-        console.log('ERR from saving to asyncStore:', selectedFileInfo);
         await AsyncStorage.setItem(ALLFILEINFO, JSON.stringify(selectedFileInfo))
       } catch(e) {
-        console.log('ERR from saving to asyncStore:',e);
+        console.log('ERR from filetype saving to asyncStore:',e);
       }
     }
     
@@ -58,7 +57,9 @@ export default function FileType() {
       const combinedDocsTitlesArr = [...selectedDocsTitlesArr, ...arrOfDocsTitle];
     //   props.onPassDocsTitle(combinedDocsTitlesArr);
       saveToStorage(combinedDocsTitlesArr);
-      routering.push('/scanner');
+      console.log('hi', combinedDocsTitlesArr)
+      // routering.push('/scanPart/scanner'); OLD
+      routering.push('/pages/partsToScan');
     }
     const renderItem = item => {
         return (
@@ -208,12 +209,12 @@ export default function FileType() {
                 />
                 {/* <View> */}
                   {/* <Text>{selected}</Text> */}
-                  <Link href='/filePartsToScan'>
+                  {/* <Link href='/partsToScan'> */}
                     <Button 
                       title='Submit'
                       onPress={getAllDocTitlesArr}
                     />
-                  </Link>
+                  {/* </Link> */}
                 {/* </View> */}
             </View>
         </SafeAreaView>

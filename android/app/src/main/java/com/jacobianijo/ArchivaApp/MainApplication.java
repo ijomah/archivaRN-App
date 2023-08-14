@@ -1,4 +1,4 @@
-package com.jacobianijo.ArchivaApp;
+package com.jacobianijo.archapp;
 
 import android.app.Application;
 import android.content.res.Configuration;
