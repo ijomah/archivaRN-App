@@ -54,7 +54,8 @@ export default function FileType({navigation}) {
     //   saveToStorage(combinedDocsTitlesArr);
     //   console.log('hi', combinedDocsTitlesArr)
     //   // routering.push('/scanPart/scanner'); OLD
-      navigation.push('screenStack/partsToScan');
+      // navigation.push('screenStack/partsToScan');
+      navigation.navigate('screenStack/scanner');
     }
     const renderItem = item => {
         return (

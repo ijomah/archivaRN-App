@@ -16,7 +16,8 @@ export const DeleteInputDocTitles = 'DELETE-INPUT-DOCTITLE'
 export const DeleteTitleFromTitleList = 'DELETE-TITLE-FROM-TITLELIST'
 export const SelectTitleFromTitleList = 'SELECT-TITLE-FROM-TITLELIST'
 
-export const submitSelectedDocTitle = 'SUBMIT-SELECTED-DOCTITLE'
+export const SubmitSelectedDocTitle = 'SUBMIT-SELECTED-DOCTITLE'
+export const SubmitSelectedFileTitle = 'SUBMIT-SELECTED-FILETITLE'
 
 //export const IMAGESYOUSCANNED = 'IMAGESYOUSCANNED'
 

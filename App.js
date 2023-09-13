@@ -19,6 +19,7 @@ import FileType from './screenStack/fileType';
 import { Image, View } from 'react-native';
 import DocumentScanner from 'react-native-document-scanner-plugin';
 import Scanner from './screenStack/scanner';
+import FileComponents from './screenStack/partsToScan';
 
 const Stack = createNativeStackNavigator();
 
@@ -57,6 +58,11 @@ export default function App() {
             component={FileType}
             options={{title: 'File Type'}}
           />
+          {/* <Stack.Screen 
+            name='screenStack/partToScan'
+            component={FileComponents}
+            options={{title: 'File Type'}}
+          /> */}
           <Stack.Screen 
             name='screenStack/scanner' 
             component={Scanner} 

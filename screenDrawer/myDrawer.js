@@ -12,8 +12,14 @@ function MyDrawer() {
         <Drawer.Navigator
             screenOptions={{drawerPosition: 'right'}}
         >
-            <Drawer.Screen name="dashboard" component={DashboardPage} />
-            <Drawer.Screen name="fileManager" component={FileManager} />
+            <Drawer.Screen name="dashboard" component={DashboardPage} 
+                options={{
+                    title: 'Dashboard'
+                }} />
+            <Drawer.Screen name="fileManager" component={FileManager} 
+                options={{
+                    title: 'File Manager'
+                }} />
         </Drawer.Navigator>
     )
 }

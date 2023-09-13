@@ -2,20 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, ToastAndroid, Text, View, Image, TouchableOpacity, Button } from 'react-native';
 import { DocumentScanner } from 'react-native-document-scanner-plugin';
 // import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import ItemsCounter from '../../proj/tinyParts/counter';
+// import ItemsCounter from '../../proj/tinyParts/counter';
 
 
-import { IMAGESYOUSCANNED } from '../../util/const';
+// import { IMAGESYOUSCANNED } from '../../util/const';
 
 //import ScannedImgCounter from '../../proj/tinyParts/counter;'
 
-export default function Scanner() {
+export default function ScannerComp() {
   const [scannedImage, setScannedImage] = useState();
   
 
   const saveToStore = async (imgFromScanner) => {
     try {
-      await AsyncStorage.setItem(IMAGESYOUSCANNED, JSON.stringify(imgFromScanner))
+      // await AsyncStorage.setItem(IMAGESYOUSCANNED, JSON.stringify(imgFromScanner))
     } catch(e) {
       console.log('ERR from saving to asyncStore:', e);
     }

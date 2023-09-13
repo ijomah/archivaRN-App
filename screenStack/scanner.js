@@ -5,7 +5,7 @@ import { Image } from 'react-native';
 import DocumentScanner from 'react-native-document-scanner-plugin';
 
 
-export default Scanner = () => {
+export default function Scanner() {
   const [scannedImage, setScannedImage] = useState();
 
   
@@ -13,7 +13,7 @@ export default Scanner = () => {
   const scanDocument = async () => {
     // start the document scanner
     const { scannedImages } = await DocumentScanner.scanDocument({
-      maxNumDocuments: 2
+      maxNumDocuments: 10
     })
   
     // get back an array with scanned image file paths
