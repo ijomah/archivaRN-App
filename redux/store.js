@@ -1,8 +1,8 @@
-// import { configureStore } from '@reduxjs/toolkit';
-// import titleReducer  from './slice';
+import { configureStore } from '@reduxjs/toolkit';
+import mergedReducer  from './slice';
 
-// export const store = configureStore({
-//     reducer: {
-//         docsTitle: titleReducer
-//     },
-// })
+export const store = configureStore({
+    reducer: {
+        titleReducer: mergedReducer
+    },
+})

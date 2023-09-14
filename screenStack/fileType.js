@@ -3,6 +3,8 @@ import { AntDesign } from '@expo/vector-icons';
 import React, { useState } from "react";
 import { StyleSheet, SafeAreaView, ScrollView, Text, View, Image, TouchableOpacity, TextInput, Button, ToastAndroid } from 'react-native';
 import { MultiSelect } from "react-native-element-dropdown";
+import { useDispatch } from 'react-redux';
+import { addFileTitle } from '../redux/slice';
 // import { ALLFILEINFO } from "../../util/const";
 
 
@@ -22,18 +24,18 @@ export default function FileType({navigation}) {
         {label: 'Inventory', value: '10'}
     ]
 
-    const [arrOfDocsTitle, setArrOfDocsTitle] = useState([{ label: "Sample File Information", value: '200'}])
+    const [arrOfDocsTitle, setArrOfDocsTitle] = useState([])
     const [selected, setSelected] = useState([]);
     const [fileInfo, setFileInfo] = useState();
     const [selectedArrOfObj, setSelectedArrOfObj] = useState([{}])
 
-    // const saveToStorage = async (selectedFileInfo) => {
-    //   try {
-    //     await AsyncStorage.setItem(ALLFILEINFO, JSON.stringify(selectedFileInfo))
-    //   } catch(e) {
-    //     console.log('ERR from filetype saving to asyncStore:',e);
-    //   }
-    // }
+    const dispatch = useDispatch();
+
+    const saveToStorage = async (selectedFileInfo) => {
+      for (const oneFileInfo of selectedFileInfo) {
+        dispatch(addFileTitle(oneFileInfo))
+      }
+    }
     
     const getSelectedDocTitlesObjIntoArr = () => {
       const arrOfTitles = [];
@@ -48,14 +50,12 @@ export default function FileType({navigation}) {
     }
 
     const getAllDocTitlesArr = () => {
-    //   const selectedDocsTitlesArr = getSelectedDocTitlesObjIntoArr();
-    //   const combinedDocsTitlesArr = [...selectedDocsTitlesArr, ...arrOfDocsTitle];
+      const selectedDocsTitlesArr = getSelectedDocTitlesObjIntoArr();
+      const combinedDocsTitlesArr = [...selectedDocsTitlesArr, ...arrOfDocsTitle];
     // //   props.onPassDocsTitle(combinedDocsTitlesArr);
-    //   saveToStorage(combinedDocsTitlesArr);
-    //   console.log('hi', combinedDocsTitlesArr)
-    //   // routering.push('/scanPart/scanner'); OLD
-      // navigation.push('screenStack/partsToScan');
-      navigation.navigate('screenStack/scanner');
+      saveToStorage(combinedDocsTitlesArr);
+    //   console.log('doc titles: ', combinedDocsTitlesArr)
+      navigation.push('screenStack/partsToScan');
     }
     const renderItem = item => {
         return (

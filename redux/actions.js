@@ -1,33 +1,33 @@
-import { 
-    ALLDOCTITLES, ALLFILEINFO,
-    DeleteDropDownDocTitles, MarkScannedPage, 
-    RequestDocFailed, RequestDocPending, RequestDocSuccess,
-    SelectAllDocTitlesDropDown, SubmitSelectedDocTitle, SubmitSelectedFileTitle,
-    SaveScannedPage, ScanPage, SelectAllDocTitlesInput, SelectTitleFromTitleList,
-    SendDocFailed, SendDocSuccess, SendDocPending, ShareScannedPage, 
-    TypedInputDocTitle, UnselectAllDocTitlesInput, UnselectAllDocTitlesDropDown
-} from "./constant";
+// import { 
+//     ALLDOCTITLES, ALLFILEINFO,
+//     DeleteDropDownDocTitles, MarkScannedPage, 
+//     RequestDocFailed, RequestDocPending, RequestDocSuccess,
+//     SelectAllDocTitlesDropDown, SubmitSelectedDocTitle, SubmitSelectedFileTitle,
+//     SaveScannedPage, ScanPage, SelectAllDocTitlesInput, SelectTitleFromTitleList,
+//     SendDocFailed, SendDocSuccess, SendDocPending, ShareScannedPage, 
+//     TypedInputDocTitle, UnselectAllDocTitlesInput, UnselectAllDocTitlesDropDown
+// } from "./constant";
 
-//Select drop down
-export const SelectAllDocTitlesDrop = (docTitleObj) => {
-    return {type: SelectAllDocTitlesDropDown, payload: docTitleObj}
-}
+// //Submit doc titles
+// export const SubmitAllDocTitles = (docTitleObj) => {
+//     return {type: SelectAllDocTitlesDropDown, payload: docTitleObj}
+// }
 
-export const UnselectAllDocTitlesDrop = (unselectedTitleObj) => {
-    return {
-        type: UnselectAllDocTitlesDropDown, payload: unselectedTitleObj
-    }
-}
+// export const UnselectAllDocTitlesDrop = (unselectedTitleObj) => {
+//     return {
+//         type: UnselectAllDocTitlesDropDown, payload: unselectedTitleObj
+//     }
+// }
 
-export const DeleteDropDownDocInfo = (tappedDropDownDocTitles) => {
-    return {
-        type: DeleteDropDownDocTitles, payload: tappedDropDownDocTitles
-    }
-}
+// export const DeleteDropDownDocInfo = (tappedDropDownDocTitles) => {
+//     return {
+//         type: DeleteDropDownDocTitles, payload: tappedDropDownDocTitles
+//     }
+// }
 
-//Typed Input
-export const TypedInputDocInfo = (inputDocInfo) => {
-    return {
-        type: TypedInputDocTitle, payload: inputDocInfo
-    }
-}
+// //Typed Input
+// export const TypedInputDocInfo = (inputDocInfo) => {
+//     return {
+//         type: TypedInputDocTitle, payload: inputDocInfo
+//     }
+// }

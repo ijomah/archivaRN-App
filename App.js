@@ -5,8 +5,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import 'react-native-gesture-handler';
 
-// import { Provider } from 'react-redux';
-// import { store } from './redux/store';
+import { Provider } from 'react-redux';
+import { store } from './redux/store';
 
 import HomePage from './screenStack/home';
 import LoginPage from './auth/login';
@@ -26,7 +26,7 @@ const Stack = createNativeStackNavigator();
 export default function App() {
 
   return (
-    // <Provider store={store}>
+    <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName='home'>
           <Stack.Screen 
@@ -58,11 +58,11 @@ export default function App() {
             component={FileType}
             options={{title: 'File Type'}}
           />
-          {/* <Stack.Screen 
-            name='screenStack/partToScan'
+          <Stack.Screen 
+            name='screenStack/partsToScan'
             component={FileComponents}
             options={{title: 'File Type'}}
-          /> */}
+          />
           <Stack.Screen 
             name='screenStack/scanner' 
             component={Scanner} 
@@ -71,6 +71,6 @@ export default function App() {
 
         </Stack.Navigator>
       </NavigationContainer>
-    // </Provider>
+    </Provider>
   )
 }
