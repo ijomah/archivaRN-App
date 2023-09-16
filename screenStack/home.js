@@ -15,7 +15,7 @@ const HomePage = ({navigation}) => {
                 <View style={styles.vendorLogoContainer}>
                    <Image
                         style={styles.vendorLogo} 
-                        source={require('./../assets/icon.png')} 
+                        source={require('./../assets/archiva-home.png')} 
                     />
                     <View style={styles.navLink}>
                         {/* <Link href='/auth/login'>

@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity, TextInputComponent, TextInput, FlatList } from 'react-native';
 // import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import ItemsCounter from './counter';
+// import ItemsCounter from './counter';
 // import { dynamicColors } from "../util/Colors";
 // import { SafeAreaView } from "react-native-safe-area-context";
 // import { ScrollView } from "react-native-gesture-handler";
@@ -29,6 +29,10 @@ function Card({flatListData}) {
                 </View>
                 <View>
                         <Text style={styles.ItemsCounterStyling}>
+                        {/* <View style={styles.counter}>  */}
+                            <Text style={{fontSize: 20, width: '200%', fontWeight: 400}}>
+                                {numberOfItems === 0? '' : numberOfItems }
+                            </Text>
                             <ItemsCounter numberOfItems={item.id} />
                         </Text>
                 </View>
@@ -40,7 +44,6 @@ function Card({flatListData}) {
             <FlatList 
                 data={flatListData}
                 renderItem={itmsToRender}
-                numColumns={2}
                 keyExtractor={flatListData.id}
             />  
         </SafeAreaView>

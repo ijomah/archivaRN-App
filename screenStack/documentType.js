@@ -1,16 +1,15 @@
-import { FontAwesome } from '@expo/vector-icons';
+// import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { AntDesign } from '@expo/vector-icons';
 import React, { useState } from "react";
-import { SafeAreaView, ScrollView, StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Button } from 'react-native';
+import { StyleSheet, SafeAreaView, ScrollView, Text, View, Image, TouchableOpacity, TextInput, Button, ToastAndroid } from 'react-native';
 import { MultiSelect } from "react-native-element-dropdown";
-import { useDispatch, useSelector } from 'react-redux';
-// import { ALLDOCTITLES } from "../../util/const";
-import { addTitle } from '../redux/slice';
-
-// import FileComponents from "../pages/partsToScan";
+import { useDispatch } from 'react-redux';
+import { addDocTitle } from '../redux/slice';
+// import { ALLDOCINFO } from "../../util/const";
 
 export default function DocumentType({navigation}) {
     // Add your logics
-    const itemTitles = [
+    const docTypeArr = [
         {label: "Front Cover", value: '1'},
         {label: "Back Cover", value: '2'},
         {label: "Survey Plan", value: '3'},
@@ -26,28 +25,22 @@ export default function DocumentType({navigation}) {
     ]
     
 
-
-    const [arrOfDocsTitle, setArrOfDocsTitle] = useState([{ label: "Sample document title", value: '200'}])
+    const [arrOfDocsTitle, setArrOfDocsTitle] = useState([])
     const [selected, setSelected] = useState([]);
-    const [documentTitle, setDocumentTilte] = useState();
+    const [docInfo, setDocInfo] = useState();
     const [selectedArrOfObj, setSelectedArrOfObj] = useState([{}])
 
-    const readTitleFromStore = useSelector((state) => state.titles);
     const dispatch = useDispatch();
 
-
-    const saveToStorage = async (selectedTitles) => {
-      dispatch(addTitle());
-      // try {
-      //   await AsyncStorage.setItem(ALLDOCTITLES, JSON.stringify(selectedTitles))
-      // } catch(e) {
-      //   console.log('ERR from saving to asyncStore:', e);
-      // }
+    const saveToStorage = async (selectedDocInfo) => {
+      for (const oneDocInfo of selectedDocInfo) {
+        dispatch(addDocTitle(oneDocInfo))
+      }
     }
     
     const getSelectedDocTitlesObjIntoArr = () => {
       const arrOfTitles = [];
-      for (var obj of itemTitles) {
+      for (var obj of docTypeArr) {
         for (var thg of selected) {
           if (obj.value === thg) {
             arrOfTitles.push(obj)
@@ -60,29 +53,33 @@ export default function DocumentType({navigation}) {
     const getAllDocTitlesArr = () => {
       const selectedDocsTitlesArr = getSelectedDocTitlesObjIntoArr();
       const combinedDocsTitlesArr = [...selectedDocsTitlesArr, ...arrOfDocsTitle];
-    //   props.onPassDocsTitle(combinedDocsTitlesArr);
-      saveToStorage(combinedDocsTitlesArr)
+    // //   props.onPassDocsTitle(combinedDocsTitlesArr);
+      saveToStorage(combinedDocsTitlesArr);
+    //   console.log('doc titles: ', combinedDocsTitlesArr)
       navigation.push('screenStack/partsToScan');
-      
     }
     const renderItem = item => {
         return (
             <View style={styles.item}>
                 <Text style={styles.selecetedTextStyle}>{item.label}</Text>
-                
-                <FontAwesome name="file-text-o" size={15} color="skyblue" />
+                {/* <FontAwesomeIcon 
+                    icon="fa-regular fa-id-card"
+                    color="skyblue" 
+                    size={15}
+                /> */}
+                {/* <AntDesign name="delete" size={15} color="Skyblue" /> */}
             </View>
         );
     };
 
     
     const changeTitleTextToObj = (text) => {
-      setDocumentTilte(text);
+      setDocInfo(text);
     }
 
     const submitDocTitles = () => {
       let titleObj = {
-        label: documentTitle,
+        label: docInfo,
         value: Math.random().toString(36).substring(7)
       }
       // console.log("Current target", arrOfDocsTitle, "titleObj3", titleObj)
@@ -90,13 +87,25 @@ export default function DocumentType({navigation}) {
       setArrOfDocsTitle([...arrOfDocsTitle, titleObj]);
       // arrOfDocsTitle.push(titleObj);
       // console.log("Arr", arrOfDocsTitle)
-      setDocumentTilte(' ')
+      setDocInfo(' ')
+      
+    }
+
+    const deleteTitleBox = (removeVAL) => {
+      //get the index of the exact item
+      // pass it to the splice method
+      const arrOfDocsTitleToRemoveFrom = [...arrOfDocsTitle]
+      const indexOfItemTodelete = arrOfDocsTitleToRemoveFrom.findIndex(titleItm => titleItm.label === removeVAL.label );
+      arrOfDocsTitleToRemoveFrom.splice(indexOfItemTodelete, 1);
+      setArrOfDocsTitle(arrOfDocsTitleToRemoveFrom);
+      // console.log('deleting', arrOfDocsTitleToRemoveFrom)
+      ToastAndroid.show('Deleted', ToastAndroid.SHORT)
     }
 
     return(
         <SafeAreaView style={styles.dropdownPages}>
             <View>
-                <Text style={styles.docsTitle}>Document Titles:</Text>
+                <Text style={styles.docsTitle}> Select Document Title:</Text>
                 {/* As docs title is typed and submitted, the array
                 is populated. The SelectDropdown comp picks from that
                 array.
@@ -123,7 +132,7 @@ export default function DocumentType({navigation}) {
                 selectedTextStyle={styles.selecetedTextStyle}
                 inputSearchStyle={styles.inputSearchStyle}
                 iconStyle={styles.iconStyle}
-                data={itemTitles}
+                data={docTypeArr}
                 labelField="label"
                 valueField="value"
                 placeholder="Select item"
@@ -135,8 +144,12 @@ export default function DocumentType({navigation}) {
                     setSelected(item);
                 }}
                 renderLeftIcon={() => ( 
-                                    
-                    <FontAwesome name="file-text-o" size={20} color="steelblue" />
+                    // <FontAwesomeIcon 
+                    //     icon="fa-regular fa-id-card"
+                    //     color="steelblue" 
+                    //     size={20}
+                    // />
+                    <></>
                 )}
                 onChangeText={(datum) => console.log("onchangeTxt:", datum) }
                 onConfirmSelectItem={(datum) => console.log("onConfirmSelect", datum)}
@@ -147,8 +160,12 @@ export default function DocumentType({navigation}) {
                     }>
                         <View style={styles.selectedStyle}>
                             <Text style={styles.textSelectedStyle}>{item.label}</Text>
-                           
-                            <Feather name="user-x" size={15} color="steelblue" />
+                            {/* <FontAwesomeIcon 
+                                color="steelblue"
+                                icon="fa-solid fa-user-xmark" 
+                                size={15}
+                            /> */}
+                            <AntDesign name="delete" size={15} color="steelblue" />
                         </View>
                         
                     </TouchableOpacity>
@@ -156,27 +173,31 @@ export default function DocumentType({navigation}) {
             />
 
             {/* From input box */}
-            <TouchableOpacity onPress={() => console.log("From input manually")}>
+            
               <View> 
                 {arrOfDocsTitle.map(itm => {
                   return(
-                      <View key={itm.value} style={styles.selectedStyle}>
+                      <TouchableOpacity onPress={(itm) => deleteTitleBox(itm)} key={itm.value} style={styles.selectedStyle}>
                         <Text style={styles.textSelectedStyle}>{itm.label}</Text>
-                       
-                            <Feather name="user-x" size={15} color="steelblue" />
-                      </View>
+                        {/* <FontAwesomeIcon 
+                                color="steelblue"
+                                icon="fa-solid fa-user-xmark" 
+                                size={15}
+                            /> */}
+                            <AntDesign name="delete" size={15} color="steelblue" />
+                      </TouchableOpacity>
                   )
                 })}
               </View>
-            </TouchableOpacity>
+            
           </ScrollView>
 
             {/* <View style={styles.space}></View> */}
             <View style={styles.inputSelect}>
-                <Text style={styles.inputDocsTitle}>Enter a Name for your Document</Text>
+                <Text style={styles.inputDocsTitle}>Enter a Name or Title for your Document</Text>
                 <TextInput 
                   style={styles.docsTitleTextInput}
-                  value={documentTitle}
+                  value={docInfo}
                   onChangeText={changeTitleTextToObj}
                   onSubmitEditing={submitDocTitles}
                   placeholder="Eg: car paper, Employee agreement"                  
@@ -185,7 +206,7 @@ export default function DocumentType({navigation}) {
                 />
                 {/* <View> */}
                   {/* <Text>{selected}</Text> */}
-                  {/* <Link href='/pages/partsToScan'> */}
+                  {/* <Link href='/partsToScan'> */}
                     <Button 
                       title='Submit'
                       onPress={getAllDocTitlesArr}
@@ -195,6 +216,7 @@ export default function DocumentType({navigation}) {
             </View>
         </SafeAreaView>
     )
+   
 }
 
 const styles = StyleSheet.create({
@@ -210,7 +232,7 @@ const styles = StyleSheet.create({
   //    },
     dropdown: {
       height: 50,
-      width: 400,
+      width: 410,
       backgroundColor: '#B7E0F7',
       borderRadius: 12,
       padding: 12,
@@ -224,26 +246,24 @@ const styles = StyleSheet.create({
       
       elevation: 2,
     },
-    // docsTitle: {
-    //   fontSize: 50,
-    //   fontWeight: 900
-    // },
+    docsTitle: {
+      padding: 5,    
+    },
     inputDocsTitle: {
-      borderWidth: 5,
-      fontWeight: 400,
       padding: 5,
       borderColor: 'transparent',
       width: 400,
-      // color: '#F7DBB6'
+      color: 'black'
     },
-    space: {
-      // width: 5,
-      height: 200
-    },
+    // space: {
+    //   // width: 5,
+    //   //height: 200
+    // },
     inputSelect: {
       position: "relative",
       // zIndex: 0,
       // top: 605
+      marginBottom: 5
     },
     docsTitleTextInput: {
       borderColor: '#5C8FAB',
@@ -303,4 +323,4 @@ const styles = StyleSheet.create({
       marginRight: 5,
       fontSize: 16,
     },
-});
+  });

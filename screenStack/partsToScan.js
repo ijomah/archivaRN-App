@@ -24,7 +24,7 @@ export default function FileComponents({navigation}) {
         //lead to camera page
         //Doccument title data needed to go with the navigation
         navigation.navigate('screenStack/scanner', {
-            id: objVal.value,
+            value: objVal.value,
             docTitle: objVal.label});
     }
         

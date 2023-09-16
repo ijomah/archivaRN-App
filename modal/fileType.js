@@ -3,7 +3,7 @@ import { AntDesign } from '@expo/vector-icons';
 import React, { useState } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Button, ToastAndroid } from 'react-native';
 import { MultiSelect } from "react-native-element-dropdown";
-import { Link } from 'expo-router';
+
 import { ALLFILEINFO } from "../../util/const";
 
 import { ScrollView } from "react-native-gesture-handler";
@@ -11,7 +11,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import  AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from "expo-router";
 
-export default function FileType() {
+export default function FileType({navigation}) {
     // Add your logics
     const fileTypeArr = [
         {label: 'Patient', value: '1'},
@@ -105,6 +105,8 @@ export default function FileType() {
       ToastAndroid.show('Deleted', ToastAndroid.SHORT)
     }
 
+    const gotoScanner = () => navigation.navigate('screenStack/scanner')
+
     return(
         <SafeAreaView style={styles.dropdownPages}>
             <View>
@@ -194,6 +196,10 @@ export default function FileType() {
               </View>
             
           </ScrollView>
+          <Button 
+              title='Scanner'
+              onPress={gotoScanner}
+          />
 
             {/* <View style={styles.space}></View> */}
             <View style={styles.inputSelect}>

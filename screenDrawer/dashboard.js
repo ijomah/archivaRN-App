@@ -1,10 +1,11 @@
 import React, { useState } from "react"
-import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Button, ToastAndroid } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Button, ToastAndroid, ScrollView } from 'react-native';
 // import { ScrollView } from "react-native-gesture-handler";
 
 //import {apiCalls} from "../../apiCalls";
 // import Card from "../unitParts/card";
 import ScanChoiceModal from "../modal/scanningChoiceModal";
+import CardApi from "../unitParts/cardApi";
 // import { dynamicColors } from "../util/Colors";
 // import  * as FileSystem  from "expo-file-system"
 
@@ -75,15 +76,15 @@ function DashboardPage({navigation}) {
                     />
                 </View>
             </View>
-
-            <View style={styles.AprovalPage}>
+            <Text style={{fontSize: 18, alignContent: 'center'}}>Categories of Files in your Cabinet</Text>            
+            <ScrollView style={styles.AprovalPage}>
                 {/* <Text>You have no file in your Cabinet yet!</Text> */}            
-                <Text style={{fontSize: 18}}>Categories of Files in your Cabinet</Text>
-            </View>
+                <CardApi />
+            </ScrollView>
             
                 {/* Display data from the api call */}
 {/* newly commented */}
-                <ScanChoiceModal modalVisible={isModalVisible} onResetModal={resetModal} navigation={navigation} />
+                {/* <ScanChoiceModal modalVisible={isModalVisible} onResetModal={resetModal} navigation={navigation} /> */}
 
 {/* newly commented */}
                 {/* <View>

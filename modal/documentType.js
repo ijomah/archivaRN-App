@@ -5,7 +5,7 @@ import { MultiSelect } from "react-native-element-dropdown";
 
 // import FileComponents from "../pages/partsToScan";
 
-export default function DocumentType() {
+export default function DocumentType({navigation}) {
     // Add your logics
     const itemTitles = [
         {label: "Front Cover", value: '1'},
@@ -89,6 +89,8 @@ export default function DocumentType() {
       // console.log("Arr", arrOfDocsTitle)
       setDocumentTilte(' ')
     }
+
+    const gotoScanner = () => navigation.navigate('screenStack/scanner')
 
     return(
         <SafeAreaView style={styles.dropdownPages}>
@@ -176,7 +178,10 @@ export default function DocumentType() {
               </View>
             </TouchableOpacity>
           </ScrollView>
-
+          <Button 
+            title='Scanner'
+            onPress={gotoScanner}
+          />
             {/* <View style={styles.space}></View> */}
             <View style={styles.inputSelect}>
                 <Text style={styles.inputDocsTitle}>Enter a Name for your Document</Text>

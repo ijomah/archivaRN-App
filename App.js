@@ -22,6 +22,14 @@ import Scanner from './screenStack/scanner';
 import FileComponents from './screenStack/partsToScan';
 
 const Stack = createNativeStackNavigator();
+function LogoTitle() {
+  return (
+    <Image
+      style={{ width: 110, height: 50 }}
+      source={require('./assets/logoheading.png')}
+    />
+  );
+}
 
 export default function App() {
 
@@ -32,41 +40,61 @@ export default function App() {
           <Stack.Screen 
             name='screenStack/home' 
             component={HomePage} 
-            options={{title: 'Home'}}
+            options={{ 
+              title: 'Home',
+              headerTitleAlign: 'center',
+              headerTitle: (props) => <LogoTitle {...props} /> }}
           />
           
           <Stack.Screen 
             name='auth/login' 
             component={LoginPage} 
-            options={{title: 'Login'}}
+            options={{title: 'Login',
+              headerTitleAlign: 'center',
+              headerTitle: (props) => <LogoTitle {...props} />
+          }}
           />
           <Stack.Screen 
             name='screenDrawer/myDrawer' 
             component={MyDrawer} 
             options={{
                 title: 'Dashboard',
-                headerShown: false
-              }} 
+                headerShown: false,
+                headerTitleAlign: 'center',
+                headerTitle: (props) => <LogoTitle {...props} />
+            }} 
           />
           <Stack.Screen 
             name='screenStack/documentType'
             component={DocumentType}
-            options={{title: 'Document Type'}}
+            options={{title: 'Document Type',
+              headerTitleAlign: 'center',
+              headerTitle: (props) => <LogoTitle {...props} />
+          }}
           />
           <Stack.Screen 
             name='screenStack/fileType'
             component={FileType}
-            options={{title: 'File Type'}}
+            options={{title: 'File Type',
+              headerTitleAlign: 'center',
+              headerTitle: (props) => <LogoTitle {...props} />
+          }}
           />
           <Stack.Screen 
             name='screenStack/partsToScan'
             component={FileComponents}
-            options={{title: 'File Type'}}
+            options={{title: 'File Type',
+              headerTitleAlign: 'center',
+              headerTitle: (props) => <LogoTitle {...props} />
+          }}
           />
           <Stack.Screen 
             name='screenStack/scanner' 
             component={Scanner} 
-            options={{title: 'Scanner'}}
+            options={{title: 'Scanner',
+              headerTitleAlign: 'center',
+              headerTitle: (props) => <LogoTitle {...props} />
+          }}
           />
 
         </Stack.Navigator>
