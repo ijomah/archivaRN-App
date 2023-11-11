@@ -5,6 +5,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Button, Toa
 //import {apiCalls} from "../../apiCalls";
 // import Card from "../unitParts/card";
 import ScanChoiceModal from "../modal/scanningChoiceModal";
+import { places } from "../util/data";
 import CardApi from "../unitParts/cardApi";
 // import { dynamicColors } from "../util/Colors";
 // import  * as FileSystem  from "expo-file-system"
@@ -59,27 +60,17 @@ function DashboardPage({navigation}) {
                         onPress={getData}
                     /> */}
                     <Button 
-                        title='Scan Document'
-                        color='#5C8FAB'
-                        onPress={() => navigation.navigate('screenStack/documentType')}
+                        title="Goto Form"
+                        color= 'green'
+                        onPress={() => navigation.navigate('pages/manFileDetail')}
                     />
-                </View>
 
-                <View>
-                    <Button 
-                        title='Scan file'
-                        onPress={() =>{
-                            navigation.navigate('screenStack/fileType')
-                        //    setIsModalVisible(true)
-                        }
-                        }
-                    />
-                </View>
+                    </View>
             </View>
             <Text style={{fontSize: 18, alignContent: 'center'}}>Categories of Files in your Cabinet</Text>            
             <ScrollView style={styles.AprovalPage}>
                 {/* <Text>You have no file in your Cabinet yet!</Text> */}            
-                <CardApi />
+                <CardApi prevImgObj={places[0]} />
             </ScrollView>
             
                 {/* Display data from the api call */}

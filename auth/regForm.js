@@ -1,18 +1,20 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Button, TextInput } from 'react-native';
 import MyTextInput from "../unitParts/reuseTextInput";
+import { ScrollView } from "react-native";
 
-export default RegForm = () => {
+const RegForm = ({setApplyNo, submitForm}) => {
+    
     return (
-        <View>
+        <ScrollView style={{height: 780, conentContainerStyle: {justifyContent: 'center'}}}>
             <View style={styles.formPage}>
+                <Text style={{fontSize: 20, fontWeight:500, marginBottom: 20}}>Registration Form</Text>
                 <View style={styles.appliNo}>
                     <MyTextInput 
                         label="First Name:"
                         inputConfig={{
-                            placeholder:"First Name"
-                            // value={applicationNo}
-                            // onChangeText={setApplyNo}
+                            placeholder:"First Name",
+                            onChangeText: setApplyNo.bind(this, 'fName')
                         }}
                     />
                 </View>
@@ -20,9 +22,8 @@ export default RegForm = () => {
                     <MyTextInput 
                         label="Last Name:" 
                         inputConfig={{
-                            placeholder:"Last Name"
-                            // value={applicationNo}
-                            // onChangeText={setApplyNo}
+                            placeholder:"Last Name",
+                            onChangeText:setApplyNo.bind(this, 'lName')
                         }}
                     />
                 </View>
@@ -31,23 +32,21 @@ export default RegForm = () => {
                         label="Phone Number:" 
                         inputConfig={{
                             placeholder:"Phone Nunmber:",
-                            keyboardType:"phone-pad"
-                            // value={applicationNo}
-                            // onChangeText={setApplyNo}
+                            keyboardType:"phone-pad",
+                            onChangeText:setApplyNo.bind(this, 'phoneNo')
                         }}
                     />
                 </View>
 
                 <View>
                     <View style={styles.houseNumber}>
-                        <Text></Text>
                         <MyTextInput 
                             style={styles.houseInput}
                             label="House Number:"
                             inputConfig={{
                                 placeholder:"House Number:",
-                                // value={applicationNo}
-                                // onChangeText={setApplyNo}
+                                keyboardType:"phone-pad",
+                                onChangeText:setApplyNo.bind(this, 'houseNumber')
                             }}
                         />
                     </View>
@@ -58,9 +57,8 @@ export default RegForm = () => {
                             keyboardType="default"
                             style={styles.StreetInput}
                             inputConfig={{
-                                placeholder:"Street Name:"
-                                // value={applicationNo}
-                                // onChangeText={setApplyNo}
+                                placeholder:"Street Name:",
+                                onChangeText:setApplyNo.bind(this, 'streetName')
                             }}
                         />
                     </View>
@@ -71,77 +69,80 @@ export default RegForm = () => {
                             style={styles.areaInput}
                             inputConfig={{
                                 placeholder:"Area Name:",
-                                keyboardType:"default"
-                                // value={applicationNo}
-                                // onChangeText={setApplyNo}
+                                keyboardType:"default",
+                                onChangeText:setApplyNo.bind(this, 'areaName')
                             }}
                         />
                     </View>
 
                     <View style={styles.state}>
-                        <TextInput 
+                        <MyTextInput 
                             label="State:"
                             style={styles.stateInput}
                             inputConfig={{
                                 placeholder:"State:",
-                                keyboardType:"default"
-                                // value={applicationNo}
-                                // onChangeText={setApplyNo}
+                                keyboardType:"default",
+                                onChangeText:setApplyNo.bind(this, 'state')
                             }}
                         />
                     </View>
 
                     <View style={styles.country}>
-                        <TextInput 
+                        <MyTextInput 
                             label="Country:"
                             style={styles.countryInput}
                             inputConfig={{
-                                placeholder:"Country:"
-                                // value={applicationNo}
-                                // onChangeText={setApplyNo}
+                                placeholder:"Country:",
+                                onChangeText:setApplyNo.bind(this, 'country')
                             }}
                         />
                     </View>
 
                     <View style={styles.countryCode}>
-                        <TextInput 
+                        <MyTextInput 
                             label="Country Code:"
                             style={styles.countryCodeInput}
                             inputConfig={{
                                 placeholder:"Country Code:",
-                                keyboardType:"number-pad"
-                                // value={applicationNo}
-                                // onChangeText={setApplyNo}
+                                keyboardType:"number-pad",
+                                onChangeText:setApplyNo.bind(this, 'countryCode')
                             }}
                         />
                     </View>
                 </View>
                 
                 
-                    {/* <View style={styles.appliName}>
-                        <Text>Year file was Opened:</Text>
-                        <TextInput
+                    <View style={styles.appliName}>
+                        <MyTextInput 
+                            label= 'Year file was Opened:'
                             style={styles.input}
-                            placeholder="Application Nunmber:"
-                            // value={applicationNo}
-                            // onChangeText={setApplyNo}
+                            inputConfig={{
+                                placeholder:"File Year:",
+                                onChangeText: setApplyNo.bind(this, 'fileYear')
+                            }}
                         />
-                    </View> */}
+                    </View>
                 {/* Ability to add additional input field by the user
                 Use a fontawesome icon to give the use this ability */}
                 <View>
-                    <TouchableOpacity>
-                        <Text>Submit</Text>
-                    </TouchableOpacity>
+                    <Button 
+                        onPress={submitForm}
+                        title="Submit"
+                        color='#5CBFAB'
+                    />
                 </View>
             </View>
-        </View>
+        </ScrollView>
     )
 }
 
+export default RegForm
+
 styles = StyleSheet.create({
     formPage: {
-
+        alignItems: 'center',
+        // backgroundColor: 'red'
+        
     },
     appliNo: {
 
@@ -151,5 +152,8 @@ styles = StyleSheet.create({
     },
     appliName: {
 
-    }
+    },
+    // applicationNo: {
+
+    // }
 })

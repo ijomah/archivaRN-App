@@ -2,13 +2,15 @@ import React, { useState, useEffect } from "react";
 import { View, ScrollView, Image, Text, StyleSheet, TouchableHighlight, FlatList, TouchableOpacity, SafeAreaView } from "react-native";
 // import AsyncStorage from "@react-native-async-storage/async-storage";
 // import { ALLDOCTITLES, ALLFILEINFO } from "../../util/const";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addDocTitle } from "../redux/slice";
 
 export default function FileComponents({navigation}) {
     const titlesInfoArr = useSelector((state) => {
         // console.log('from State', state)
       return state.titleReducer.titlesDataFromStore.titles
     })
+    // const dispatch = useDispatch();
 
     
     // getStoreDocs()
@@ -23,9 +25,13 @@ export default function FileComponents({navigation}) {
         // console.log('title from nav params', objVal);
         //lead to camera page
         //Doccument title data needed to go with the navigation
-        navigation.navigate('screenStack/scanner', {
+        //dispatch(addDocTitle(objVal));
+        navigation.navigate('screenStack/scanWithCamera'
+        , {
             value: objVal.value,
-            docTitle: objVal.label});
+            docTitle: objVal.label
+           }
+        );
     }
         
     const renderStuffs = ({item}) => {

@@ -10,18 +10,18 @@ import { addDocTitle } from '../redux/slice';
 export default function DocumentType({navigation}) {
     // Add your logics
     const docTypeArr = [
-        {label: "Front Cover", value: '1'},
-        {label: "Back Cover", value: '2'},
-        {label: "Survey Plan", value: '3'},
-        {label: "Receipts", value: '4'},
-        {label: "title document", value: '5'},
-        {label: "Vetting and Recommendation", value: '6'},
-        {label: "Electrical drawing", value: '7'},
-        {label: "Structural drawing", value: '8'},
-        {label: "Architectural drawing", value: '9'},
-        {label: "Mechanical drawing", value: '10'},
-        {label: "Application form", value: '11'},
-        {label: "Query", value: '12'}
+        {label: "Front Cover", value: Math.random().toString(20).substring(7)},
+        {label: "Back Cover", value: Math.random().toString(30).substring(6)},
+        {label: "Survey Plan", value: Math.random().toString(31).substring(8)},
+        {label: "Receipts", value: Math.random().toString(20).substring(9)},
+        {label: "title document", value: Math.random().toString(32).substring(7)},
+        {label: "Vetting and Recommendation", value: Math.random().toString(18).substring(7)},
+        {label: "Electrical drawing", value: Math.random().toString(20).substring(10)},
+        {label: "Structural drawing", value: Math.random().toString(21).substring(11)},
+        {label: "Architectural drawing", value: Math.random().toString(22).substring(12)},
+        {label: "Mechanical drawing", value: Math.random().toString(15).substring(17)},
+        {label: "Application form", value: Math.random().toString(20).substring(13)},
+        {label: "Query", value: Math.random().toString(16).substring(14)}
     ]
     
 
@@ -104,6 +104,7 @@ export default function DocumentType({navigation}) {
 
     return(
         <SafeAreaView style={styles.dropdownPages}>
+            <Button title='Scan without Sorting' onPress={()=> navigation.push('screenStack/scanWithCamera')} />            
             <View>
                 <Text style={styles.docsTitle}> Select Document Title:</Text>
                 {/* As docs title is typed and submitted, the array

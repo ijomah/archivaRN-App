@@ -34,6 +34,7 @@ const titleSlice = createSlice({
 const titleImgSlice = createSlice({
     name: 'titleWithScannedImgUri',
     initialState: {
+        //Note titleImgDataFromStore is having doc form details in addition
         titleWithImgUri: []
     },
     reducers: {
@@ -49,15 +50,60 @@ const titleImgSlice = createSlice({
         removeFileTitleWithImgUri: (state, action) => {
             state.titleWithImgUri.splice(state.titleWithImgUri.indexOf(action.payload.value), 1)
         },
+        removeImgUriOnly: (state, action) => {
+            state.titleWithImgUri.forEach((titleWithImgUriObj)=> {
+                titleWithImgUriObj.scannedImgUri.splice(titleWithImgUriObj.scannedImgUri.indexOf(action.payload.uri), 1)
+            } )
+            // state.titleWithImgUri.splice(state.titleWithImgUri.indexOf(action.payload.value), 1)
+        }
     }
 })
 
-export const { addDocTitleWithImgUri, addFileTitleWithImgUri, removeDocTitleWithImgUri, removeFileTitleWithImgUri} = titleImgSlice.actions
-export const { addDocTitle, addFileTitle, removeDocTitle, removeFileTitle } = titleSlice.actions;
+const docFormForApplicAndApprovalSlice = createSlice({
+    name: 'applicAndApprovalDocForm',
+    initialState: {
+        docFormForApplicAndApproval: []
+    },
+    reducers: {
+        addDocFormTo: (state, action) => {
+            state.docFormForApplicAndApproval.push(action.payload);
+        },
+        removeDocFormFrom: (state, action) => {
+            state.docFormForApplicAndApproval.splice(docFormForApplicAndApproval.indexOf(action.payload.value), 1);
+        }
+    }
+})
 
+const fileManagerSlice = createSlice({
+    name: 'fileManagerDetail',
+    initialState: {
+        detailsForFileManager: []
+    },
+    reducers: {
+        // addDocTitle: (state, action) => {
+        //     state.titles.push(action.payload)
+        // },
+        addFileManagerDet: (state, action) => {
+            state.titles.push(action.payload)
+        },
+        // removeDocTitle: (state, action) => {
+        //     state.titles.splice(state.titles.indexOf(action.payload.value), 1)
+        // },
+        removeFileManagerDet: (state, action) => {
+            state.titles.slice(state.titles.indexOf(action.payload.value), 1)
+        }
+    }
+})
+
+export const { addDocFormTo, removeDocFormFrom } = docFormForApplicAndApprovalSlice.actions;
+export const { addDocTitleWithImgUri, addFileTitleWithImgUri, removeDocTitleWithImgUri, removeFileTitleWithImgUri, removeImgUriOnly} = titleImgSlice.actions
+export const { addDocTitle, addFileTitle, removeDocTitle, removeFileTitle } = titleSlice.actions;
+export const { addFileManagerDet, removeFileManagerDet } = fileManagerSlice.actions
 const mergedReducer = combineReducers({
     titlesDataFromStore: titleSlice.reducer,
-    titleImgDataFromStore: titleImgSlice.reducer
+    titleImgDataFromStore: titleImgSlice.reducer,
+    commonToDocAndFileFormFromStore: docFormForApplicAndApprovalSlice.reducer,
+    fileManagerDetFromStore: fileManagerSlice.reducer
 })
 export default mergedReducer
 

@@ -76,10 +76,24 @@ function LoginPage({navigation}) {
                         {/* </Link> */}
                         {/* <Text style={styles.loginSubmitTxt}>Submit</Text> */}
                     </TouchableOpacity>
+                    
                 </View>
                 <View>
-                    {/* <Link href='./regForm'> */}
+                <TouchableOpacity
+                    onPress={()=>myNavigator.navigate('auth/manReg')}
+                >
+                        {/* <Link href=''> */}
+                        {/* <Button 
+                            title="Register"
+                            color='#5CBFAB'
+                            onPress={handleSignin}
+                        /> */}
+                        {/* </Link> */}
+                        {/* <Text style={styles.loginSubmitTxt}>Submit</Text> */}
                         <Text>Register</Text>
+                    </TouchableOpacity>
+                    {/* <Link href='./regForm'> */}
+                        
                     {/* </Link> */}
                 </View>
                 <View>

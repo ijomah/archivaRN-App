@@ -12,16 +12,16 @@ import { addFileTitle } from '../redux/slice';
 export default function FileType({navigation}) {
     // Add your logics
     const fileTypeArr = [
-        {label: 'Patient', value: '1'},
-        {label: 'Admin', value: '2'},
-        {label: 'Vendor', value: '3'},
-        {label: 'General', value: '4'},
-        {label: 'Laboratory', value: '5'},
-        {label: 'Staff', value: '6'},
-        {label: 'Contract', value: '7'},
-        {label: 'Business', value: '8'},
-        {label: 'Customer', value: '9'},
-        {label: 'Inventory', value: '10'}
+        {label: 'Patient', value: Math.random().toString(25).substring(10)},
+        {label: 'Admin', value: Math.random().toString(19).substring(9)},
+        {label: 'Vendor', value: Math.random().toString(20).substring(8)},
+        {label: 'General', value: Math.random().toString(20).substring(10)},
+        {label: 'Laboratory', value: Math.random().toString(23).substring(9)},
+        {label: 'Staff', value: Math.random().toString(26).substring(9)},
+        {label: 'Contract', value: Math.random().toString(27).substring(8)},
+        {label: 'Business', value: Math.random().toString(24).substring(7)},
+        {label: 'Customer', value: Math.random().toString(22).substring(6)},
+        {label: 'Inventory', value: Math.random().toString(20).substring(7)}
     ]
 
     const [arrOfDocsTitle, setArrOfDocsTitle] = useState([])
@@ -103,6 +103,20 @@ export default function FileType({navigation}) {
 
     return(
         <SafeAreaView style={styles.dropdownPages}>
+            <Button 
+              title='Scan without Sorting' 
+              onPress={()=> {
+                
+                // navigation.reset({
+                //   index: 0,
+                //   routes: [{name: 'screenStack/home', params: {isScannerBtn: true}}
+                //   ]
+                // })
+                // console.log('I am New here before: ', navigation.getState())
+                navigation.push('screenStack/scanWithCamera')
+                } 
+                }
+            />
             <View>
                 <Text style={styles.docsTitle}> Select File Title:</Text>
                 {/* As docs title is typed and submitted, the array

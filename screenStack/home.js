@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Button } from 'react-native';
+import { readData, readApprAndApplicTable } from "../util/dbService";
 // import { Link } from 'expo-router'
 
-const HomePage = ({navigation}) => {
+const HomePage = ({navigation, route}) => {
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
-    
+    // let isScannerBtn = false
     const handleSubmit = () => {
         console.log('Login submitted');
     }
+    
     return (
         <View>
             <View style={styles.home}>                
@@ -22,7 +24,23 @@ const HomePage = ({navigation}) => {
                             <Text>Login Page</Text>
                         </Link> */}
                     </View>
-                    <Button title="Login" onPress={()=>{navigation.navigate('auth/login')}} />
+                    {
+                        route.params != undefined ?
+                        <Button title="Scan" onPress={()=>{{
+                            // console.log(route.params)
+                            navigation.navigate('screenStack/scanner')}
+                            }
+                        } />
+                        :
+                        <Button title="Login" onPress={()=>{{
+                            console.log('read', 
+                            //readData()
+                            readApprAndApplicTable()
+                            )
+                            navigation.navigate('auth/login')}
+                            }
+                        } />
+                    }
                     {/* <Button title="scanner" onPress={()=>{navigation.navigate('scanner')}} /> */}
                 </View>
 

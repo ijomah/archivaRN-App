@@ -1,50 +1,80 @@
 import React from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity, TextInputComponent, TextInput, FlatList } from 'react-native';
-// import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-// import ItemsCounter from './counter';
+import { StyleSheet, Text, View, SafeAreaView, Image, TouchableOpacity, TextInputComponent, TextInput, FlatList } from 'react-native';
+import { useSelector } from "react-redux";
+
+import FileManDataShape from "../models/fileManDataShape";
+import ItemsCounter from './counter';
 // import { dynamicColors } from "../util/Colors";
-// import { SafeAreaView } from "react-native-safe-area-context";
-// import { ScrollView } from "react-native-gesture-handler";
+import { dynamicColors } from "../util/Colors";
 import { FontAwesome5 } from '@expo/vector-icons';
 
-function Card({flatListData}) {
-   
+function Card({navigation}) {
+    // const titleFromStore = useSelector((state) => state.titleReducer.titlesDataFromStore.titles)
+    fileManDataFromStore = useSelector((state) => 
+        (state
+            .titleReducer
+            .titleImgDataFromStore
+            .titleWithImgUri
+        )
+    );
 
-    const itmsToRender = ({item}) => {
+    
+    let dataForCounter = [];
+    
+    const itemsToRender = ({item}) => {
+        // const dataForLabelDisplay = [];
+        
+        
+            for (let key in item) {
+                if(typeof(item[key]) === 'object') {
+                    for (const key4 in item[key]) {
+                        if (key4 === 'imgId') {
+                            let imgIdSliced = item[key][key4].slice(item[key][key4].indexOf('-')+1);
+                            if (imgIdSliced === item.value ) {
+                                dataForCounter.push(item[key]);
+                                // dataForLabelDisplay.push(item);
+                            }
+                        }
+                    }
+                    
+
+                }
+            }
+        console.log('item :', item);
         return (
-            <View 
-                key={item.id}
-                style={[styles.card, {borderColor: item.colour}]}  
+            <TouchableOpacity 
+                key={item.value}
+                style={[styles.card, {borderColor: dynamicColors[3],}]}
+                onPress={() => navigation.navigate('table')}  
             >
                 <View>
-                    <Text style={styles.cardHead}>{item.file}</Text>
+                    <Text style={styles.cardHead}>{item.docTitle}</Text>
                 </View>
                 <View>
                     <FontAwesome5 
                         name="file-image"  
-                        size={54} 
+                        size={40} 
                         // color="#AB906D" 
                         color={item.colour}
                     />
                 </View>
                 <View>
-                        <Text style={styles.ItemsCounterStyling}>
                         {/* <View style={styles.counter}>  */}
-                            <Text style={{fontSize: 20, width: '200%', fontWeight: 400}}>
+                            {/* <Text style={{fontSize: 20, width: '200%', fontWeight: 400}}>
                                 {numberOfItems === 0? '' : numberOfItems }
-                            </Text>
-                            <ItemsCounter numberOfItems={item.id} />
-                        </Text>
+                            </Text> */}
+                            <ItemsCounter numberOfItems={dataForCounter.length} />
                 </View>
-            </View>
+            </TouchableOpacity>
         )
     }
     return (
         <SafeAreaView style={styles.fileListStyle}>
             <FlatList 
-                data={flatListData}
-                renderItem={itmsToRender}
-                keyExtractor={flatListData.id}
+                data={fileManDataFromStore}
+                renderItem={itemsToRender}
+                keyExtractor={fileManDataFromStore.value}
+                numColumns= '3'
             />  
         </SafeAreaView>
     )
@@ -54,8 +84,8 @@ export default Card;
 
 const styles = StyleSheet.create({
     card: {
-        width: 150,
-        height: 140,
+        width: 110,
+        height: 110,
         borderWidth: 2,
         borderStyle: 'solid',
         // borderColor: '#' + Math.floor(Math.random()*16777215).toString(16),

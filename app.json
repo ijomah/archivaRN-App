@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "pixcapt",
-    "slug": "pixcapt",
+    "name": "mycaptures",
+    "slug": "mycaptures",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/archiva-icon.png",
@@ -22,17 +22,27 @@
         "foregroundImage": "./assets/arch-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.jacobianijo.pixcapt"
+      "package": "com.jacobianijo.mycaptures",
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "react-native-document-scanner-plugin"
+      "react-native-document-scanner-plugin",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera."
+        }
+      ]
     ],
     "extra": {
       "eas": {
-        "projectId": "458f5141-20f7-49c0-aeb5-d46cc8ee9667"
+        "projectId": "9ad1a61a-e22f-4bc3-9ff6-703a96485954"
       }
     }
   }
