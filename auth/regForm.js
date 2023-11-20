@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, Button, TextInput } fr
 import MyTextInput from "../unitParts/reuseTextInput";
 import { ScrollView } from "react-native";
 
-const RegForm = ({setApplyNo, submitForm}) => {
+const RegForm = ({setApplyNo, submitForm, errInData}) => {
     
     return (
         <ScrollView style={{height: 780, conentContainerStyle: {justifyContent: 'center'}}}>
@@ -12,6 +12,7 @@ const RegForm = ({setApplyNo, submitForm}) => {
                 <View style={styles.appliNo}>
                     <MyTextInput 
                         label="First Name:"
+                        inputErr={errInData.fname}
                         inputConfig={{
                             placeholder:"First Name",
                             onChangeText: setApplyNo.bind(this, 'fName')
@@ -21,6 +22,7 @@ const RegForm = ({setApplyNo, submitForm}) => {
                 <View style={styles.appliName}>
                     <MyTextInput 
                         label="Last Name:" 
+                        inputErr={errInData.lname}
                         inputConfig={{
                             placeholder:"Last Name",
                             onChangeText:setApplyNo.bind(this, 'lName')
@@ -29,7 +31,8 @@ const RegForm = ({setApplyNo, submitForm}) => {
                 </View>
                 <View style={styles.phoneNumber}>
                     <MyTextInput 
-                        label="Phone Number:" 
+                        label="Phone Number:"
+                        inputErr={errInData.phoneNo} 
                         inputConfig={{
                             placeholder:"Phone Nunmber:",
                             keyboardType:"phone-pad",
@@ -43,10 +46,11 @@ const RegForm = ({setApplyNo, submitForm}) => {
                         <MyTextInput 
                             style={styles.houseInput}
                             label="House Number:"
+                            inputErr={errInData.houseNo}
                             inputConfig={{
                                 placeholder:"House Number:",
                                 keyboardType:"phone-pad",
-                                onChangeText:setApplyNo.bind(this, 'houseNumber')
+                                onChangeText:setApplyNo.bind(this, 'houseNo')
                             }}
                         />
                     </View>
@@ -54,6 +58,7 @@ const RegForm = ({setApplyNo, submitForm}) => {
                     <View style={styles.streetName}>
                         <MyTextInput 
                             label="Street Name:"
+                            inputErr={errInData.streetName}
                             keyboardType="default"
                             style={styles.StreetInput}
                             inputConfig={{
@@ -66,6 +71,7 @@ const RegForm = ({setApplyNo, submitForm}) => {
                     <View style={styles.areaName}>
                         <MyTextInput 
                             label="Area Name:"
+                            inputErr={errInData.areaName}
                             style={styles.areaInput}
                             inputConfig={{
                                 placeholder:"Area Name:",
@@ -78,6 +84,7 @@ const RegForm = ({setApplyNo, submitForm}) => {
                     <View style={styles.state}>
                         <MyTextInput 
                             label="State:"
+                            inputErr={errInData.state}
                             style={styles.stateInput}
                             inputConfig={{
                                 placeholder:"State:",
@@ -90,6 +97,7 @@ const RegForm = ({setApplyNo, submitForm}) => {
                     <View style={styles.country}>
                         <MyTextInput 
                             label="Country:"
+                            inputErr={errInData.country}
                             style={styles.countryInput}
                             inputConfig={{
                                 placeholder:"Country:",
@@ -101,6 +109,7 @@ const RegForm = ({setApplyNo, submitForm}) => {
                     <View style={styles.countryCode}>
                         <MyTextInput 
                             label="Country Code:"
+                            inputErr={errInData.countryCode}
                             style={styles.countryCodeInput}
                             inputConfig={{
                                 placeholder:"Country Code:",
@@ -115,6 +124,7 @@ const RegForm = ({setApplyNo, submitForm}) => {
                     <View style={styles.appliName}>
                         <MyTextInput 
                             label= 'Year file was Opened:'
+                            inputErr={errInData.fileYear}
                             style={styles.input}
                             inputConfig={{
                                 placeholder:"File Year:",

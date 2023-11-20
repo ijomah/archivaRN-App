@@ -1,7 +1,7 @@
 import { View, Image, Text, TouchableOpacity } from "react-native";
 import Card from "../unitParts/card";
 import { dynamicColors } from "../util/Colors";
-// import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import { readApprAndApplicTable, readData } from "../util/dbService";
 import SearchBarComponent from "../search/searchBar";
@@ -30,39 +30,39 @@ export default function FileManager() {
 
         // const fileItemList = useSelector((state) => state.titleReducer.fileManagerDetFromStore.detailsForFileManager)
         // const titleFromStore = useSelector((state) => state.titleReducer.titlesDataFromStore.titles)
-        // fileManDataFromStore = useSelector((state) => 
-        //     (state
-        //         .titleReducer
-        //         .titleImgDataFromStore
-        //         .titleWithImgUri
-        //     )
-        // );
+        fileManDataFromStore = useSelector((state) => 
+            (state
+                .titleReducer
+                .titleImgDataFromStore
+                .titleWithImgUri
+            )
+        );
         // const dbInfo = readApprAndApplicTable();
         // console.log('file Manager', dbInfo);
-        // const dataForLabelDisplay = [];
-        // let dataForLength = [];
-        // fileManDataFromStore.forEach((element) => {
-        //     for (let key in element) {
-        //         if(typeof(element[key]) === 'object') {
-        //             for (const key4 in element[key]) {
-        //                 if (key4 === 'imgId') {
-        //                     let imgIdSliced = element[key][key4].slice(element[key][key4].indexOf('-')+1);
-        //                     if (imgIdSliced === element.value ) {
-        //                         dataForLength.push(element[key]);
-        //                         dataForLabelDisplay.push(element);
-        //                     }
-        //                 }
-        //             }
+        const dataForLabelDisplay = [];
+        let dataForLength = [];
+        fileManDataFromStore.forEach((element) => {
+            for (let key in element) {
+                if(typeof(element[key]) === 'object') {
+                    for (const key4 in element[key]) {
+                        if (key4 === 'imgId') {
+                            let imgIdSliced = element[key][key4].slice(element[key][key4].indexOf('-')+1);
+                            if (imgIdSliced === element.value ) {
+                                dataForLength.push(element[key]);
+                                dataForLabelDisplay.push(element.value);
+                            }
+                        }
+                    }
                     
 
-        //         }
-        //     }
-        // })
+                }
+            }
+        })
 
     return (
             <>
                 <SearchBarComponent
-                    // tableDataArr={fileManDataFromStore} 
+                    tableDataArr={dataForLabelDisplay} 
                 />
                 <Card 
                     // flatListData={titleFromStore}

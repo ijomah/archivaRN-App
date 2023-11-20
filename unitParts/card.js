@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { StyleSheet, Text, View, SafeAreaView, Image, TouchableOpacity, TextInputComponent, TextInput, FlatList } from 'react-native';
 import { useSelector } from "react-redux";
 
@@ -18,21 +18,35 @@ function Card({navigation}) {
         )
     );
 
+    // const [itemNumber, setItemNumber] = useState(0)
+
+    const countImgObj = (itm) => {
+        let counting = 0;
+        for( let key5 in itm ) {
+            if (typeof(Number(key5)) === 'number' && typeof(itm[key5]) === 'object') {
+                ++counting
+            }
+        }
+        return counting
+    }
     
     let dataForCounter = [];
     
-    const itemsToRender = ({item}) => {
-        // const dataForLabelDisplay = [];
+    const itemsToRender = ({item, index}) => {
         
-        
+        // let itemNumber = countImgObj(item);
+       
             for (let key in item) {
+                
                 if(typeof(item[key]) === 'object') {
+                
                     for (const key4 in item[key]) {
                         if (key4 === 'imgId') {
                             let imgIdSliced = item[key][key4].slice(item[key][key4].indexOf('-')+1);
                             if (imgIdSliced === item.value ) {
+                                
                                 dataForCounter.push(item[key]);
-                                // dataForLabelDisplay.push(item);
+                                
                             }
                         }
                     }
@@ -40,12 +54,12 @@ function Card({navigation}) {
 
                 }
             }
-        console.log('item :', item);
+        // console.log('item :', item);
         return (
             <TouchableOpacity 
                 key={item.value}
                 style={[styles.card, {borderColor: dynamicColors[3],}]}
-                onPress={() => navigation.navigate('table')}  
+                onPress={() => navigation.navigate('table', {value: item.value, label: item.docTitle})}  
             >
                 <View>
                     <Text style={styles.cardHead}>{item.docTitle}</Text>
@@ -63,7 +77,7 @@ function Card({navigation}) {
                             {/* <Text style={{fontSize: 20, width: '200%', fontWeight: 400}}>
                                 {numberOfItems === 0? '' : numberOfItems }
                             </Text> */}
-                            <ItemsCounter numberOfItems={dataForCounter.length} />
+                            <ItemsCounter numberOfItems={countImgObj(item)} />
                 </View>
             </TouchableOpacity>
         )
@@ -73,7 +87,7 @@ function Card({navigation}) {
             <FlatList 
                 data={fileManDataFromStore}
                 renderItem={itemsToRender}
-                keyExtractor={fileManDataFromStore.value}
+                keyExtractor={item => item.value}
                 numColumns= '3'
             />  
         </SafeAreaView>

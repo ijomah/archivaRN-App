@@ -110,9 +110,7 @@ const FileDetailForm = ({setFileDetForm, errCheck, submitFileDetForm, navigation
                         title='Scan file'
                         color='#5CBFAB'
                         onPress={() =>{
-                            submitFileDetForm();
-                            //navigation.navigate('screenStack/fileType')
-                        //    setIsModalVisible(true)
+                            submitFileDetForm(false);
                         }
                         }
                     />
@@ -130,8 +128,7 @@ const FileDetailForm = ({setFileDetForm, errCheck, submitFileDetForm, navigation
                         title='Scan Document'
                         color='#5C8FAB'
                         onPress={() => {
-                            submitFileDetForm(label);
-                            //navigation.navigate('screenStack/documentType')
+                            submitFileDetForm(true);
                         }
                         }
                     />

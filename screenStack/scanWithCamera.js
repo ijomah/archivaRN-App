@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Alert, Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useDispatch, useSelector } from "react-redux";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useIsFocused } from "@react-navigation/native";
+// import { useIsFocused } from "@react-navigation/native";
 
 import { addDocTitleWithImgUri } from "../redux/slice";
 
@@ -31,11 +31,11 @@ function ScanWithCamera({route, navigation}) {
   const [capturedPix, setCapturedPix] = useState([]);
 
   const dispatch = useDispatch();
-  const isFocused = useIsFocused();
+  // const isFocused = useIsFocused();
 
-  if(isFocused) {
-    requestPermission();
-  }
+  // if(isFocused) {
+  //   requestPermission();
+  // }
   
   let camera;
 
@@ -63,6 +63,7 @@ function ScanWithCamera({route, navigation}) {
     const applicData = combineDocFormAndTitle();
     const imgArrToObj = changeImgStringToObj(pixAddressArr);
 
+    // if (imgArrToObj.imgId)
     const docDataForStore = Object.assign({}, applicData, imgArrToObj)
     // console.log('now for store', docDataForStore);
       // {
@@ -74,7 +75,7 @@ function ScanWithCamera({route, navigation}) {
           // uri: uri
           // }
       //},
-    console.log('to store', docDataForStore);
+    // console.log('to store', docDataForStore);
 
     dispatch(addDocTitleWithImgUri(docDataForStore));
     // storeData(docDataForStore)
@@ -100,7 +101,7 @@ function ScanWithCamera({route, navigation}) {
   //  setShowPreview(true);
   //  pixUriArr.push(uri);
    setCapturedPix([...capturedPix, uri]);
-  //  console.log('from take', capturedPix)
+   console.log('from take', capturedPix)
 
   }
 

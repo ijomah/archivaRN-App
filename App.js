@@ -18,7 +18,7 @@ import FileType from './screenStack/fileType';
 // import FileComponents from './pages/partsToScan';
 // import FileManager from './pages/fileManager';
 
-import { Image, View } from 'react-native';
+import { Image, StatusBar, View } from 'react-native';
 import DocumentScanner from 'react-native-document-scanner-plugin';
 import Scanner from './screenStack/scanner';
 import FileComponents from './screenStack/partsToScan';
@@ -57,6 +57,7 @@ export default function App() {
     <FileManagerContextAuthProvider>
       <Provider store={store}>
         <NavigationContainer>
+        <StatusBar backgroundColor="#fb6161"/>
           <Stack.Navigator initialRouteName='home'>
             <Stack.Screen 
               name='screenStack/home' 

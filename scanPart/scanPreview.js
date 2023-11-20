@@ -78,7 +78,7 @@ export default ScanPreview = ({navigation}) => {
         };
         // console.log('from prev useEff:', );
         setImgForPreview()
-    }, [prevImgFromStore])
+    }, [])
 
 
     const renderImgs = ({item}) => {
@@ -99,59 +99,41 @@ export default ScanPreview = ({navigation}) => {
         }
     }
 
-    // const uploadScannedImg = () => {
+    const uploadScannedImg = async () => {
+            for (const oneBigObj of prevImgFromStore) {
+                for (const objkeys in oneBigObj) {
+                    if (typeof(oneBigObj[objkeys]) === 'object') {
+                        let imgUriForServer = oneBigObj[objkeys].uri;
+                        let imgId = oneBigObj[objkeys].imgId;
+                        let noImg = delete oneBigObj[objkeys];
+                        console.log('xpected deleted uri: ', oneBigObj[objkeys]);
+                        try {
+                            //ip for localhost - 127.0.0.1  -- http://127.0.0.1:3000/api/v1/files
+                            await FileSystem.uploadAsync('http://192.168.158.227:3000/api/v1/files',
+                                imgUriForServer,
+                                {
+                                    uploadType: FileSystem.FileSystemUploadType.MULTIPART,
+                                    headers: {},
+                                    fieldName: 'photo',
+                                    httpMethod: 'PATCH',
+                                    parameters: {"imgId":imgId, "data":JSON.stringify(oneBigObj) }
+                                    // parameters: JSON.stringify(oneBigObj)
+                                }
+                            )
+                            console.log('res: file upload: ', imgId);
+                        } catch (error) {
+                            console.log('err from try', error);
+                        }
+                    }
+                }
+                
+            }
+        console.log('I need to upload ScannedImages');
+        ToastAndroid.show('Uploading..., please wait!', ToastAndroid.SHORT)
+    }
 
-    //     if (prevImgFromStore.length === 1) {
-    //         FileSystem
-                //.uploadAsync('http://localhost:3000/api/v1/files/single',
-    //             prevImgFromStore[0],
-    //             {
-    //                 uploadType: FileSystem.FileSystemUploadType.MULTIPART,
-    //                 fieldName: '',
-    //                 httpMethod: 'POST'
-    //             }
-    //         )
-    //         // apiPostCalls('', 
-    //         //     {
-    //         //         method: 'POST', 
-    //         //         body:  JSON.stringify(prevImgFromStore)
-    //         //     }
-    //         // )
-    //     } else if (prevImgFromStore.length > 1) {
-    //         //imgURid => imgUri
-    //         for (imgURid of prevImgFromStore) {
-    //             FileSystem.uploadAsync('http://localhost:3000/api/v1/files/multiple',
-    //                 imgURid,
-    //                 {
-    //                     uploadType: FileSystem.FileSystemUploadType.MULTIPART,
-    //                     fieldName: '',
-    //                     httpMethod: 'POST',
-    //                 }
-    //             )
-    //         }
-            
-    //         // apiPostCalls('http://localhost:3000/api/v1/files/multiple',
-    //         //     {
-    //         //         method: 'POST',
-    //         //         body: JSON.stringify(prevImgFromStore)
-    //         //     }
-    //         // )
-    //     }
-    //     console.log('I need to upload ScannedImages')
-    //     ToastAndroid.show('Uploading..., please wait!', ToastAndroid.SHORT)
-    // }
 
-    // const downloadScannedImg = () => {
-    //     FileSystem.downloadAsync('http://localhost:3000/api/v1/files/single',
-    //         FileSystem.documentDirectory + 'FILENAME.PNG'
-    //     )
-    //     .then(({uri}) => {
-    //         ToastAndroid.show(`Finished downloading, ${uri}`, ToastAndroid.LONG)
-    //         console.log('Downloading done!', uri)
-    //     })
-    //     .catch(error =>  console.log(error))
-        
-    // }
+  
 
     const goToDocTypePage = () => {
         navigation.navigate('screenStack/documentType')
@@ -179,7 +161,7 @@ export default ScanPreview = ({navigation}) => {
                 </TouchableOpacity>
 
                 <TouchableOpacity 
-                    // onPress={uploadScannedImg} 
+                    onPress={uploadScannedImg} 
                     style={styles.uploaderStyle}>
                     <Text>Upload
                         {' '}<AntDesign name="clouduploado" size={24} color="black" />
@@ -219,7 +201,7 @@ export default ScanPreview = ({navigation}) => {
                             <FlatList 
                                 data={prevImg}
                                 renderItem={renderImgs}
-                                keyExtractor={item => item.imgId}
+                                // keyExtractor={item => item.imgId}
                                 // style={{backgroundColor: 'green',}}
                             />
                         </View>

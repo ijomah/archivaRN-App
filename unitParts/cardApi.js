@@ -54,12 +54,12 @@ function CardApi({prevImgObj}) {
                          />
                     </TouchableOpacity>
 
-                    <TouchableOpacity 
+                    {/* <TouchableOpacity 
                     // onPress={uploadScannedImg} 
                         //style={styles.uploaderStyle}
                     >
                         <AntDesign name="clouduploado" size={24} color="black" />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                     <DeleteBtn imgIdInObj={prevImgObj.imgId} />
                     {/* <TouchableOpacity>
                         <AntDesign name="delete" size={24} color="black" />

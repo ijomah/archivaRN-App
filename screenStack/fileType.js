@@ -12,16 +12,16 @@ import { addFileTitle } from '../redux/slice';
 export default function FileType({navigation}) {
     // Add your logics
     const fileTypeArr = [
-        {label: 'Patient', value: Math.random().toString(25).substring(10)},
-        {label: 'Admin', value: Math.random().toString(19).substring(9)},
-        {label: 'Vendor', value: Math.random().toString(20).substring(8)},
-        {label: 'General', value: Math.random().toString(20).substring(10)},
-        {label: 'Laboratory', value: Math.random().toString(23).substring(9)},
-        {label: 'Staff', value: Math.random().toString(26).substring(9)},
-        {label: 'Contract', value: Math.random().toString(27).substring(8)},
-        {label: 'Business', value: Math.random().toString(24).substring(7)},
-        {label: 'Customer', value: Math.random().toString(22).substring(6)},
-        {label: 'Inventory', value: Math.random().toString(20).substring(7)}
+        {label: 'Patient', value: 'f-pat1'},
+        {label: 'Admin', value: 'f-adm2'},
+        {label: 'Vendor', value: 'f-ven3'},
+        {label: 'General', value:'f-gen4'},
+        {label: 'Laboratory', value: 'f-lab5'},
+        {label: 'Staff', value: 'f-sta6'},
+        {label: 'Contract', value: 'f-con7'},
+        {label: 'Business', value: 'f-bus8'},
+        {label: 'Customer', value: 'f-cus9'},
+        {label: 'Inventory', value: 'f-inv10'}
     ]
 
     const [arrOfDocsTitle, setArrOfDocsTitle] = useState([])

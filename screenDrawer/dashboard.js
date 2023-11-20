@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Button, ToastAndroid, ScrollView } from 'react-native';
 // import { ScrollView } from "react-native-gesture-handler";
 
@@ -8,7 +8,7 @@ import ScanChoiceModal from "../modal/scanningChoiceModal";
 import { places } from "../util/data";
 import CardApi from "../unitParts/cardApi";
 // import { dynamicColors } from "../util/Colors";
-// import  * as FileSystem  from "expo-file-system"
+import  * as FileSystem  from "expo-file-system"
 
 
 function DashboardPage({navigation}) {
@@ -24,15 +24,29 @@ function DashboardPage({navigation}) {
     const [documentList, setDocumentList] = useState(docItmList);
     const [isModalVisible, setIsModalVisible] = useState(false);
      
+    //Make an api call to get applicant's name and db's id and applic_tag
+    //get document label too
+    //Display only applicant name, document label (ie name list of files)
+
+    //you can keep the applic_tag and db's id for querying img table when needed
+
+    const downloadScannedImg = async () => {
+        let slug = 'img1700317933741.png'
+        try {
+            const res = await FileSystem.downloadAsync(`http://192.168.158.227:3000/api/v1/files/download/${slug}`,
+                FileSystem.documentDirectory + `${slug}`
+            )
+            .then(({uri}) => {
+                ToastAndroid.show(`Finished downloading, ${uri}`, ToastAndroid.LONG)
+                console.log('phone fs', FileSystem.documentDirectory)
+                console.log('Downloading done!', uri)
+            })
+            .catch(error =>  console.log('download error1', error))
+        } catch(error) {
+            console.error('download error2', error);
+        }
+    }
     const getData = () => {
-        //newly commented
-        // FileSystem.downloadAsync('http://localhost:3000/api/v1/files/single',
-        //     FileSystem.documentDirectory + 'filename.png'
-        // )
-        // .then(({uri}) => {
-        //     ToastAndroid.show(`Downloading: ${uri}`, ToastAndroid.LONG)
-        //     console.log('Downloading: here is ', uri)
-        // })
 
         //old commented
         // apiCalls('http://localhost:3000/api/v1/files/single')
@@ -47,6 +61,12 @@ function DashboardPage({navigation}) {
         setIsModalVisible(boolVal)
         // navigation.navigate('/modal/documentType')
     }
+
+    useEffect(() => {
+        downloadScannedImg();
+    }, [])
+
+    
     return (
         <View>
             

@@ -10,18 +10,18 @@ import { addDocTitle } from '../redux/slice';
 export default function DocumentType({navigation}) {
     // Add your logics
     const docTypeArr = [
-        {label: "Front Cover", value: Math.random().toString(20).substring(7)},
-        {label: "Back Cover", value: Math.random().toString(30).substring(6)},
-        {label: "Survey Plan", value: Math.random().toString(31).substring(8)},
-        {label: "Receipts", value: Math.random().toString(20).substring(9)},
-        {label: "title document", value: Math.random().toString(32).substring(7)},
-        {label: "Vetting and Recommendation", value: Math.random().toString(18).substring(7)},
-        {label: "Electrical drawing", value: Math.random().toString(20).substring(10)},
-        {label: "Structural drawing", value: Math.random().toString(21).substring(11)},
-        {label: "Architectural drawing", value: Math.random().toString(22).substring(12)},
-        {label: "Mechanical drawing", value: Math.random().toString(15).substring(17)},
-        {label: "Application form", value: Math.random().toString(20).substring(13)},
-        {label: "Query", value: Math.random().toString(16).substring(14)}
+        {label: "Front Cover", value: 'd-fro1'},
+        {label: "Back Cover", value: 'd-bac2'},
+        {label: "Survey Plan", value: 'd-sur3'},
+        {label: "Receipts", value: 'd-rec4'},
+        {label: "title document", value: 'd-tit5'},
+        {label: "Vetting and Recommendation", value: 'd-vet6'},
+        {label: "Electrical drawing", value: 'd-ele7'},
+        {label: "Structural drawing", value: 'd-str8'},
+        {label: "Architectural drawing", value: 'd-arc9'},
+        {label: "Mechanical drawing", value: 'd-mec10'},
+        {label: "Application form", value: 'd-app11'},
+        {label: "Query", value: 'd-que12'}
     ]
     
 

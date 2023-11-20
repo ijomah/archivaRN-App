@@ -74,6 +74,21 @@ const docFormForApplicAndApprovalSlice = createSlice({
     }
 })
 
+const regFormSlice = createSlice({
+    name: 'registerForm',
+    initialState: {
+        formForReg: []
+    },
+    reducers: {
+        addRegFormTo: (state, action) => {
+            state.formForReg.push(action.payload);
+        },
+        removeRegFormFrom: (state, action) => {
+            state.formForReg.splice(formForReg.indexOf(action.payload.value), 1);
+        }
+    }
+})
+
 const fileManagerSlice = createSlice({
     name: 'fileManagerDetail',
     initialState: {
@@ -103,7 +118,8 @@ const mergedReducer = combineReducers({
     titlesDataFromStore: titleSlice.reducer,
     titleImgDataFromStore: titleImgSlice.reducer,
     commonToDocAndFileFormFromStore: docFormForApplicAndApprovalSlice.reducer,
-    fileManagerDetFromStore: fileManagerSlice.reducer
+    fileManagerDetFromStore: fileManagerSlice.reducer,
+    registerForm: regFormSlice.reducer
 })
 export default mergedReducer
 

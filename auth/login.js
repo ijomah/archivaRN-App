@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity, TextInputComponent, TextInput, Button } from 'react-native';
+import { StyleSheet, Text, View, Alert, Image, TouchableOpacity, TextInputComponent, TextInput, Button } from 'react-native';
 // import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 // import { Link, useRouter } from 'expo-router';
 // import MyDrawer from "../pages/myDrawer";
@@ -20,16 +20,19 @@ function LoginPage({navigation}) {
         setPassword(typedPass)
     }
 
-    const handleSignin = () => {
-        // e.preventDefault();
-        // if (!email || !password) {
-        //     //Show alert 'enter an email or password
-        //     console.log("No login details", email)
-        // } else if(password === 'admin') {
-        //     console.log('Login submitted');
-        myNavigator.navigate('screenDrawer/myDrawer', {screen: 'dashboard'});
-        // }
-        
+    const handleSignin = (e) => {
+        e.preventDefault();
+        if (!email || !password) {
+            //Show alert 'enter an email or password            
+            return Alert.alert(
+                'Sign In Needed',
+                'Enter your credentials',
+                [{text: 'Ok'}]
+            )
+        } else if(password === 'admin') {
+            // console.log('Login submitted');
+            myNavigator.navigate('screenDrawer/myDrawer', {screen: 'dashboard'});
+        }    
     }
     return (
         <View style={styles.loginBox}>

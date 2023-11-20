@@ -80,27 +80,34 @@ export default function Tablescore(props) {
             const objValue = []
             //Reshape your data to suite the component
             titleAndImgWithFormDet.forEach((datum) => {
-                objValue.push(datum.value)
-                for (let key1 in datum) {
-                    if (typeof(datum[key1]) === 'object') {
-                        var wellFormedData = new FileManTableDataShape(
-                            Number(key1)+1, 
-                            datum.applicationName, 
-                            datum.applicationNumber,
-                            datum.approvalDate,
-                            datum[key1].uri
-                        );
-                        formedObjArr.push(wellFormedData)
+                
+                if (datum.value === props.route.params.value) {
+                    objValue.push(datum.value)
+                    for (let key1 in datum) {
+                        if (typeof(datum[key1]) === 'object') {
+                            var wellFormedData = new FileManTableDataShape(
+                                Number(key1)+1, 
+                                datum.applicationName, 
+                                datum.applicationNumber,
+                                datum.approvalDate,
+                                datum[key1].uri
+                            );
+                            formedObjArr.push(wellFormedData)
+                        }
                     }
                 }
-
-            
             })    
 
+            let counterForTableData = 0
             formedObjArr.forEach((element) =>{
                 // console.log('newINfo', element);
+                
                 const rowInfo = Object.values(element);
                 // console.log('newINfo', rowInfo);
+                //shift the 1st ele, 
+                counterForTableData += 1;
+                rowInfo.shift();
+                rowInfo.unshift(counterForTableData);
                 tableData.push(rowInfo);
             })
             
@@ -158,7 +165,7 @@ export default function Tablescore(props) {
                 <View style={styles.container}>
                 <Text 
                     style={{alignSelf: 'center', fontSize: 20, fontWeight: 500}}
-                >Admin Files</Text>
+                >{props.route.params.label}{''} Files</Text>
                 <SearchBarComponent 
                    tableDataArr={titleAndImgWithFormDet} 
                 />

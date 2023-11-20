@@ -43,16 +43,17 @@ export default function ManageFileDetail({navigation}) {
 
     // const clearInput = React.useCallback(() => onchangeText(''), []);
 
-    const submitFileDetForm = async () => {
+    const submitFileDetForm = async (isBool) => {
         // const res = await insertToApprAndApplicTable(fileDetail)
         // console.log('sent to db', isInputValid(fileDetail).errObj);
         
-        dispatch(addDocFormTo(fileDetail));
+        
 
         if(!isInputValid(fileDetail).isErr) {
 
            return setErrForInput(isInputValid(fileDetail).errObj);
         }
+        dispatch(addDocFormTo(fileDetail));
         //clearInput();
         // console.log(JSON.parse(fileDetail))
         Alert.alert(
@@ -61,9 +62,11 @@ export default function ManageFileDetail({navigation}) {
             //Do you want to scan a document or file',
             [{  
                 text: 'Ok',
-                onPress: navigation.navigate('screenStack/fileType')
+                onPress: isBool? 
+                                navigation.navigate('screenStack/documentType') 
+                        :       navigation.navigate('screenStack/fileType')
             }]
-            )
+        )
     }
     
     return (
