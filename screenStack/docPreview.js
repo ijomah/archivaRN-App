@@ -10,6 +10,8 @@ import {
     Text, 
     Button 
 } from "react-native";
+import { downloadScannedImg } from "../util/downloadFile";
+import { saveDownloadedFileAsync } from "../util/saveDownloadedFile";
 
 
 function DocPreview({route}) {
@@ -31,6 +33,8 @@ function DocPreview({route}) {
 
     const downloadItem = () => {
         //put logic
+        const downloadedFile = downloadScannedImg();
+        saveDownloadedFileAsync(downloadedFile);
     }
 
     const getDataForPrev = () => {
@@ -159,7 +163,7 @@ function DocPreview({route}) {
             </ScrollView>
             <Button
                 title="DownLoad Item"
-                // onPress={downloadItem}
+                onPress={downloadItem}
                 //onPress={getFromDb}
             />
         </SafeAreaView>

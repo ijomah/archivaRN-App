@@ -1,5 +1,6 @@
 import { handleResponse, handleError } from 'apiUtil';
-const baseUrl = process.env.REACT_APP_API_URL + '/images/';
+// const baseUrl = process.env.RN_APP_API_URL + '/api/v1/register';
+const baseUrl = 'http://192.168.158.227:3000/api/v1/register'
 
 export const getImages = async () => {
     return await fetch(baseUrl)
@@ -20,14 +21,14 @@ export const getImgBySlug = async (slug) => {
         .catch(handleError);
 }
 
-export const saveImg = async () => {
-    return await fetch(baseUrl + (img.id || ''), {
-        method: img.id? 'PUT' : 'POST',  //POST for create, 
+export const saveData = async (newUser) => {
+    return await fetch(baseUrl + (newUser.id || ''), {
+        method: newUser.id? 'PUT' : 'POST',  //POST for create, 
         //PUT to update when id already exists.
         headers: {"content-type": "application/json"},
         body: JSON.stringify({
-            ...img,
-            imgId: img.imgId 
+            ...newUser,
+            newUserId: newUser.id 
         })
     })
         .then(handleResponse)

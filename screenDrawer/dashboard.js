@@ -9,6 +9,7 @@ import { places } from "../util/data";
 import CardApi from "../unitParts/cardApi";
 // import { dynamicColors } from "../util/Colors";
 import  * as FileSystem  from "expo-file-system"
+import { downloadScannedImg } from "../util/downloadFile";
 
 
 function DashboardPage({navigation}) {
@@ -30,22 +31,7 @@ function DashboardPage({navigation}) {
 
     //you can keep the applic_tag and db's id for querying img table when needed
 
-    const downloadScannedImg = async () => {
-        let slug = 'img1700317933741.png'
-        try {
-            const res = await FileSystem.downloadAsync(`http://192.168.158.227:3000/api/v1/files/download/${slug}`,
-                FileSystem.documentDirectory + `${slug}`
-            )
-            .then(({uri}) => {
-                ToastAndroid.show(`Finished downloading, ${uri}`, ToastAndroid.LONG)
-                console.log('phone fs', FileSystem.documentDirectory)
-                console.log('Downloading done!', uri)
-            })
-            .catch(error =>  console.log('download error1', error))
-        } catch(error) {
-            console.error('download error2', error);
-        }
-    }
+    
     const getData = () => {
 
         //old commented
@@ -55,6 +41,8 @@ function DashboardPage({navigation}) {
         //     setDocumentList(...documentList, data)
         // })
     }
+
+
 
     const resetModal = (boolVal) => {
         console.log('dashboard', boolVal);

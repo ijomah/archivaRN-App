@@ -5,6 +5,7 @@ import RegForm from './regForm';
 import { storeData } from '../util/dbService';
 import { useNavigation } from '@react-navigation/native';
 import { isInputValid } from '../unitParts/errFunc';
+import { saveData } from '../api/genApi';
 
 export default function ManageRegForm() {
     const [userForm, setUserForm] = useState({
@@ -28,7 +29,9 @@ export default function ManageRegForm() {
 
             return setErrForRegInput(isInputValid(userForm).errObj);
          }
-        dispatch(addRegFormTo(userForm));
+        //  '/api/v1/register'
+        saveData(userForm);
+        // dispatch(addRegFormTo(userForm));
         Alert.alert(
             'Form', 
             'Form Submitted!',

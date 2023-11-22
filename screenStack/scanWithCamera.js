@@ -31,11 +31,11 @@ function ScanWithCamera({route, navigation}) {
   const [capturedPix, setCapturedPix] = useState([]);
 
   const dispatch = useDispatch();
-  // const isFocused = useIsFocused();
+  const isFocused = useIsFocused();
 
-  // if(isFocused) {
-  //   requestPermission();
-  // }
+  if(isFocused) {
+    getCameraSet();
+  }
   
   let camera;
 
@@ -101,13 +101,20 @@ function ScanWithCamera({route, navigation}) {
   //  setShowPreview(true);
   //  pixUriArr.push(uri);
    setCapturedPix([...capturedPix, uri]);
-   console.log('from take', capturedPix)
-
+   console.log('from take', capturedPix);
   }
 
+  const getCameraSet = (r) => camera = r;
+  
+
   const savePix = () => {
+    if(capturedPix.length === 0) {
+      navigation.navigate('scanPart/scanPreview')
+      return
+    }
     sendScannedImgToStore(capturedPix)
     // console.log('from save', capturedPix)
+    setCapturedPix([]);
     navigation.navigate('scanPart/scanPreview')
   }
 
@@ -158,7 +165,7 @@ function ScanWithCamera({route, navigation}) {
   return (
     <View style={styles.container}>
       <Camera style={styles.camera}
-       ref={(r) => camera = r}
+       ref={getCameraSet}
       >
         <View style={styles.buttonContainer}>
           <TouchableOpacity 

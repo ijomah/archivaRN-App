@@ -89,6 +89,18 @@ const FileDetailForm = ({setFileDetForm, errCheck, submitFileDetForm, navigation
                         />
                     </View>
 
+                    <View style={styles.appliName}>
+                        <MyTextInput 
+                            label= 'Year file was Opened:'
+                            inputErr={errCheck.fileYear}
+                            style={styles.input}
+                            inputConfig={{
+                                placeholder:"File Year:",
+                                onChangeText: setFileDetForm.bind(this, 'fileYear')
+                            }}
+                        />
+                    </View>
+
                     <View style={styles.state}>
                         <MyTextInput 
                             label="Application Address:"
