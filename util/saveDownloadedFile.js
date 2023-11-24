@@ -3,15 +3,16 @@ import * as MediaLibrary from "expo-media-library";
 import { downloadScannedImg } from "./downloadFile";
 
 // const downloadedFileUri = downloadScannedImg();
-const [permissionResponse, requestPermission] = MediaLibrary.usePermissions();
+// const [permissionResponse, requestPermission] = MediaLibrary.usePermissions();
 
 export const saveDownloadedFileAsync = async (downloadedFileUri) => {
-    if(permissionResponse.granted === false) {
+    const permit = await MediaLibrary.requestPermissionsAsync();
+    if(permit.granted === false) {
         return;
     }
 
     try {
-        if (permissionResponse.granted === true && permissionResponse.accessPrivileges === 'limited' ) {
+        if (permit.status === 'granted' && permit.accessPrivileges !== 'limited' ) {
             const asset = await MediaLibrary.createAssetAsync(downloadedFileUri);
             const album = await MediaLibrary.getAlbumAsync('Download');
             if(album == null) {

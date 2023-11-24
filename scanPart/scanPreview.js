@@ -100,6 +100,7 @@ export default ScanPreview = ({navigation}) => {
     }
 
     const uploadScannedImg = async () => {
+        console.log('copy', prevImgFromStore)
             for (const oneBigObj of prevImgFromStore) {
                 for (const objkeys in oneBigObj) {
                     if (typeof(oneBigObj[objkeys]) === 'object') {
@@ -109,7 +110,8 @@ export default ScanPreview = ({navigation}) => {
                         console.log('xpected deleted uri: ', oneBigObj[objkeys]);
                         try {
                             //ip for localhost - 127.0.0.1  -- http://127.0.0.1:3000/api/v1/files
-                            await FileSystem.uploadAsync('http://192.168.158.227:3000/api/v1/files',
+                            let remoteUrl = 'http://192.168.168.123:3000/api/v1/files'
+                            await FileSystem.uploadAsync(remoteUrl,
                                 imgUriForServer,
                                 {
                                     uploadType: FileSystem.FileSystemUploadType.MULTIPART,

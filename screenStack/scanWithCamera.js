@@ -31,11 +31,11 @@ function ScanWithCamera({route, navigation}) {
   const [capturedPix, setCapturedPix] = useState([]);
 
   const dispatch = useDispatch();
-  const isFocused = useIsFocused();
+  // const isFocused = useIsFocused();
 
-  if(isFocused) {
-    getCameraSet();
-  }
+  // if(isFocused) {
+  //   getCameraSet();
+  // }
   
   let camera;
 

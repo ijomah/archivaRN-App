@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import { readApprAndApplicTable, readData } from "../util/dbService";
 import SearchBarComponent from "../search/searchBar";
+import { filterSearchVal } from "../util/filtering";
 // import FileManDataShape from "../models/fileManDataShape";
 
 
@@ -61,9 +62,9 @@ export default function FileManager() {
 
     return (
             <>
-                <SearchBarComponent
-                    tableDataArr={dataForLabelDisplay} 
-                />
+                {/* <TableSearchBar
+                    onFilterData={filterSearchVal} 
+                /> */}
                 <Card 
                     // flatListData={titleFromStore}
                     // dataForCounter={dataForLength}

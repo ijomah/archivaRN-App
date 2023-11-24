@@ -15,6 +15,7 @@ export default function ManageFileDetail({navigation}) {
         applicationAddress: "",
         applicationName: "",
         applicationNumber: "",
+        fileYear: "",
         approvalDO: "",
         approvalDate: "",
         approvalType: "",
@@ -38,7 +39,7 @@ export default function ManageFileDetail({navigation}) {
             [fileIdentifier]: typedFileDetail
         }
         setFileDetail(updatedFormData);
-        // console.log('state part', fileDetail)
+        console.log('state part', fileDetail)
     }
 
     // const clearInput = React.useCallback(() => onchangeText(''), []);

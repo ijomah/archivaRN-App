@@ -23,6 +23,7 @@ function DocPreview({route}) {
     )
 );
 
+
     const [infoForPrev, setInfoForPreiew] = useState({})
 
     const blurhash =

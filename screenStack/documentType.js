@@ -56,6 +56,8 @@ export default function DocumentType({navigation}) {
     // //   props.onPassDocsTitle(combinedDocsTitlesArr);
       saveToStorage(combinedDocsTitlesArr);
     //   console.log('doc titles: ', combinedDocsTitlesArr)
+      setArrOfDocsTitle([]);
+      setSelected([]);
       navigation.push('screenStack/partsToScan');
     }
     const renderItem = item => {
@@ -157,15 +159,10 @@ export default function DocumentType({navigation}) {
                 renderItem={renderItem}
                 renderSelectedItem={(item,unselect) => (
                     <TouchableOpacity onPress={
-                        () => unselect && unselect(item)
+                      () => unselect && unselect(item)
                     }>
                         <View style={styles.selectedStyle}>
                             <Text style={styles.textSelectedStyle}>{item.label}</Text>
-                            {/* <FontAwesomeIcon 
-                                color="steelblue"
-                                icon="fa-solid fa-user-xmark" 
-                                size={15}
-                            /> */}
                             <AntDesign name="delete" size={15} color="steelblue" />
                         </View>
                         

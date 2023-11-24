@@ -9,6 +9,7 @@ import FileManTableDataShape from '../models/fileManTableDataShape';
 import { places } from '../util/data';
 import { readApprAndApplicTable, readScannerRes } from "../util/dbService";
 import { useSelector } from 'react-redux';
+import TableSearchBar from '../search/tableSearchBar';
 
 export default function Tablescore(props) {
     const contextAuth = useContext(FileManAuthContext);
@@ -17,7 +18,7 @@ export default function Tablescore(props) {
     const titleAndImgWithFormDet = useSelector((state) => state.titleReducer.titleImgDataFromStore.titleWithImgUri);
     // const docFormData = useSelector((state) => state.titleReducer.commonToDocAndFileFormFromStore.docFormForApplicAndApproval);
     
-    const [scanResInDb,  setScanResInDb] = useState([]);
+    const [filteredTableArr,  setfilteredTableArr] = useState([]);
     const isLogIn = contextAuth.isAuth;
     const {tableHeadDet, tableBodyDet, navigation, route} = props
 
@@ -86,7 +87,7 @@ export default function Tablescore(props) {
                     for (let key1 in datum) {
                         if (typeof(datum[key1]) === 'object') {
                             var wellFormedData = new FileManTableDataShape(
-                                Number(key1)+1, 
+                                `${Number(key1)+1}`, 
                                 datum.applicationName, 
                                 datum.applicationNumber,
                                 datum.approvalDate,
@@ -111,6 +112,22 @@ export default function Tablescore(props) {
                 tableData.push(rowInfo);
             })
             
+            const filterTableVal = (searchString) => {
+                // console.log('filter', searchString)
+                for(let i =0; i<tableData.length; ++i) {
+                    const filtered = tableData.filter((value) => {
+                       return value[i] === searchString
+                    });
+                    if(filtered.length > 0) {
+                        console.log(filtered)
+                        setfilteredTableArr(filtered)
+                    }
+                }
+            }
+
+            if (filterTableVal.length === 0) {
+                setfilteredTableArr(tableData)
+            }
 
             // for (let i = 0; i < 30; i += 1) {
             //   const rowData = [];
@@ -160,61 +177,66 @@ export default function Tablescore(props) {
           {isLogIn? 
                 <SafeAreaView>
                    
-
-                {/* file data display table */}
-                <View style={styles.container}>
-                <Text 
-                    style={{alignSelf: 'center', fontSize: 20, fontWeight: 500}}
-                >{props.route.params.label}{''} Files</Text>
-                <SearchBarComponent 
-                   tableDataArr={titleAndImgWithFormDet} 
-                />
-                <ScrollView horizontal={true} >
-                <View>
-                    <Table borderStyle={{borderWidth: 1, borderColor: 'lightyellow'}}>
-                    <Row 
-                        data={state.tableHead} 
-                        widthArr={state.widthArr} 
-                        style={styles.header} 
-                        textStyle={styles.text}
+                   <TableSearchBar 
+                        style={{}}
+                        onFilterData ={filterTableVal}
                     />
-                    </Table>
-                    <ScrollView style={styles.dataWrapper}>
-                    <Table borderStyle={{borderWidth: 1, borderColor: '#C1C0B9'}}>
-                        {
-                        tableData.map((rowData, index) => (
-                            // <Row
-                            //     key={index}
-                            //     data={rowData}
-                            //     widthArr={state.widthArr}
-                            //     style={[styles.row, {backgroundColor: '#F7F6E7'}]}
-                            //     textStyle={styles.text}
-                            // />
-                            <TableWrapper key={index} style={styles.tableWrapperRow}>
+                    {/* file data display table */}
+                    <View style={styles.container}>
+                        <Text 
+                            style={{alignSelf: 'center', paddingTop: 50, fontSize: 20, fontWeight: 500}}
+                        >{props.route.params.label}{''} Files</Text>
+                    
+                        <ScrollView horizontal={true} >
+                        <View>
+                            <Table borderStyle={{borderWidth: 1, borderColor: 'lightyellow'}}>
+                            <Row 
+                                data={state.tableHead} 
+                                widthArr={state.widthArr} 
+                                style={styles.header} 
+                                textStyle={styles.text}
+                            />
+                            </Table>
+                            <ScrollView style={styles.dataWrapper}>
+                            <Table borderStyle={{borderWidth: 1, borderColor: '#C1C0B9'}}>
                                 {
-                                    rowData.map((cellData, cellIndex) => (
-                                        <Cell 
-                                            width={state.widthArr[cellIndex]} 
-                                            //height={20} 
-                                            flex={1} 
-                                            key={cellIndex} 
-                                            data={
-                                                cellIndex === 4? 
-                                                        element(cellData, index) 
-                                                    :   cellData
-                                            } 
-                                            textStyle={styles.text} 
-                                        />
+                                //filterTableVal.length === 0? setfilteredTableArr(tableData)
+                                    //  if (filterTableVal.length === 0) 
+                                    //     setfilteredTableArr(tableData)
+                                    filteredTableArr.map((rowData, index) => (
+                                        // <Row
+                                        //     key={index}
+                                        //     data={rowData}
+                                        //     widthArr={state.widthArr}
+                                        //     style={[styles.row, {backgroundColor: '#F7F6E7'}]}
+                                        //     textStyle={styles.text}
+                                        // />
+                                        <TableWrapper key={index} style={styles.tableWrapperRow}>
+                                            {
+                                                rowData.map((cellData, cellIndex) => (
+                                                    <Cell 
+                                                        width={state.widthArr[cellIndex]} 
+                                                        //height={20} 
+                                                        flex={1} 
+                                                        key={cellIndex} 
+                                                        data={
+                                                            cellIndex === 4? 
+                                                                    element(cellData, index) 
+                                                                :   cellData
+                                                        } 
+                                                        textStyle={styles.text} 
+                                                    />
+                                                ))
+                                            }
+                                        </TableWrapper>
                                     ))
+                                        
                                 }
-                            </TableWrapper>
-                        ))
-                        }
-                    </Table>
-                    </ScrollView>
-                </View>
-                </ScrollView>
-            </View>
+                            </Table>
+                            </ScrollView>
+                        </View>
+                        </ScrollView>
+                    </View>
 
                 </SafeAreaView>
                 :  

@@ -35,6 +35,8 @@ function Card({navigation}) {
     const itemsToRender = ({item, index}) => {
         
         // let itemNumber = countImgObj(item);
+        // let docTitle = item.docTitle;
+
        
             for (let key in item) {
                 
