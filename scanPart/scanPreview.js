@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import { StyleSheet, ToastAndroid, Text, View, Image, TouchableOpacity, FlatList, TouchableHighlight } from 'react-native';
 import { AntDesign, Ionicons, FontAwesome5, Feather } from '@expo/vector-icons';
 import * as FileSystem from 'expo-file-system';
+import { CommonActions } from "@react-navigation/native";
 import { useSelector, useDispatch } from "react-redux";
 import CardApi from "../unitParts/cardApi";
 import { addDocTitleWithImgUri } from "../redux/slice"
@@ -100,7 +101,7 @@ export default ScanPreview = ({navigation}) => {
     }
 
     const uploadScannedImg = async () => {
-        console.log('copy', prevImgFromStore)
+        // console.log('copy', prevImgFromStore)
             for (const oneBigObj of prevImgFromStore) {
                 for (const objkeys in oneBigObj) {
                     if (typeof(oneBigObj[objkeys]) === 'object') {
@@ -109,9 +110,11 @@ export default ScanPreview = ({navigation}) => {
                         let noImg = delete oneBigObj[objkeys];
                         console.log('xpected deleted uri: ', oneBigObj[objkeys]);
                         try {
+                            //api url from render
+                            // https://archiver-4de6.onrender.com/api/v1/files
                             //ip for localhost - 127.0.0.1  -- http://127.0.0.1:3000/api/v1/files
-                            let remoteUrl = 'http://192.168.168.123:3000/api/v1/files'
-                            await FileSystem.uploadAsync(remoteUrl,
+                            // let remoteUrl = 'https://archiver-4de6.onrender.com/api/v1/files'
+                            await FileSystem.uploadAsync('http://127.0.0.1:3000/api/v1/files',
                                 imgUriForServer,
                                 {
                                     uploadType: FileSystem.FileSystemUploadType.MULTIPART,
@@ -132,6 +135,19 @@ export default ScanPreview = ({navigation}) => {
             }
         console.log('I need to upload ScannedImages');
         ToastAndroid.show('Uploading..., please wait!', ToastAndroid.SHORT)
+        // goto dashboard after uploading
+        navigation.dispatch(
+            CommonActions.reset({
+                index: 1,
+                routes: [
+                    // {name: 'home'},
+                    // {name: 'auth/login'},
+                    {name: 'dashboard'},
+                    {name: 'screenStack/docPreview'}
+                ]
+            })
+        )
+
     }
 
 

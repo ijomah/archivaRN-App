@@ -125,7 +125,7 @@ export default function Tablescore(props) {
                 }
             }
 
-            if (filterTableVal.length === 0) {
+            if (filteredTableArr.length === 0) {
                 setfilteredTableArr(tableData)
             }
 
@@ -203,6 +203,7 @@ export default function Tablescore(props) {
                                 //filterTableVal.length === 0? setfilteredTableArr(tableData)
                                     //  if (filterTableVal.length === 0) 
                                     //     setfilteredTableArr(tableData)
+                                    // filteredTableArr
                                     filteredTableArr.map((rowData, index) => (
                                         // <Row
                                         //     key={index}

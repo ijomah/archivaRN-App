@@ -133,7 +133,7 @@ export default function App() {
               name='screenStack/scanWithCamera'
               component={ScanWithCamera}
               options={{
-                title: 'Camera',
+                title: 'Scanner',
 
               }}
             />

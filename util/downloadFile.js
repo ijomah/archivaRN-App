@@ -11,7 +11,7 @@ const url = baseUrl+path+downloaPathType;
 export const downloadScannedImg = async (slug='img1700317933741.png') => {
     // `http://192.168.158.227:3000/api/v1/files/filesview/${slug}`
     try {
-        const res = await FileSystem.downloadAsync(`http://192.168.110.37:3000/api/v1/files/filesview/${slug}`,
+        const res = await FileSystem.downloadAsync(`https://archiver-4de6.onrender.com/api/v1/files/filesview/${slug}`,
             FileSystem.documentDirectory + `${slug}`
         )
         .then(({uri}) => {

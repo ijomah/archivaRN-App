@@ -1,9 +1,11 @@
 import React from "react";
-import { Camera } from 'expo-camera';
+// import { Camera } from 'expo-camera';
 import { useState } from 'react';
 import { Alert, Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useDispatch, useSelector } from "react-redux";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { manipulateAsync } from 'expo-image-manipulator';
+import * as ImagePicker from 'expo-image-picker';
 // import { useIsFocused } from "@react-navigation/native";
 
 import { addDocTitleWithImgUri } from "../redux/slice";
@@ -11,6 +13,7 @@ import { addDocTitleWithImgUri } from "../redux/slice";
 import { Feather } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { storeData, insertScannerRes } from "../util/dbService";
+
 // Bring in FileSystem to persist your data
 // work with FileSystem.copyAsync to persist the data
 
@@ -27,7 +30,7 @@ function ScanWithCamera({route, navigation}) {
 
   const [isCameraOn, setIsCameraOn] = useState(false);
   // const [showPreview, setShowPreview] = useState(false);
-  const [permission, requestPermission] = Camera.useCameraPermissions();
+  // const [permission, requestPermission] = Camera.useCameraPermissions();
   const [capturedPix, setCapturedPix] = useState([]);
 
   const dispatch = useDispatch();
@@ -37,27 +40,27 @@ function ScanWithCamera({route, navigation}) {
   //   getCameraSet();
   // }
   
-  let camera;
+  // let camera;
 
-  if (!permission) {
-    // Camera permissions are still loading
-    return <View />;
-  }
+  // if (!permission) {
+  //   // Camera permissions are still loading
+  //   return <View />;
+  // }
 
   
 
-  if (!permission.granted) {
-    // Camera permissions are not granted yet
-    return (
-      <View style={styles.container}>
-        <Text style={{ textAlign: 'center' }}>We need your permission to show the camera</Text>
-        <Button 
-          onPress={requestPermission} 
-          title="Grant permission" 
-        />
-      </View>
-    );
-  }
+  // if (!permission.granted) {
+  //   // Camera permissions are not granted yet
+  //   return (
+  //     <View style={styles.container}>
+  //       <Text style={{ textAlign: 'center' }}>We need your permission to show the camera</Text>
+  //       <Button 
+  //         onPress={requestPermission} 
+  //         title="Grant permission" 
+  //       />
+  //     </View>
+  //   );
+  // }
 
   const sendScannedImgToStore = (pixAddressArr) => {
     const applicData = combineDocFormAndTitle();
@@ -83,28 +86,52 @@ function ScanWithCamera({route, navigation}) {
     // console.log('store', docDataForStore)
   }
 
-  const setCamera = async () => {
-    const {status} = await Camera.requestCameraPermissionsAsync();
-    if (status === "granted") {
-      // const pix = await Camera.ta
-      setIsCameraOn(true);
-    } else {
-      Alert.alert('Access Denied');
-    }
-  }
+  // const setCamera = async () => {
+  //   const {status} = await Camera.requestCameraPermissionsAsync();
+  //   if (status === "granted") {
+  //     // const pix = await Camera.ta
+  //     setIsCameraOn(true);
+  //   } else {
+  //     Alert.alert('Access Denied');
+  //   }
+  // }
 
   const takePic = async () => {
     // let pixUriArr = []
-   if (!camera) return
-   const {uri} = await camera.takePictureAsync();
+  //  if (!camera) return
+   const {assets} = await ImagePicker.launchCameraAsync(
+    {
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [16, 9],
+      quality: 0.5,
+      // allowsMultipleSelection: true,
+      // selectionLimit: 20
+    }
+   );
+
+   
   // const pix = await camera.takePictureAsync();
   //  setShowPreview(true);
   //  pixUriArr.push(uri);
-   setCapturedPix([...capturedPix, uri]);
+    let uri = '';
+  //Manipulate image size
+  assets.forEach((obj) => {
+    uri = obj.uri
+  })
+  if(!!uri) {
+    var resizedImage = await manipulateAsync(
+      uri,
+      [{ resize: { width: 30, height: 30 } }]
+      // { base64: true }
+    );
+  }
+  // console.log(resizedImage)
+   setCapturedPix([...capturedPix, resizedImage.uri]);
    console.log('from take', capturedPix);
   }
 
-  const getCameraSet = (r) => camera = r;
+  // const getCameraSet = (r) => camera = r;
   
 
   const savePix = () => {
@@ -164,8 +191,8 @@ function ScanWithCamera({route, navigation}) {
 
   return (
     <View style={styles.container}>
-      <Camera style={styles.camera}
-       ref={getCameraSet}
+      <View style={styles.camera}
+      //  ref={getCameraSet}
       >
         <View style={styles.buttonContainer}>
           <TouchableOpacity 
@@ -192,7 +219,7 @@ function ScanWithCamera({route, navigation}) {
             <FontAwesome name="save" size={35} color="white" />
           </TouchableOpacity>
         </View>
-      </Camera>
+      </View>
     </View>
   );
 }
@@ -204,9 +231,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
-  camera: {
-    flex: 1,
-  },
+  // camera: {
+  //   flex: 1,
+  // },
   buttonContainer: {
     flex: 1,
     flexDirection: 'row',

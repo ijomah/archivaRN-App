@@ -1,11 +1,12 @@
 {
   "expo": {
-    "name": "mycaptures",
-    "slug": "mycaptures",
+    "name": "newcaptures",
+    "slug": "newcaptures",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/archiva-icon.png",
     "userInterfaceStyle": "light",
+    "jsEngine": "hermes",
     "splash": {
       "image": "./assets/archiva-splash.png",
       "resizeMode": "contain",
@@ -15,14 +16,15 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "jsEngine": "jsc"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/arch-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.jacobianijo.mycaptures",
+      "package": "com.jacobianijo.newcaptures",
       "permissions": [
         "android.permission.CAMERA",
         "android.permission.RECORD_AUDIO"
@@ -34,9 +36,9 @@
     "plugins": [
       "react-native-document-scanner-plugin",
       [
-        "expo-camera",
+        "expo-image-picker",
         {
-          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera."
+          "photosPermission": "The app accesses your photos to let you share them with your friends."
         }
       ],
       [
@@ -47,11 +49,6 @@
           "isAccessMediaLocationEnabled": true
         }
       ]
-    ],
-    "extra": {
-      "eas": {
-        "projectId": "9ad1a61a-e22f-4bc3-9ff6-703a96485954"
-      }
-    }
+    ]
   }
 }

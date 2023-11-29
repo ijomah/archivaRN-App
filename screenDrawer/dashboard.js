@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Button, ToastAndroid, ScrollView } from 'react-native';
 // import { ScrollView } from "react-native-gesture-handler";
-
+import { getDocumentInfo } from "../api/genApi";
 //import {apiCalls} from "../../apiCalls";
 // import Card from "../unitParts/card";
 import ScanChoiceModal from "../modal/scanningChoiceModal";
@@ -30,7 +30,7 @@ function DashboardPage({navigation}) {
     //Display only applicant name, document label (ie name list of files)
 
     //you can keep the applic_tag and db's id for querying img table when needed
-
+    const getDocumentDetails = getDocumentInfo('https://archiver-4de6.onrender.com/api/v1/files')
     
     const getData = () => {
 
