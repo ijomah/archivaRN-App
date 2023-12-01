@@ -114,7 +114,7 @@ function ScanWithCamera({route, navigation}) {
   // const pix = await camera.takePictureAsync();
   //  setShowPreview(true);
   //  pixUriArr.push(uri);
-    let uri = '';
+  let uri = '';
   //Manipulate image size
   assets.forEach((obj) => {
     uri = obj.uri
@@ -122,7 +122,7 @@ function ScanWithCamera({route, navigation}) {
   if(!!uri) {
     var resizedImage = await manipulateAsync(
       uri,
-      [{ resize: { width: 30, height: 30 } }]
+      [{ resize: { width: 200, height: 300 } }]
       // { base64: true }
     );
   }

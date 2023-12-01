@@ -5,13 +5,15 @@ import FileManPreviewDataShape from "../models/fileManPreviewDataShape";
 import { 
     SafeAreaView, 
     StyleSheet, 
-    ScrollView, 
+    View, 
     View, 
     Text, 
-    Button 
+    Button,
+    FlatList
 } from "react-native";
 import { downloadScannedImg } from "../util/downloadFile";
 import { saveDownloadedFileAsync } from "../util/saveDownloadedFile";
+
 
 
 function DocPreview({route}) {
@@ -28,8 +30,9 @@ function DocPreview({route}) {
 
     const blurhash =
   '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
-    const imgDataFromTable = route.params.imgUrl.slice(route.params.imgUrl.lastIndexOf('/')+1)
+    // const imgDataFromTable = route.params.imgUrl.slice(route.params.imgUrl.lastIndexOf('/')+1)
     //route.params.slice(uri.lastIndexOf('/')+1)
+    const imgDataFromTable = [];
 //    console.log(imgDataFromTable);
 
     const downloadItem = () => {
@@ -41,32 +44,61 @@ function DocPreview({route}) {
     const getDataForPrev = () => {
         let dataForDisplay;
         prevImgDataFromStore.forEach((datum, index) => {
-            for (const key2 in datum) {
-                if(typeof(datum[key2]) === 'object') {
-                   for (const key3 in datum[key2]) {
-                        if(datum[key2][key3].length > 100) {
-                            let imgUriSlice = datum[key2][key3]
-                                .slice(datum[key2][key3].lastIndexOf('/')+1)
-                            if(imgUriSlice === imgDataFromTable) {
-                                dataForDisplay = new FileManPreviewDataShape(
-                                    datum.applicationName,
-                                    datum.applicationNumber,
-                                    datum.approvalType,
-                                    datum.applicationNumber,
-                                    datum.approvalDO,
-                                    datum.approvalDate,
-                                    datum.applicationAddress,
-                                    route.params.imgUrl
-                                )
-                            }
-                        }
-                   }
-                }
-            }
             
+                for(const keyVal of Object.values(datum)) {
+                    if(typeof(keyVal) === 'object') {
+                        imgDataFromTable.push(keyVal);
+                    }
+                }
+                // for (const key2 in datum) {
+                // if(typeof(datum[key2]) === 'object') {
+                //    for (const key3 in datum[key2]) {
+                //         if(datum[key2][key3].length > 100) {
+                //             let imgUriSlice = datum[key2][key3]
+                //                 .slice(datum[key2][key3].lastIndexOf('/')+1)
+                //             if(imgUriSlice === imgDataFromTable) {
+                                // dataForDisplay = new FileManPreviewDataShape(
+                                //     datum.applicationName,
+                                //     datum.applicationNumber,
+                                //     datum.approvalType,
+                                //     datum.applicationNumber,
+                                //     datum.approvalDO,
+                                //     datum.approvalDate,
+                                //     datum.applicationAddress,
+                                //     // route.params.imgUrl
+                                // )
+                //             }
+                //         }
+                //    }
+                // }
+            // }
+            dataForDisplay = new FileManPreviewDataShape(
+                datum.applicationName,
+                datum.applicationNumber,
+                datum.approvalType,
+                datum.applicationNumber,
+                datum.approvalDO,
+                datum.approvalDate,
+                datum.applicationAddress,
+                // route.params.imgUrl
+            ) 
         })
         // console.log('dfd', dataForDisplay)
         setInfoForPreiew(dataForDisplay);
+    }
+
+    const renderImage = ({item}) => {
+        return (
+            <Image 
+                        style={styles.vendorLogo} 
+                        source={{uri:item.uri}} 
+                        resizeMethod="scale"
+                        // placeholder={blurhash}
+                        contentFit="cover"
+                        transition={1000}
+                        // blurRadius={0}
+                    />
+        )
     }
     
     useEffect(() => {
@@ -84,7 +116,7 @@ function DocPreview({route}) {
                         marginTop: 7
                     }}
                 >Preview</Text>
-            <ScrollView style={
+            <View style={
                 // styles.imgPreviewerStyle, 
                 {
                     height: 700, 
@@ -151,7 +183,14 @@ function DocPreview({route}) {
                             Application Address: {' '} {infoForPrev.applicationAddress}
                         </Text>
                     </View>
-                    <Image 
+                    <FlatList 
+                        data={imgDataFromTable}
+                        renderItem={renderImage}
+                        keyExtractor={(item)=> item.imgId}
+                        scrollEnabled='true'
+                        showsHorizontalScrollIndicator='true'
+                    />
+                    {/* <Image 
                         style={styles.vendorLogo} 
                         source={{uri:infoForPrev.imgUri}} 
                         resizeMethod="scale"
@@ -159,9 +198,9 @@ function DocPreview({route}) {
                         contentFit="cover"
                         transition={1000}
                         // blurRadius={0}
-                    />
+                    /> */}
                 </View>
-            </ScrollView>
+            </View>
             <Button
                 title="DownLoad Item"
                 onPress={downloadItem}

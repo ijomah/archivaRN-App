@@ -32,12 +32,13 @@ export default function ManageRegForm() {
         //  '/api/v1/register'
         saveData(userForm);
         // dispatch(addRegFormTo(userForm));
+        navigation.navigate('auth/login')
         Alert.alert(
             'Form', 
             'Form Submitted!',
             [{  
                 text: 'Ok',
-                onPress: navigation.navigate('screenDrawer/myDrawer')
+                // onPress: navigation.navigate('auth/login')
             }]
             )
     }

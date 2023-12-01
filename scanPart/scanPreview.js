@@ -138,12 +138,12 @@ export default ScanPreview = ({navigation}) => {
         // goto dashboard after uploading
         navigation.dispatch(
             CommonActions.reset({
-                index: 1,
+                index: 0,
                 routes: [
                     // {name: 'home'},
                     // {name: 'auth/login'},
-                    {name: 'dashboard'},
-                    {name: 'screenStack/docPreview'}
+                    {name: 'screenDrawer/myDrawer'},
+                    // {name: 'screenStack/docPreview'}
                 ]
             })
         )

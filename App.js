@@ -45,7 +45,7 @@ export default function App() {
   useEffect(() => {
   dbInit()
     .then(() => {
-      console.log('db is ready!');
+      //console.log('db is ready!');
     //  console.log('db reader', readData())
     })
     .catch((err) => {

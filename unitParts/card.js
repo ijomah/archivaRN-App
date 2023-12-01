@@ -19,7 +19,12 @@ function Card({navigation}) {
     );
 
     // const [itemNumber, setItemNumber] = useState(0)
+    const listOfDocTitle = [];
+    fileManDataFromStore.forEach((docDatum) => {
+        listOfDocTitle.push(docDatum.docTitle);
+    })
 
+    
     const countImgObj = (itm) => {
         let counting = 0;
         for( let key5 in itm ) {
@@ -38,51 +43,103 @@ function Card({navigation}) {
         // let docTitle = item.docTitle;
 
        
-            for (let key in item) {
+            // for (let key in item) {
                 
-                if(typeof(item[key]) === 'object') {
+            //     if(typeof(item[key]) === 'object') {
                 
-                    for (const key4 in item[key]) {
-                        if (key4 === 'imgId') {
-                            let imgIdSliced = item[key][key4].slice(item[key][key4].indexOf('-')+1);
-                            if (imgIdSliced === item.value ) {
+            //         for (const key4 in item[key]) {
+            //             if (key4 === 'imgId') {
+            //                 let imgIdSliced = item[key][key4].slice(item[key][key4].indexOf('-')+1);
+            //                 if (imgIdSliced === item.value ) {
                                 
-                                dataForCounter.push(item[key]);
+            //                     dataForCounter.push(item[key]);
                                 
-                            }
-                        }
-                    }
+            //                 }
+            //             }
+            //         }
                     
 
-                }
-            }
+            //     }
+            // }
         // console.log('item :', item);
-        return (
-            <TouchableOpacity 
-                key={item.value}
-                style={[styles.card, {borderColor: dynamicColors[3],}]}
-                onPress={() => navigation.navigate('table', {value: item.value, label: item.docTitle})}  
-            >
-                <View>
-                    <Text style={styles.cardHead}>{item.docTitle}</Text>
-                </View>
-                <View>
-                    <FontAwesome5 
-                        name="file-image"  
-                        size={40} 
-                        // color="#AB906D" 
-                        color={item.colour}
-                    />
-                </View>
-                <View>
-                        {/* <View style={styles.counter}>  */}
-                            {/* <Text style={{fontSize: 20, width: '200%', fontWeight: 400}}>
-                                {numberOfItems === 0? '' : numberOfItems }
-                            </Text> */}
-                            <ItemsCounter numberOfItems={countImgObj(item)} />
-                </View>
-            </TouchableOpacity>
-        )
+        listOfDocTitle.forEach((titleDatum) => {
+            fileManDataFromStore.forEach((itmDatum) => {
+                if(titleDatum === itmDatum.docTitle) {
+                    let presentTitle = itmDatum.docTitle;
+                    for (let key in item) {
+                
+                        if(typeof(item[key]) === 'object') {
+                        
+                            for (const key4 in item[key]) {
+                                if (key4 === 'imgId') {
+                                    let imgIdSliced = item[key][key4].slice(item[key][key4].indexOf('-')+1);
+                                    if (imgIdSliced === item.value ) {
+                                        
+                                        dataForCounter.push(item[key]);
+                                        
+                                    }
+                                }
+                            }
+                            
+        
+                        }
+                    }
+
+                    return (
+                        <TouchableOpacity 
+                            key={item.value}
+                            style={[styles.card, {borderColor: dynamicColors[3],}]}
+                            onPress={() => navigation.navigate('table', {value: itmDatum.value, label: itmDatum.docTitle})}  
+                        >
+                            <View>
+                                <Text style={styles.cardHead}>{presentTitle}</Text>
+                            </View>
+                            <View>
+                                <FontAwesome5 
+                                    name="file-image"  
+                                    size={40} 
+                                    // color="#AB906D" 
+                                    color={item.colour}
+                                />
+                            </View>
+                            <View>
+                                    {/* <View style={styles.counter}>  */}
+                                        {/* <Text style={{fontSize: 20, width: '200%', fontWeight: 400}}>
+                                            {numberOfItems === 0? '' : numberOfItems }
+                                        </Text> */}
+                                        <ItemsCounter numberOfItems={countImgObj(item)} />
+                            </View>
+                        </TouchableOpacity>
+                    )
+                }
+            })
+        })
+        // return (
+        //     <TouchableOpacity 
+        //         key={item.value}
+        //         style={[styles.card, {borderColor: dynamicColors[3],}]}
+        //         onPress={() => navigation.navigate('table', {value: item.value, label: item.docTitle})}  
+        //     >
+        //         <View>
+        //             <Text style={styles.cardHead}>{item.docTitle}</Text>
+        //         </View>
+        //         <View>
+        //             <FontAwesome5 
+        //                 name="file-image"  
+        //                 size={40} 
+        //                 // color="#AB906D" 
+        //                 color={item.colour}
+        //             />
+        //         </View>
+        //         <View>
+        //                 {/* <View style={styles.counter}>  */}
+        //                     {/* <Text style={{fontSize: 20, width: '200%', fontWeight: 400}}>
+        //                         {numberOfItems === 0? '' : numberOfItems }
+        //                     </Text> */}
+        //                     <ItemsCounter numberOfItems={countImgObj(item)} />
+        //         </View>
+        //     </TouchableOpacity>
+        // )
     }
     return (
         <SafeAreaView style={styles.fileListStyle}>

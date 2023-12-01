@@ -7,7 +7,7 @@ export default class FileManPreviewDataShape {
         approvalDO,
         approvalDate,
         applicationAddress,
-        imgUri
+        // imgUri
     ) {
             this.applicantName = applicantName;
             this.fileNo = applicantNumber;
@@ -16,6 +16,6 @@ export default class FileManPreviewDataShape {
             this.approvingDo = approvalDO;
             this.approvedDate = approvalDate;
             this.applicationAddress = applicationAddress;
-            this.imgUri = imgUri;
+            // this.imgUri = imgUri;
     }
 }

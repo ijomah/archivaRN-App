@@ -75,27 +75,30 @@ export default function Tablescore(props) {
             
 
             const state = {...tableVal};
-            const tableData = [];
+            let tableData = [];
 
             const formedObjArr = [];
-            const objValue = []
+            // const objValue = []
             //Reshape your data to suite the component
             titleAndImgWithFormDet.forEach((datum) => {
-                
+                let i = 0;
                 if (datum.value === props.route.params.value) {
-                    objValue.push(datum.value)
-                    for (let key1 in datum) {
-                        if (typeof(datum[key1]) === 'object') {
+                    // objValue.push(datum.value)
+                    // for (let key1 in datum) {
+                        // if (typeof(datum[key1]) === 'object') {
                             var wellFormedData = new FileManTableDataShape(
-                                `${Number(key1)+1}`, 
+                                `${i+=1}`, 
                                 datum.applicationName, 
                                 datum.applicationNumber,
                                 datum.approvalDate,
-                                datum[key1].uri
+                                //new
+                                datum.value
+                                //old
+                                // datum[key1].uri
                             );
                             formedObjArr.push(wellFormedData)
-                        }
-                    }
+                        // }
+                    // }
                 }
             })    
 
@@ -114,15 +117,19 @@ export default function Tablescore(props) {
             
             const filterTableVal = (searchString) => {
                 // console.log('filter', searchString)
+                let filtered = [...tableData];
                 for(let i =0; i<tableData.length; ++i) {
-                    const filtered = tableData.filter((value) => {
-                       return value[i] === searchString
+                    filtered = tableData.filter((value) => {
+                        return value[i].toUpperCase().includes(searchString.toUpperCase())
+                    //    return value[i] === searchString
                     });
-                    if(filtered.length > 0) {
-                        console.log(filtered)
-                        setfilteredTableArr(filtered)
-                    }
+                    // if(filtered.length > 0) {
+                    //     console.log(filtered)
+                    //     setfilteredTableArr(filtered)
+                    // }
                 }
+                tableData = filtered;
+                // return filtered;
             }
 
             if (filteredTableArr.length === 0) {
@@ -150,8 +157,9 @@ export default function Tablescore(props) {
                                 navigation.navigate(
                                     'screenStack/docPreview', 
                                     {
-                                        docValue: objValue[0],
-                                        imgUrl: data
+                                        docValue: data
+                                        // docValue: objValue[0],
+                                        // imgUrl: data
                                     }
                                 )
                             }
@@ -204,7 +212,7 @@ export default function Tablescore(props) {
                                     //  if (filterTableVal.length === 0) 
                                     //     setfilteredTableArr(tableData)
                                     // filteredTableArr
-                                    filteredTableArr.map((rowData, index) => (
+                                    tableData.map((rowData, index) => (
                                         // <Row
                                         //     key={index}
                                         //     data={rowData}
