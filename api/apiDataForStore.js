@@ -29,6 +29,6 @@ export const dataForStore = (res) => {
         imgArray.push(apiImgInfo);
     })
     
-
+    // dispatch(addFileManagerDet(Object.assign({}, apiDocData, imgArray)))
     return Object.assign({}, apiDocData, imgArray);
 }

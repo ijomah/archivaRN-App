@@ -12,6 +12,7 @@ export default function ManageFileDetail({navigation}) {
     const dispatch = useDispatch();
     const [errForInput, setErrForInput] = useState({});   
     const [fileDetail, setFileDetail] = useState({
+        dbUserId: 'IDFromPhoneDba',
         applicationAddress: "",
         applicationName: "",
         applicationNumber: "",

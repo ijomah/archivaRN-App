@@ -4,15 +4,17 @@ let download = false;
 const baseUrl = 'http://192.168.110.37:3000';
 const path = '/api/v1/files';
 const downloaPathType = download? '/filessave' : '/filesview';
-const slug = 'img1700317933741.png';
+const slug = '1a129f446b45199464331c465a0bc47f'
+// 'img1700317933741.png';
+// uploads/1a129f446b45199464331c465a0bc47f
 
 const url = baseUrl+path+downloaPathType;
 
-export const downloadScannedImg = async (slug='img1700317933741.png') => {
+export const downloadScannedImg = async (slug='1a129f446b45199464331c465a0bc47f') => {
     // `http://192.168.158.227:3000/api/v1/files/filesview/${slug}`
     try {
-        const res = await FileSystem.downloadAsync(`https://archiver-4de6.onrender.com/api/v1/files/filesview/${slug}`,
-            FileSystem.documentDirectory + `${slug}`
+        const res = await FileSystem.downloadAsync(`https://archiver-4de6.onrender.com/api/v1/files/filessave/${slug}`,
+            FileSystem.documentDirectory+'archiving/' + `${slug}.png`
         )
         .then(({uri}) => {
             ToastAndroid.show(`Finished downloading, ${uri}`, ToastAndroid.LONG);

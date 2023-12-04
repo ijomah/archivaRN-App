@@ -9,7 +9,7 @@ import { saveData } from '../api/genApi';
 
 export default function ManageRegForm() {
     const [userForm, setUserForm] = useState({
-        // id: null,
+        userKey: Math.random().toString(35).substring(1),
         // label: '',
         // value: '',
     })

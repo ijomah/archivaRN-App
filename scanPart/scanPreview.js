@@ -113,8 +113,8 @@ export default ScanPreview = ({navigation}) => {
                             //api url from render
                             // https://archiver-4de6.onrender.com/api/v1/files
                             //ip for localhost - 127.0.0.1  -- http://127.0.0.1:3000/api/v1/files
-                            // let remoteUrl = 'https://archiver-4de6.onrender.com/api/v1/files'
-                            await FileSystem.uploadAsync('http://127.0.0.1:3000/api/v1/files',
+                            let remoteUrl = 'https://archiver-4de6.onrender.com/api/v1/files'
+                            await FileSystem.uploadAsync(remoteUrl,
                                 imgUriForServer,
                                 {
                                     uploadType: FileSystem.FileSystemUploadType.MULTIPART,

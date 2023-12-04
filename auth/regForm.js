@@ -29,6 +29,26 @@ const RegForm = ({setApplyNo, submitForm, errInData}) => {
                         }}
                     />
                 </View>
+                <View style={styles.appliName}>
+                    <MyTextInput 
+                        label="email:" 
+                        inputErr={errInData.lname}
+                        inputConfig={{
+                            placeholder:"email",
+                            onChangeText:setApplyNo.bind(this, 'email')
+                        }}
+                    />
+                </View>
+                <View style={styles.appliName}>
+                    <MyTextInput 
+                        label="password:" 
+                        inputErr={errInData.lname}
+                        inputConfig={{
+                            placeholder:"password",
+                            onChangeText:setApplyNo.bind(this, 'password')
+                        }}
+                    />
+                </View>
                 <View style={styles.phoneNumber}>
                     <MyTextInput 
                         label="Phone Number:"
@@ -108,13 +128,13 @@ const RegForm = ({setApplyNo, submitForm, errInData}) => {
 
                     <View style={styles.countryCode}>
                         <MyTextInput 
-                            label="Country Code:"
+                            label="Zip Code:"
                             inputErr={errInData.countryCode}
                             style={styles.countryCodeInput}
                             inputConfig={{
-                                placeholder:"Country Code:",
+                                placeholder:"Zip Code:",
                                 keyboardType:"number-pad",
-                                onChangeText:setApplyNo.bind(this, 'countryCode')
+                                onChangeText:setApplyNo.bind(this, 'zipCode')
                             }}
                         />
                     </View>

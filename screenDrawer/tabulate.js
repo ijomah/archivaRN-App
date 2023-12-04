@@ -13,9 +13,18 @@ import TableSearchBar from '../search/tableSearchBar';
 
 export default function Tablescore(props) {
     const contextAuth = useContext(FileManAuthContext);
+    const apidataFromFileManagerSlice = useSelector((state) => state
+        .titleReducer
+        .fileManagerDetFromStore
+        .detailsForFileManager
+    )
     
     //Note titleImgDataFromStore is having doc form details in addition
-    const titleAndImgWithFormDet = useSelector((state) => state.titleReducer.titleImgDataFromStore.titleWithImgUri);
+    const titleAndImgWithFormDet = useSelector(
+        (state) => state
+            .titleReducer
+            .titleImgDataFromStore
+            .titleWithImgUri);
     // const docFormData = useSelector((state) => state.titleReducer.commonToDocAndFileFormFromStore.docFormForApplicAndApproval);
     
     const [filteredTableArr,  setfilteredTableArr] = useState([]);

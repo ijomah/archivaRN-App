@@ -10,9 +10,17 @@ import CardApi from "../unitParts/cardApi";
 // import { dynamicColors } from "../util/Colors";
 import  * as FileSystem  from "expo-file-system"
 import { downloadScannedImg } from "../util/downloadFile";
+import { useSelector } from "react-redux";
+import { saveDownloadedFileAsync } from "../util/saveDownloadedFile";
 
 
 function DashboardPage({navigation}) {
+    const apidataFromFileManagerSlice = useSelector((state) => state
+        .titleReducer
+        .fileManagerDetFromStore
+        .detailsForFileManager
+    )
+
     let docItmList = [
         // {id: 200, file: 'Certificate', colour: dynamicColors[Math.floor(Math.random()*dynamicColors.length)]},
         // {id: 21, file: 'Receipt', colour: dynamicColors[Math.floor(Math.random()*dynamicColors.length)]},
@@ -28,10 +36,25 @@ function DashboardPage({navigation}) {
     //Make an api call to get applicant's name and db's id and applic_tag
     //get document label too
     //Display only applicant name, document label (ie name list of files)
+    const getApplicDetails = getDocumentInfo('https://archiver-4de6.onrender.com/api/v1/persons');
 
-    //you can keep the applic_tag and db's id for querying img table when needed
-    const getDocumentDetails = getDocumentInfo('https://archiver-4de6.onrender.com/api/v1/files')
+
+
+
+    //you can keep the applic_tag and db's files.id for querying img table when needed
     
+    const getScannedWork = async () => {
+        const getImgFileInfo = getDocumentInfo(`https://archiver-4de6.onrender.com/api/v1/files/${id}`);
+        let fullUri;
+        console.log('Img info', getImgFileInfo[0].mime_type, getImgFileInfo[0].img_name)    
+        if(getImgFileInfo.length > 1) {
+            fullUri = await Promise.all(getImgFileInfo.map(imgName => downloadScannedImg(imgName.img_name) ));
+        } else {
+            fullUri = await downloadScannedImg(getImgFileInfo[0].img_name);
+        }
+        saveDownloadedFileAsync(fullUri);
+    }
+
     const getData = () => {
 
         //old commented
@@ -51,13 +74,15 @@ function DashboardPage({navigation}) {
     }
 
     useEffect(() => {
+        // const resp = getDocumentInfo('url needed');
         downloadScannedImg();
+        // const dataObj = dataForStore(resp);
+        // dispatch(dataObj);
     }, [])
 
     
     return (
         <View>
-            
             <View style={styles.btnAdjust}>
                 <View>
                     {/* This has to make an api call to retrieve

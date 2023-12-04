@@ -29,13 +29,33 @@ const FileDetailForm = ({setFileDetForm, errCheck, submitFileDetForm, navigation
                         }}
                     />
                 </View>
-                <View style={styles.appliName}>
+                {/* <View style={styles.appliName}>
                     <MyTextInput 
                         label="Applicant Name:" 
                         inputErr={errCheck.applicationName}
                         inputConfig={{
                             placeholder:"Applicant Name",
                             onChangeText:setFileDetForm.bind(this, 'applicationName')
+                        }}
+                    />
+                </View> */}
+                <View style={styles.appliName}>
+                    <MyTextInput 
+                        label="First Name:" 
+                        inputErr={errCheck.applicationName}
+                        inputConfig={{
+                            placeholder:"First name",
+                            onChangeText:setFileDetForm.bind(this, 'fName')
+                        }}
+                    />
+                </View>
+                <View style={styles.appliName}>
+                    <MyTextInput 
+                        label="Last Name:" 
+                        inputErr={errCheck.applicationName}
+                        inputConfig={{
+                            placeholder:"Last Name",
+                            onChangeText:setFileDetForm.bind(this, 'lname')
                         }}
                     />
                 </View>
@@ -101,7 +121,7 @@ const FileDetailForm = ({setFileDetForm, errCheck, submitFileDetForm, navigation
                         />
                     </View>
 
-                    <View style={styles.state}>
+                    {/* <View style={styles.state}>
                         <MyTextInput 
                             label="Application Address:"
                             inputErr={errCheck.applicationAddress}
@@ -112,7 +132,88 @@ const FileDetailForm = ({setFileDetForm, errCheck, submitFileDetForm, navigation
                                 onChangeText:setFileDetForm.bind(this, 'applicationAddress')
                             }}
                         />
+                    </View> */}
+
+{/* Address things                     */}
+                    
+                <View>
+                    <View style={styles.houseNumber}>
+                        <MyTextInput 
+                            style={styles.houseInput}
+                            label="House Number:"
+                            inputErr={errCheck.houseNo}
+                            inputConfig={{
+                                placeholder:"House Number:",
+                                keyboardType:"phone-pad",
+                                onChangeText:setFileDetForm.bind(this, 'houseNo')
+                            }}
+                        />
                     </View>
+
+                    <View style={styles.streetName}>
+                        <MyTextInput 
+                            label="Street Name:"
+                            inputErr={errCheck.streetName}
+                            keyboardType="default"
+                            style={styles.StreetInput}
+                            inputConfig={{
+                                placeholder:"Street Name:",
+                                onChangeText:setFileDetForm.bind(this, 'streetName')
+                            }}
+                        />
+                    </View>
+
+                    <View style={styles.areaName}>
+                        <MyTextInput 
+                            label="Area Name:"
+                            inputErr={errCheck.areaName}
+                            style={styles.areaInput}
+                            inputConfig={{
+                                placeholder:"Area Name:",
+                                keyboardType:"default",
+                                onChangeText:setFileDetForm.bind(this, 'areaName')
+                            }}
+                        />
+                    </View>
+
+                    <View style={styles.state}>
+                        <MyTextInput 
+                            label="State:"
+                            inputErr={errCheck.state}
+                            style={styles.stateInput}
+                            inputConfig={{
+                                placeholder:"State:",
+                                keyboardType:"default",
+                                onChangeText:setFileDetForm.bind(this, 'state')
+                            }}
+                        />
+                    </View>
+
+                    <View style={styles.country}>
+                        <MyTextInput 
+                            label="Country:"
+                            inputErr={errCheck.country}
+                            style={styles.countryInput}
+                            inputConfig={{
+                                placeholder:"Country:",
+                                onChangeText:setFileDetForm.bind(this, 'country')
+                            }}
+                        />
+                    </View>
+
+                    <View style={styles.countryCode}>
+                        <MyTextInput 
+                            label="Zip Code:"
+                            inputErr={errCheck.countryCode}
+                            style={styles.countryCodeInput}
+                            inputConfig={{
+                                placeholder:"Zip Code:",
+                                keyboardType:"number-pad",
+                                onChangeText:setFileDetForm.bind(this, 'zipCode')
+                            }}
+                        />
+                    </View>
+                </View>
                 {/* Ability to add additional input field by the user
                 Use a fontawesome icon to give the use this ability */}
                 

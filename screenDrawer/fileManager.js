@@ -28,6 +28,11 @@ export default function FileManager() {
     //         {valueId: 92, label: 'Lab   Files', colour: dynamicColors[3], totalCount: 341},
     //         {valueId: 650, label: 'General Files', colour: dynamicColors[3], totalCount: 785}
     //     ]
+    const apidataFromFileManagerSlice = useSelector((state) => state
+        .titleReducer
+        .fileManagerDetFromStore
+        .detailsForFileManager
+    )
 
         // const fileItemList = useSelector((state) => state.titleReducer.fileManagerDetFromStore.detailsForFileManager)
         // const titleFromStore = useSelector((state) => state.titleReducer.titlesDataFromStore.titles)

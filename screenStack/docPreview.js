@@ -17,7 +17,13 @@ import { saveDownloadedFileAsync } from "../util/saveDownloadedFile";
 
 
 function DocPreview({route}) {
-    prevImgDataFromStore = useSelector((state) => 
+    const apidataFromFileManagerSlice = useSelector((state) => state
+        .titleReducer
+        .fileManagerDetFromStore
+        .detailsForFileManager
+    )
+    
+    const prevImgDataFromStore = useSelector((state) => 
     (state
         .titleReducer
         .titleImgDataFromStore
