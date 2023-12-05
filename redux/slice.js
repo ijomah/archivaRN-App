@@ -45,10 +45,15 @@ const titleImgSlice = createSlice({
             state.titleWithImgUri.push(action.payload)
         },
         removeDocTitleWithImgUri: (state, action) => {
-            state.titleWithImgUri.splice(state.titleWithImgUri.indexOf(action.payload.value), 1)
+            state.titleWithImgUri.splice(state.titleWithImgUri.indexOf(action.payload), 1)
+            // state.titleWithImgUri.splice(state.titleWithImgUri.indexOf(action.payload.value), 1)
+        },
+        removeAllDocTitleWithImgUri: (state, action) => {
+            state.titleWithImgUri.splice(action.payload)
         },
         removeFileTitleWithImgUri: (state, action) => {
-            state.titleWithImgUri.splice(state.titleWithImgUri.indexOf(action.payload.value), 1)
+            state.titleWithImgUri.splice(state.titleWithImgUri.indexOf(action.payload), 1)
+            // state.titleWithImgUri.splice(state.titleWithImgUri.indexOf(action.payload.value), 1)
         },
         removeImgUriOnly: (state, action) => {
             state.titleWithImgUri.forEach((titleWithImgUriObj)=> {

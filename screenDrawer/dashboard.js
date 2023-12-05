@@ -36,8 +36,7 @@ function DashboardPage({navigation}) {
     //Make an api call to get applicant's name and db's id and applic_tag
     //get document label too
     //Display only applicant name, document label (ie name list of files)
-    const getApplicDetails = getDocumentInfo('https://archiver-4de6.onrender.com/api/v1/persons');
-
+    
 
 
 
@@ -74,8 +73,10 @@ function DashboardPage({navigation}) {
     }
 
     useEffect(() => {
+        const getApplicDetails = getDocumentInfo('https://archiver-4de6.onrender.com/api/v1/persons');
+
         // const resp = getDocumentInfo('url needed');
-        downloadScannedImg();
+        // downloadScannedImg();
         // const dataObj = dataForStore(resp);
         // dispatch(dataObj);
     }, [])

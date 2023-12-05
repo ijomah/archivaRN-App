@@ -1,6 +1,6 @@
 import { handleResponse, handleError } from './apiUtil';
 // const baseUrl = process.env.RN_APP_API_URL + '/api/v1/register';
-const baseUrl = 'http://192.168.158.227:3000/api/v1/register'
+const baseUrl = 'https://archiver-4de6.onrender.com/api/v1/register'
 
 export const getDocumentInfo = async (url) => {
     return await fetch(url)

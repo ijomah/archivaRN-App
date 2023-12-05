@@ -95,7 +95,9 @@ export default function DocumentType({navigation}) {
     return(
         <SafeAreaView style={styles.dropdownPages}>
             <View>
-                <Text style={styles.docsTitle}>Document Titles:</Text>
+                <Text 
+                  style={styles.docsTitle}
+                >Document Titles:</Text>
                 {/* As docs title is typed and submitted, the array
                 is populated. The SelectDropdown comp picks from that
                 array.
@@ -184,7 +186,9 @@ export default function DocumentType({navigation}) {
           />
             {/* <View style={styles.space}></View> */}
             <View style={styles.inputSelect}>
-                <Text style={styles.inputDocsTitle}>Enter a Name for your Document</Text>
+                <Text 
+                  style={styles.inputDocsTitle}
+                >Enter a Name for your Document</Text>
                 <TextInput 
                   style={styles.docsTitleTextInput}
                   value={documentTitle}

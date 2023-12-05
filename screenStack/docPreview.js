@@ -6,7 +6,6 @@ import {
     SafeAreaView, 
     StyleSheet, 
     View, 
-    View, 
     Text, 
     Button,
     FlatList

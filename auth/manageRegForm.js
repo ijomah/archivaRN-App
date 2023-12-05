@@ -25,7 +25,7 @@ export default function ManageRegForm() {
 
     const submitForm = async () => {
         // await storeData(userForm);
-        if(!isInputValid(fileDetail).isErr) {
+        if(!isInputValid(userForm).isErr) {
 
             return setErrForRegInput(isInputValid(userForm).errObj);
          }

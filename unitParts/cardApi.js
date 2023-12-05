@@ -4,12 +4,13 @@ import { AntDesign, FontAwesome } from '@expo/vector-icons';
 import * as Sharing from 'expo-sharing';
 import DeleteBtn from "../buttonParts/deleteBtn";
 import EditBtn from "../buttonParts/editBtn";
+import { useDispatch } from "react-redux";
 
 function CardApi({prevImgObj}) {
     const [hasValue, setHasValue] = useState(true) 
     const [inputText, setInputText] = useState('')
     const textValue = prevImgObj.imgName;
-    
+    const dispatch = useDispatch();
 
     const shareScannedImage = (shareUrl) => {
         if ( Sharing.isAvailableAsync() ) {
@@ -22,6 +23,8 @@ function CardApi({prevImgObj}) {
             ToastAndroid.show('Sharing not available in this device', ToastAndroid.SHORT)
         }
     }
+
+    
     return (
         <View style={{flexDirection: 'row', justifyContent: 'space-evenly', width: 380, backgroundColor: 'white', paddingVertical: 14, borderRadius: 10}}>
             <View>
@@ -49,8 +52,8 @@ function CardApi({prevImgObj}) {
                     </TouchableOpacity>
                     <TouchableOpacity>
                         <EditBtn 
-                            imgIdInObj={prevImgObj.imgId}
-                            onStartEdit={setHasValue}
+                            //imgIdInObj={prevImgObj.imgId}
+                            // onStartEdit={setHasValue}
                          />
                     </TouchableOpacity>
 
@@ -60,7 +63,9 @@ function CardApi({prevImgObj}) {
                     >
                         <AntDesign name="clouduploado" size={24} color="black" />
                 </TouchableOpacity> */}
-                    <DeleteBtn imgIdInObj={prevImgObj.imgId} />
+                    <DeleteBtn 
+                        imgIdInObj={prevImgObj.imgId} 
+                    />
                     {/* <TouchableOpacity>
                         <AntDesign name="delete" size={24} color="black" />
                     </TouchableOpacity> */}

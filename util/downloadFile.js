@@ -10,14 +10,27 @@ const slug = '1a129f446b45199464331c465a0bc47f'
 
 const url = baseUrl+path+downloaPathType;
 
+const imgDir = FileSystem.documentDirectory+'archiving/';
+const imgFileUri = (pixId) => imgDir + `${pixId}.jpg`;
+
+//Check if dir exists if not make one
+async function ensureDirExists() {
+    const dirInfo = await FileSystem.getInfoAsync(imgDir);
+    if (!dirInfo.exists) {
+      console.log("Image directory doesn't exist, creating…");
+      await FileSystem.makeDirectoryAsync(imgDir, { intermediates: true });
+    }
+  }
+
 export const downloadScannedImg = async (slug='1a129f446b45199464331c465a0bc47f') => {
     // `http://192.168.158.227:3000/api/v1/files/filesview/${slug}`
+    await ensureDirExists();
     try {
         const res = await FileSystem.downloadAsync(`https://archiver-4de6.onrender.com/api/v1/files/filessave/${slug}`,
-            FileSystem.documentDirectory+'archiving/' + `${slug}.png`
+            imgDir + `${slug}.png`
         )
         .then(({uri}) => {
-            ToastAndroid.show(`Finished downloading, ${uri}`, ToastAndroid.LONG);
+           // ToastAndroid.show(`Finished downloading, ${uri}`, ToastAndroid.LONG);
             console.log('phone fs', FileSystem.documentDirectory);
             console.log('Downloading done!', uri);
                     //LIST OF console.logs

@@ -5,7 +5,7 @@ import * as FileSystem from 'expo-file-system';
 import { CommonActions } from "@react-navigation/native";
 import { useSelector, useDispatch } from "react-redux";
 import CardApi from "../unitParts/cardApi";
-import { addDocTitleWithImgUri } from "../redux/slice"
+import { addDocTitleWithImgUri, removeDocTitleWithImgUri, removeAllDocTitleWithImgUri } from "../redux/slice"
 import { storeData } from "../util/dbService";
 import DeleteBtn from "../buttonParts/deleteBtn";
 
@@ -30,6 +30,7 @@ export default ScanPreview = ({navigation}) => {
 
     const dispatch = useDispatch();
    const [prevImg, setPrevImg] = useState([]);
+   let itemValueToDelete = []
     // console.log('new prev', prevImg)
 
     const setImgForPreview = () => {
@@ -100,6 +101,13 @@ export default ScanPreview = ({navigation}) => {
         }
     }
 
+    const  deleteThis = (deletableItem) => {
+        prevImgFromStore.forEach((itemToDelete) => {
+
+        })
+        dispatch(removeDocTitleWithImgUri(deletableItem))
+    }
+
     const uploadScannedImg = async () => {
         // console.log('copy', prevImgFromStore)
             for (const oneBigObj of prevImgFromStore) {
@@ -108,11 +116,11 @@ export default ScanPreview = ({navigation}) => {
                         let imgUriForServer = oneBigObj[objkeys].uri;
                         let imgId = oneBigObj[objkeys].imgId;
                         let noImg = delete oneBigObj[objkeys];
-                        console.log('xpected deleted uri: ', oneBigObj[objkeys]);
+                        // console.log('xpected deleted uri: ', oneBigObj[objkeys]);
                         try {
                             //api url from render
                             // https://archiver-4de6.onrender.com/api/v1/files
-                            //ip for localhost - 127.0.0.1  -- http://127.0.0.1:3000/api/v1/files
+                            //ip for localhost - 127.0.0.1  -- http://192.168.249.176:3000/api/v1/files
                             let remoteUrl = 'https://archiver-4de6.onrender.com/api/v1/files'
                             await FileSystem.uploadAsync(remoteUrl,
                                 imgUriForServer,
@@ -135,21 +143,24 @@ export default ScanPreview = ({navigation}) => {
             }
         console.log('I need to upload ScannedImages');
         ToastAndroid.show('Uploading..., please wait!', ToastAndroid.SHORT)
+       //Empty the store at this point
+        // dispatch(removeAllDocTitleWithImgUri(0))
         // goto dashboard after uploading
-        navigation.dispatch(
-            CommonActions.reset({
-                index: 0,
-                routes: [
-                    // {name: 'home'},
-                    // {name: 'auth/login'},
-                    {name: 'screenDrawer/myDrawer'},
-                    // {name: 'screenStack/docPreview'}
-                ]
-            })
-        )
+        // navigation.dispatch(
+        //     CommonActions.reset({
+        //         index: 0,
+        //         routes: [
+        //             // {name: 'home'},
+        //             // {name: 'auth/login'},
+        //             {name: 'screenDrawer/myDrawer'},
+        //             // {name: 'screenStack/docPreview'}
+        //         ]
+        //     })
+        // )
 
     }
 
+    // const deleteScanImg = (deleteItm) => dispatch(deleteScanImg(deleteItm))
 
   
 
@@ -166,7 +177,7 @@ export default ScanPreview = ({navigation}) => {
                 </TouchableOpacity> */}
 
                 <TouchableOpacity 
-                    //onPress={deleteScanImg} 
+                     onPress={() => deleteThis(prevImgObj)}
                     style={styles.deleteBtnStyle}
                 >
                     {/* <DeleteBtn localArr={prevImg} dataTag={prevImg[0].imgId} /> */}

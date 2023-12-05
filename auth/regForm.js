@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity, Button, TextInput } from 'react-native';
 import MyTextInput from "../unitParts/reuseTextInput";
 import { ScrollView } from "react-native";
+import { SafeAreaView } from "react-native";
 
 const RegForm = ({setApplyNo, submitForm, errInData}) => {
     
     return (
-        <ScrollView style={{height: 780, conentContainerStyle: {justifyContent: 'center'}}}>
+        <SafeAreaView style={{conentContainerStyle: {justifyContent: 'center'}}}>
+        <ScrollView>
             <View style={styles.formPage}>
                 <Text style={{fontSize: 20, fontWeight:500, marginBottom: 20}}>Registration Form</Text>
                 <View style={styles.appliNo}>
@@ -163,6 +165,7 @@ const RegForm = ({setApplyNo, submitForm, errInData}) => {
                 </View>
             </View>
         </ScrollView>
+        </SafeAreaView>
     )
 }
 
@@ -171,6 +174,8 @@ export default RegForm
 styles = StyleSheet.create({
     formPage: {
         alignItems: 'center',
+        position: 'relative',
+        justifyContent: 'center',
         // backgroundColor: 'red'
         
     },

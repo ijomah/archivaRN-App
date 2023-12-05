@@ -12,16 +12,21 @@ export default function ManageFileDetail({navigation}) {
     const dispatch = useDispatch();
     const [errForInput, setErrForInput] = useState({});   
     const [fileDetail, setFileDetail] = useState({
-        dbUserId: 'IDFromPhoneDba',
-        applicationAddress: "",
-        applicationName: "",
+        dbUserId: 2,
         applicationNumber: "",
+        fName: "",
+        lName: "",
         fileYear: "",
-        approvalDO: "",
+        approvalDo: "",
         approvalDate: "",
         approvalType: "",
         dcbNumber: "",
-        
+        country: "", 
+        houseNo: "",
+        state: "",
+        streetName: "",
+        areaName: "",
+        zipCode: ""
         // id: Math.random().toString(25).substring(7),
         // applicationAddress: null || " ",
         // applicationName: null || " ",
@@ -45,16 +50,16 @@ export default function ManageFileDetail({navigation}) {
 
     // const clearInput = React.useCallback(() => onchangeText(''), []);
 
-    const submitFileDetForm = async (isBool) => {
+    const submitFileDetForm = (isBool) => {
         // const res = await insertToApprAndApplicTable(fileDetail)
         // console.log('sent to db', isInputValid(fileDetail).errObj);
-        
-        
 
         if(!isInputValid(fileDetail).isErr) {
-
-           return setErrForInput(isInputValid(fileDetail).errObj);
+            setErrForInput(isInputValid(fileDetail).errObj);
+            console.log('err obj in input', fileDetail);
+           return 
         }
+
         dispatch(addDocFormTo(fileDetail));
         //clearInput();
         // console.log(JSON.parse(fileDetail))
@@ -69,6 +74,7 @@ export default function ManageFileDetail({navigation}) {
                         :       navigation.navigate('screenStack/fileType')
             }]
         )
+        navigation.navigate('screenStack/documentType') 
     }
     
     return (
