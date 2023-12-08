@@ -9,9 +9,10 @@ import { useDispatch } from "react-redux";
 function CardApi({prevImgObj}) {
     const [hasValue, setHasValue] = useState(true) 
     const [inputText, setInputText] = useState('')
-    const textValue = prevImgObj.imgName;
+    const textValue = prevImgObj.imgName || prevImgObj.docName;
     const dispatch = useDispatch();
-
+    const blurhash =
+    '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
     const shareScannedImage = (shareUrl) => {
         if ( Sharing.isAvailableAsync() ) {
             Sharing.shareAsync(shareUrl, {
@@ -26,11 +27,27 @@ function CardApi({prevImgObj}) {
 
     
     return (
-        <View style={{flexDirection: 'row', justifyContent: 'space-evenly', width: 380, backgroundColor: 'white', paddingVertical: 14, borderRadius: 10}}>
+        <View 
+            style={{
+                flexDirection: 'row', 
+                justifyContent: 'space-evenly', width: 380, backgroundColor: 'white', 
+                paddingVertical: 14, 
+                borderRadius: 10}}
+        >
             <View>
                     <Image 
-                        style={{width: 70, height: 90, borderRadius: 10}}
-                        source={prevImgObj.uri === undefined ? require('./../assets/bgpixel.jpg') : {uri: prevImgObj.uri}} />
+                        style={{
+                            width: 70,
+                            height: 90, 
+                            borderRadius: 10
+                        }}
+                        source={prevImgObj.uri === undefined ? 
+                            // require('./../assets/bgpixel.jpg')
+                            blurhash 
+                            : 
+                            {uri: prevImgObj.uri}
+                        } 
+                    />
             </View>
             <View style={{justifyContent: 'space-between', alignContent: 'center'}}>
                 <View style={{}}>

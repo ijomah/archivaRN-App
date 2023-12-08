@@ -8,6 +8,7 @@ import CardApi from "../unitParts/cardApi";
 import { addDocTitleWithImgUri, removeDocTitleWithImgUri, removeAllDocTitleWithImgUri } from "../redux/slice"
 import { storeData } from "../util/dbService";
 import DeleteBtn from "../buttonParts/deleteBtn";
+import { BACKEND_URL } from "../api/apiEnv";
 
 export default ScanPreview = ({navigation}) => {
     const titleForDocFromStore = useSelector((state) => 
@@ -29,6 +30,7 @@ export default ScanPreview = ({navigation}) => {
 
 
     const dispatch = useDispatch();
+    const [serverRes, setServerRes] = useState(null);
    const [prevImg, setPrevImg] = useState([]);
    let itemValueToDelete = []
     // console.log('new prev', prevImg)
@@ -120,20 +122,21 @@ export default ScanPreview = ({navigation}) => {
                         try {
                             //api url from render
                             // https://archiver-4de6.onrender.com/api/v1/files
-                            //ip for localhost - 127.0.0.1  -- http://192.168.249.176:3000/api/v1/files
-                            let remoteUrl = 'https://archiver-4de6.onrender.com/api/v1/files'
-                            await FileSystem.uploadAsync(remoteUrl,
-                                imgUriForServer,
-                                {
-                                    uploadType: FileSystem.FileSystemUploadType.MULTIPART,
-                                    headers: {},
-                                    fieldName: 'photo',
-                                    httpMethod: 'PATCH',
-                                    parameters: {"imgId":imgId, "data":JSON.stringify(oneBigObj) }
-                                    // parameters: JSON.stringify(oneBigObj)
-                                }
+                            //ip for localhost - 127.0.0.1  -- http://192.168.249.176:3000/api/v1/files                            
+                            const serverResp = await FileSystem
+                                .uploadAsync(BACKEND_URL+'/api/v1/files',
+                                    imgUriForServer,
+                                    {
+                                        uploadType: FileSystem.FileSystemUploadType.MULTIPART,
+                                        headers: {},
+                                        fieldName: 'photo',
+                                        httpMethod: 'PATCH',
+                                        parameters: {"imgId":imgId, "data":JSON.stringify(oneBigObj) }
+                                        // parameters: JSON.stringify(oneBigObj)
+                                    }
                             )
-                            console.log('res: file upload: ', imgId);
+                            setServerRes(serverResp)
+                            console.log('res from server: ', serverRes);
                         } catch (error) {
                             console.log('err from try', error);
                         }
@@ -144,19 +147,23 @@ export default ScanPreview = ({navigation}) => {
         console.log('I need to upload ScannedImages');
         ToastAndroid.show('Uploading..., please wait!', ToastAndroid.SHORT)
        //Empty the store at this point
-        // dispatch(removeAllDocTitleWithImgUri(0))
-        // goto dashboard after uploading
-        // navigation.dispatch(
-        //     CommonActions.reset({
-        //         index: 0,
-        //         routes: [
-        //             // {name: 'home'},
-        //             // {name: 'auth/login'},
-        //             {name: 'screenDrawer/myDrawer'},
-        //             // {name: 'screenStack/docPreview'}
-        //         ]
-        //     })
-        // )
+       if(serverRes.status === 200) {
+            // dispatch(removeAllDocTitleWithImgUri(0))
+            // goto dashboard after uploading
+            // navigation.dispatch(
+            //     CommonActions.reset({
+            //         index: 0,
+            //         routes: [
+            //             // {name: 'home'},
+            //             // {name: 'auth/login'},
+            //             {name: 'screenDrawer/myDrawer'},
+            //             // {name: 'screenStack/docPreview'}
+            //         ]
+            //     })
+            // )
+        } else {
+            //do somethg
+        }
 
     }
 

@@ -5,7 +5,9 @@ import RegForm from './regForm';
 import { storeData } from '../util/dbService';
 import { useNavigation } from '@react-navigation/native';
 import { isInputValid } from '../unitParts/errFunc';
-import { saveData } from '../api/genApi';
+// import { saveData } from '../api/genApi';
+import axios from 'axios';
+import { readUserTable } from '../util/dbService';
 
 export default function ManageRegForm() {
     const [userForm, setUserForm] = useState({
@@ -30,9 +32,22 @@ export default function ManageRegForm() {
             return setErrForRegInput(isInputValid(userForm).errObj);
          }
         //  '/api/v1/register'
-        saveData(userForm);
+        // saveData(userForm);
+        axios.post(
+            'http://192.168.25.138:3000/api/v1/register',
+            // 'https://archiver-4de6.onrender.com/api/v1/register',
+            userForm
+        ).then((postRes) => {
+            console.log('axios post reg(userId)', postRes.data[0]);
+            console.log('looking', {...postRes.data[0], date: new Date()})
+            storeData({...postRes.data[0], date: new Date().toISOString()})
+        })
+        .catch((error) => {
+            console.log('axios post regErr', error);
+        })
         // dispatch(addRegFormTo(userForm));
-        navigation.navigate('auth/login')
+        
+        // navigation.navigate('auth/login')
         Alert.alert(
             'Form', 
             'Form Submitted!',
@@ -41,6 +56,12 @@ export default function ManageRegForm() {
                 // onPress: navigation.navigate('auth/login')
             }]
             )
+
+            readUserTable().then((dat) => {
+                console.log('Checking local db id', dat);
+               let phoneDbId = dat.rows._array[0].dbUser_id
+            console.log('phoneDbId', phoneDbId)
+            })
     }
     
     return (

@@ -1,7 +1,9 @@
 export class ApiImageDataShape {
-    constructor(id, name, img) {
-        this.imgId = id,
-        this.imgName = name,
-        this.uri = img
+    constructor(id, humanName, name, mimeType, imgUri) {
+        this.imgId = id;
+        this.imgHumanName = humanName;
+        this.imgName = name;
+        this.mimeType = mimeType;
+        this.imgUri = imgUri;
     }
 }

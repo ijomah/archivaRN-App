@@ -1,8 +1,9 @@
 export class ShapeApiData {
     constructor(
         tag, 
-        addr, 
-        name,
+        // addr, 
+        fName,
+        lName,
         num,
         approvDo,
         approvDate,
@@ -10,12 +11,15 @@ export class ShapeApiData {
         dcbNo,
         fileYr,
         docTitle,
-        value
+        value,
+        fileId,
+        userKey
 
     ) {
         this.applicTag= tag,
-        this.applicationAddress= addr,
-        this.applicationName= name,
+        // this.applicationAddress= addr,
+        this.fName= fName,
+        this.lName= lName,
         this.applicationNumber= num,
         this.approvalDO= approvDo,
         this.approvalDate= approvDate,
@@ -23,6 +27,8 @@ export class ShapeApiData {
         this.dcbNumber= dcbNo,
         this.fileYear= fileYr,
         this.docTitle= docTitle,
-        this.value= value
+        this.value= value,
+        this.fileId = fileId,
+        this.userKey = userKey
     }
 }

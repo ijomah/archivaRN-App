@@ -27,7 +27,8 @@ import scanPreview from './scanPart/scanPreview';
 import ManageRegForm from './auth/manageRegForm';
 import ManageFileDetail from './pages/manageFileDetForm';
 import DocPreview from './screenStack/docPreview';
-import { dbInit, readData } from './util/dbService';
+import { dbInit, readUserTable } from './util/dbService';
+import { UserIdContext } from './contextStore/userIdContext';
 // import LogoTitle from './unitParts/headerLogo';
 
 const Stack = createNativeStackNavigator();
@@ -41,20 +42,26 @@ function LogoTitle() {
 }
 
 export default function App() {
- 
+ const [userDbId, setUserDbId] = useState()
   useEffect(() => {
-  dbInit()
-    .then(() => {
-      //console.log('db is ready!');
-    //  console.log('db reader', readData())
+    readUserTable().then((dbId) => {
+      setUserDbId(dbId.rows._array[0].dbuser_id)
+      // let dbUserId = dbId.rows._array[0].dbuser_id 
+      // return dbUserId
     })
-    .catch((err) => {
-      console.log(err)
-    });
+    dbInit()
+      .then(() => {
+        //console.log('db is ready!');
+      //  console.log('db reader', readData())
+      })
+      .catch((err) => {
+        console.log(err)
+      });
  }, [])
 
   return (
     <FileManagerContextAuthProvider>
+      <UserIdContext.Provider value={userDbId}>
       <Provider store={store}>
         <NavigationContainer>
         <StatusBar backgroundColor="#fb6161"/>
@@ -165,6 +172,7 @@ export default function App() {
           </Stack.Navigator>
         </NavigationContainer>
       </Provider>
+      </UserIdContext.Provider>
     </FileManagerContextAuthProvider>
   )
 }

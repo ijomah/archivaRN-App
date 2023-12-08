@@ -90,6 +90,12 @@ export function dbInit() {
                 // }
                 );
 
+                tx.executeSql(`CREATE TABLE IF NOT EXISTS apidbusers (
+                    id INTEGER NOT NULL PRIMARY KEY,
+                    dbuser_id INTEGER,
+                    date_created TEXT
+                )`);
+
                 tx.executeSql(`CREATE TABLE IF NOT EXISTS applic_addresses (
                     id INTEGER,
                     address_id INTEGER,
@@ -293,87 +299,90 @@ export const storeData = (docData) => {
         db.transaction((tx) => {
             // for (const oneItm in docData) {
                 tx.executeSql(`
-                    INSERT INTO addresses (
-                        house_no, street_name, state) 
-                    VALUES (?, ?, ?)`,
+                    INSERT INTO apidbusers (
+                        dbuser_id, 
+                        date_created
+                        ) 
+                    VALUES (?, ?)`,
                     [
-                        docData.houseNumber,
-                        docData.streetName,
-                        docData.state
+                        docData.id,
+                        docData.date
+                        // docData.streetName,
+                        // docData.state
                     ],
                     (_, res) => {
-                        console.log(res)
+                        console.log('apidbusers good', res)
                         resolve(res)
                     },
                     (_, err) => {
-                        console.log(err)
+                        console.log('apidbusers', err)
                         reject(err)
                     }
                 );
 
-                tx.executeSql(`
-                    INSERT INTO countries (
-                        country_code,
-                        country_name,
-                        zip_code
-                    ) VALUES (?, ?, ?)`,
-                    [
-                        docData.countryCode,
-                        docData.country,
-                        docData.fileYear
-                    ],
-                    (_, res) => {
-                        console.log(res)
-                        resolve(res)
-                    },
-                    (_, err) => {
-                        console.log(err)
-                        reject(err)
-                    }
-                );
-//Remember to drop column applic_name here. 
-//it is now in name table
-//Relationship is many to many
-                tx.executeSql(`
-                    INSERT INTO applications (
-                        applic_tag
-                        applic_no,
-                        applic_name,
-                        applic_dob
-                    ) VALUES (?, ?, ?)`,
-                    [
-                        docData.phoneNo,
-                        docData.value,
-                        docData.fname,
-                        docData.fileYear,
-                    ],
-                    (_, res) => {
-                        console.log(res)
-                        resolve(res)
-                    },
-                    (_, err) => {
-                        console.log(err)
-                        reject(err)
-                    }
-                )
+//                 tx.executeSql(`
+//                     INSERT INTO countries (
+//                         country_code,
+//                         country_name,
+//                         zip_code
+//                     ) VALUES (?, ?, ?)`,
+//                     [
+//                         docData.countryCode,
+//                         docData.country,
+//                         docData.fileYear
+//                     ],
+//                     (_, res) => {
+//                         console.log(res)
+//                         resolve(res)
+//                     },
+//                     (_, err) => {
+//                         console.log(err)
+//                         reject(err)
+//                     }
+//                 );
+// //Remember to drop column applic_name here. 
+// //it is now in name table
+// //Relationship is many to many
+//                 tx.executeSql(`
+//                     INSERT INTO applications (
+//                         applic_tag
+//                         applic_no,
+//                         applic_name,
+//                         applic_dob
+//                     ) VALUES (?, ?, ?)`,
+//                     [
+//                         docData.phoneNo,
+//                         docData.value,
+//                         docData.fname,
+//                         docData.fileYear,
+//                     ],
+//                     (_, res) => {
+//                         console.log(res)
+//                         resolve(res)
+//                     },
+//                     (_, err) => {
+//                         console.log(err)
+//                         reject(err)
+//                     }
+//                 )
 
-                tx.executeSql(`
-                INSERT INTO names (f_name, l_name, m_name)
-                VALUES (?, ?, ?)`,
-                [
-                    docData.fName,
-                    docData.lName,
-                    docData.areaName
-                ],
-                (_, res) => {
-                    console.log(res)
-                    resolve(res)
-                },
-                (_, err) => {
-                    console.log(err)
-                    reject(err)
-                }
-                )
+//                 tx.executeSql(`
+//                 INSERT INTO names (f_name, l_name, m_name)
+//                 VALUES (?, ?, ?)`,
+//                 [
+//                     docData.fName,
+//                     docData.lName,
+//                     docData.areaName
+//                 ],
+//                 (_, res) => {
+//                     console.log(res)
+//                     resolve(res)
+//                 },
+//                 (_, err) => {
+//                     console.log(err)
+//                     reject(err)
+//                 }
+//                 )
                 // tx.executeSql(`INSERT INTO jargonbox (
                 //         img_url,
                 //         address,
@@ -449,12 +458,13 @@ export const insertToApprAndApplicTable = (applicData) => {
 }
 
 
-export const readApprAndApplicTable = () => {
-    const readApprAndApplicTablePromise = new Promise((resolve, reject) => {
+export const readUserTable = () => {
+    const readUserPromise = new Promise((resolve, reject) => {
         db.transaction((tx) => {
-            tx.executeSql(`SELECT * FROM files`,
+            tx.executeSql(`SELECT dbuser_id FROM apidbusers WHERE ID=10`,
             [],
             (_, res) => {
+                //console.log('apidbusers Selecting, complete!');
                 resolve(res);
             },
             (_, err) => {
@@ -470,7 +480,7 @@ export const readApprAndApplicTable = () => {
         console.log('Selecting, complete!');
     }
     )
-    return readApprAndApplicTablePromise;
+    return readUserPromise;
 }
 
 // This was for jargonBox, but will be used for experimentation

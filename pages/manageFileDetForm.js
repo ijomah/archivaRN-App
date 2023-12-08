@@ -1,18 +1,27 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, Alert} from 'react-native';
 import { useDispatch } from 'react-redux';
 import { addDocFormTo } from '../redux/slice';
 
 
 import FileDetailForm from './fileDetailForm';
-import { insertToApprAndApplicTable } from '../util/dbService';
+import { insertToApprAndApplicTable, readUserTable } from '../util/dbService';
 import { isInputValid } from '../unitParts/errFunc';
 
 export default function ManageFileDetail({navigation}) {
     const dispatch = useDispatch();
+    // let phoneDbId = 
+    
+    // readUserTable().then((dat) => {
+    //     console.log('Checking local db id', dat.rows._array.dbuser_id);
+    //    const remoteDbId = dat.rows._array[0].dbuser_id;
+        
+    //     setphoneDbId(remoteDbId)
+    //     console.log('phoneDbId', phoneDbId)
+    // })
+    
     const [errForInput, setErrForInput] = useState({});   
     const [fileDetail, setFileDetail] = useState({
-        dbUserId: 2,
         applicationNumber: "",
         fName: "",
         lName: "",
@@ -36,6 +45,7 @@ export default function ManageFileDetail({navigation}) {
         // approvalType: null || " ",
         // dcbNumber: null || " ",
     });
+    const [phoneDbId, setPhoneDbId] = useState(0)
 
     const setFileDetForm = (fileIdentifier, typedFileDetail) => {
         // console.log('identifier-val', valIdentifier, typedVal)
@@ -44,8 +54,10 @@ export default function ManageFileDetail({navigation}) {
             applicTag: Math.random().toString(25).substring(7), 
             [fileIdentifier]: typedFileDetail
         }
-        setFileDetail(updatedFormData);
-        console.log('state part', fileDetail)
+
+        const remDbId = getPhoneDbId()
+        setFileDetail({...updatedFormData, dbUserId: phoneDbId});
+        console.log('state dbId', fileDetail)
     }
 
     // const clearInput = React.useCallback(() => onchangeText(''), []);
@@ -56,7 +68,7 @@ export default function ManageFileDetail({navigation}) {
 
         if(!isInputValid(fileDetail).isErr) {
             setErrForInput(isInputValid(fileDetail).errObj);
-            console.log('err obj in input', fileDetail);
+            // console.log('err obj in input', fileDetail);
            return 
         }
 
@@ -76,6 +88,29 @@ export default function ManageFileDetail({navigation}) {
         )
         navigation.navigate('screenStack/documentType') 
     }
+
+    const getPhoneDbId = () => {
+        let remoteDbId
+            readUserTable().then((dat) => {
+                console.log('Checking local db id', dat.rows._array[0].dbuser_id);
+                remoteDbId= dat.rows._array[0].dbuser_id;
+                
+                
+                setPhoneDbId(remoteDbId)
+                // console.log('phoneDbId', phoneDbId)
+            })
+        return remoteDbId;
+    }
+
+    // useEffect(() => {
+    //     readUserTable().then((dat) => {
+    //         console.log('Checking local db id', dat.rows._array[0].dbuser_id);
+    //        const remoteDbId = dat.rows._array[0].dbuser_id;
+            
+    //         // setphoneDbId(remoteDbId)
+    //         console.log('phoneDbId', phoneDbId)
+    //     })
+    // }, [])
     
     return (
         <View>

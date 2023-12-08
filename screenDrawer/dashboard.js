@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
-import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Button, ToastAndroid, ScrollView } from 'react-native';
+import { StyleSheet, SafeAreaView, Text, View, Image, TouchableOpacity, TextInput, Button, ToastAndroid, ScrollView, FlatList } from 'react-native';
+import  axios  from "axios";
 // import { ScrollView } from "react-native-gesture-handler";
 import { getDocumentInfo } from "../api/genApi";
 //import {apiCalls} from "../../apiCalls";
@@ -12,9 +13,12 @@ import  * as FileSystem  from "expo-file-system"
 import { downloadScannedImg } from "../util/downloadFile";
 import { useSelector } from "react-redux";
 import { saveDownloadedFileAsync } from "../util/saveDownloadedFile";
+import { DashboardDataShape } from "../models/shapeForDashboard";
+import LoadingIndicator from "../unitParts/loadingOverlay";
+import { readUserTable } from "../util/dbService";
+import { BACKEND_URL } from "../api/apiEnv";
 
-
-function DashboardPage({navigation}) {
+function DashboardPage({navigation, route}) {
     const apidataFromFileManagerSlice = useSelector((state) => state
         .titleReducer
         .fileManagerDetFromStore
@@ -29,9 +33,11 @@ function DashboardPage({navigation}) {
         // {id: 98, file: 'Important Sheet', colour: dynamicColors[Math.floor(Math.random()*dynamicColors.length)]},
         // {id: 650, file: 'Light Bill', colour: dynamicColors[Math.floor(Math.random()*dynamicColors.length)]}
     ]
-
-    const [documentList, setDocumentList] = useState(docItmList);
-    const [isModalVisible, setIsModalVisible] = useState(false);
+    
+    const [userIdDb, setUserIdDb] = useState(0);
+    const [documentList, setDocumentList] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    // const [isModalVisible, setIsModalVisible] = useState(false);
      
     //Make an api call to get applicant's name and db's id and applic_tag
     //get document label too
@@ -43,7 +49,7 @@ function DashboardPage({navigation}) {
     //you can keep the applic_tag and db's files.id for querying img table when needed
     
     const getScannedWork = async () => {
-        const getImgFileInfo = getDocumentInfo(`https://archiver-4de6.onrender.com/api/v1/files/${id}`);
+        const getImgFileInfo = getDocumentInfo(BACKEND_URL+`/api/v1/files/${id}`);
         let fullUri;
         console.log('Img info', getImgFileInfo[0].mime_type, getImgFileInfo[0].img_name)    
         if(getImgFileInfo.length > 1) {
@@ -64,17 +70,52 @@ function DashboardPage({navigation}) {
         // })
     }
 
-
-
+    
     const resetModal = (boolVal) => {
         console.log('dashboard', boolVal);
         setIsModalVisible(boolVal)
         // navigation.navigate('/modal/documentType')
     }
 
-    useEffect(() => {
-        const getApplicDetails = getDocumentInfo('https://archiver-4de6.onrender.com/api/v1/persons');
+    const displayApiData = ({item}) => {
+        console.log('render', item)
+        setIsLoading(false)
+        return (
+            <View>
+                <CardApi 
+                    prevImgObj={item} 
+                />
+            </View>
+        )
+    }
 
+    useEffect(() => {
+        let dashboardItemArr = [];
+        axios.get(BACKEND_URL.local+'/api/v1/persons')
+            .then(res => {
+                console.log('res', res.data)
+                res.data.forEach((datum) => {
+                    if(datum.applic_tag != null) {
+                        let personApiData = new DashboardDataShape(
+                            datum.file_name,
+                            datum.f_name,
+                            datum.l_name,
+                            datum.id,
+                            datum.file_no,
+                            datum.applic_tag
+                        )
+                        dashboardItemArr.push(personApiData);
+                        
+                    }
+                })
+                console.log('api data now', dashboardItemArr);
+            }   
+        )
+        .catch((error) => console.log('dash call err', error ));
+
+        setDocumentList(dashboardItemArr);
+        console.log('api data local state', documentList);
+        // console.log('frm persons api', getApplicDetails)
         // const resp = getDocumentInfo('url needed');
         // downloadScannedImg();
         // const dataObj = dataForStore(resp);
@@ -82,8 +123,11 @@ function DashboardPage({navigation}) {
     }, [])
 
     
+    
+    
     return (
-        <View>
+        <SafeAreaView>
+
             <View style={styles.btnAdjust}>
                 <View>
                     {/* This has to make an api call to retrieve
@@ -96,17 +140,29 @@ function DashboardPage({navigation}) {
                     <Button 
                         title="Goto Form"
                         color= 'green'
-                        onPress={() => navigation.navigate('pages/manFileDetail')}
+                        onPress={() => navigation.navigate('pages/manFileDetail', {id: userIdDb})}
                     />
 
                     </View>
             </View>
-            <Text style={{fontSize: 18, alignContent: 'center'}}>Categories of Files in your Cabinet</Text>            
-            <ScrollView style={styles.AprovalPage}>
-                {/* <Text>You have no file in your Cabinet yet!</Text> */}            
-                <CardApi prevImgObj={places[0]} />
-            </ScrollView>
-            
+            <Text 
+                style={{fontSize: 18, textAlign: 'center'}}
+            >
+                Categories of Files in your Cabinet
+            </Text>
+            {
+                isLoading? 
+                    <LoadingIndicator />
+                :
+                    <FlatList
+                        style={styles.AprovalPage}
+                        data={documentList}
+                        renderItem={displayApiData}
+                        keyExtractor={(item) => item.id}
+                    />
+                
+            }
+           
                 {/* Display data from the api call */}
 {/* newly commented */}
                 {/* <ScanChoiceModal modalVisible={isModalVisible} onResetModal={resetModal} navigation={navigation} /> */}
@@ -121,7 +177,7 @@ function DashboardPage({navigation}) {
                 
             {/* image preview or an icon should be in this card's children */}
             
-        </View>
+        </SafeAreaView>
     )
 }
 

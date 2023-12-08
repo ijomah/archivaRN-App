@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Button } from 'react-native';
-import { readData, readApprAndApplicTable } from "../util/dbService";
+// import { readData, readApprAndApplicTable } from "../util/dbService";
 // import { Link } from 'expo-router'
 
 const HomePage = ({navigation, route}) => {
@@ -35,7 +35,7 @@ const HomePage = ({navigation, route}) => {
                         <Button title="Login" onPress={()=>{{
                             console.log('read', 
                             //readData()
-                            readApprAndApplicTable()
+                            // readApprAndApplicTable()
                             )
                             navigation.navigate('auth/login')}
                             }
