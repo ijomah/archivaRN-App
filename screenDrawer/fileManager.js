@@ -45,13 +45,13 @@ export default function FileManager() {
 
         // const fileItemList = useSelector((state) => state.titleReducer.fileManagerDetFromStore.detailsForFileManager)
         // const titleFromStore = useSelector((state) => state.titleReducer.titlesDataFromStore.titles)
-        fileManDataFromStore = useSelector((state) => 
-            (state
-                .titleReducer
-                .titleImgDataFromStore
-                .titleWithImgUri
-            )
-        );
+        // fileManDataFromStore = useSelector((state) => 
+        //     (state
+        //         .titleReducer
+        //         .titleImgDataFromStore
+        //         .titleWithImgUri
+        //     )
+        // );
         const [isLoading, setIsLoading] = useState(true);
        
         const [imageData, setImageData] = useState([])
@@ -84,13 +84,20 @@ export default function FileManager() {
         })
 //
     const getFileManagerData = async () => {
-        const resp = await axios
-            .get(BACKEND_URL+`/api/v1/documents/${dbUserId}`
-                // BACKEND_URL.live+`/api/v1/documents/${dbUserId}`
-            )
-            
-        setTimeout( async () => {
+        let resp;
+        try {
+            resp = await axios
+                .get(BACKEND_URL+`/api/v1/documents/${dbUserId}`
+                    // BACKEND+`/api/v1/documents/${dbUserId}`
+                )
+                console.log('api doc 200', resp.data)
+        } catch(error) {
+            console.log('api doc err', error)
+        }
+
+         setTimeout( async () => {
             const docDataFromApi = dataForStore(resp.data);
+            // dispatch(addFileManagerDet(Object.assign({}, param1, param2)));
             setFileManagerDataFromApi(docDataFromApi);
             try {
                 const imgResp = await Promise.all(docDataFromApi.map(oneDoc => axios
@@ -105,8 +112,7 @@ export default function FileManager() {
                 //     setImageData(Object.values({img1, img2, img3, img4}));
                 // })
                 loopFxn(imgResp);
-                        // console.log('imgResp', imgResp.length)
-                        console.log('imgResp2', imgResp[2].data)
+                console.log('imgResp2', imgResp[2].data)
                    
             } catch(error) {
                 console.log('Promise all err', error);
@@ -131,27 +137,13 @@ export default function FileManager() {
     //         )
         // const imageDataArrFromApi = imgResp.data
        
-       setTimeout(() => {
-            console.log('imageData1 ', imageData, imageData.length)
-            downloadManyScannedImg(imageData).then((uriArray) => {
-                // if(imgRes)
-                console.log('download img res', uriArray)
-                // const formedImgObj = 
-                shapingImgData(imageData, uriArray);
-                // formFullData(fileManagerDataFromApi, formedImgObj);
-            })
-            .catch((error) => {
-                console.log('img download error', error);
-            });
-       }, 800)
+       
         
         //    const imgDataFromApi = 
         // setIsLoading(false)
     }
 
-    const formFullData = (param1, param2) => {
-        dispatch(addFileManagerDet(Object.assign({}, param1, param2)));
-    }
+    
 
     useEffect(() => {
         getFileManagerData()

@@ -57,7 +57,7 @@ export default function ManageFileDetail({navigation}) {
 
         const remDbId = getPhoneDbId()
         setFileDetail({...updatedFormData, dbUserId: phoneDbId});
-        console.log('state dbId', fileDetail)
+        console.log('Remember dbId,', fileDetail)
     }
 
     // const clearInput = React.useCallback(() => onchangeText(''), []);
@@ -92,7 +92,10 @@ export default function ManageFileDetail({navigation}) {
     const getPhoneDbId = () => {
         let remoteDbId
             readUserTable().then((dat) => {
-                console.log('Checking local db id', dat.rows._array[0].dbuser_id);
+                console.log('Checking local db id', dat)
+                //.rows)
+                //._array)
+                //[10].dbuser_id);
                 remoteDbId= dat.rows._array[0].dbuser_id;
                 
                 

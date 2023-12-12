@@ -10,13 +10,11 @@ import { FontAwesome5 } from '@expo/vector-icons';
 
 function Card({navigation}) {
     // const titleFromStore = useSelector((state) => state.titleReducer.titlesDataFromStore.titles)
-    fileManDataFromStore = useSelector((state) => 
-        (state
-            .titleReducer
-            .titleImgDataFromStore
-            .titleWithImgUri
-        )
-    );
+    const fileManDataFromStore = useSelector((state) => state
+        .titleReducer
+        .fileManagerDetFromStore
+        .detailsForFileManager
+    )
 
     // const [itemNumber, setItemNumber] = useState(0)
     const listOfDocTitle = [];

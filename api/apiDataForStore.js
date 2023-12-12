@@ -6,7 +6,7 @@ export const dataForStore = (res) => {
     
     let apiDocData = [];
     res.forEach((apiDatum) => {
-        apiDocDatum = new ShapeApiData(
+        let apiDocDatum = new ShapeApiData(
             apiDatum.applic_tag,
             // apiDatum.applic_address,
             apiDatum.f_name,

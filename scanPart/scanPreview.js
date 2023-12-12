@@ -30,7 +30,7 @@ export default ScanPreview = ({navigation}) => {
 
 
     const dispatch = useDispatch();
-    const [serverRes, setServerRes] = useState(null);
+    // const [serverRes, setServerRes] = useState(null);
    const [prevImg, setPrevImg] = useState([]);
    let itemValueToDelete = []
     // console.log('new prev', prevImg)
@@ -123,7 +123,7 @@ export default ScanPreview = ({navigation}) => {
                             //api url from render
                             // https://archiver-4de6.onrender.com/api/v1/files
                             //ip for localhost - 127.0.0.1  -- http://192.168.249.176:3000/api/v1/files                            
-                            const serverResp = await FileSystem
+                            await FileSystem
                                 .uploadAsync(BACKEND_URL+'/api/v1/files',
                                     imgUriForServer,
                                     {
@@ -135,8 +135,9 @@ export default ScanPreview = ({navigation}) => {
                                         // parameters: JSON.stringify(oneBigObj)
                                     }
                             )
-                            setServerRes(serverResp)
-                            console.log('res from server: ', serverRes);
+                            // setServerRes(serverResp)
+                            console.log('res from me: good');
+                            // console.log('res from server: ', serverRes);
                         } catch (error) {
                             console.log('err from try', error);
                         }
@@ -147,7 +148,7 @@ export default ScanPreview = ({navigation}) => {
         console.log('I need to upload ScannedImages');
         ToastAndroid.show('Uploading..., please wait!', ToastAndroid.SHORT)
        //Empty the store at this point
-       if(serverRes.status === 200) {
+    //    if(serverRes.status === 200) {
             // dispatch(removeAllDocTitleWithImgUri(0))
             // goto dashboard after uploading
             // navigation.dispatch(
@@ -161,9 +162,9 @@ export default ScanPreview = ({navigation}) => {
             //         ]
             //     })
             // )
-        } else {
+        // } else {
             //do somethg
-        }
+        // }
 
     }
 
@@ -244,7 +245,7 @@ export default ScanPreview = ({navigation}) => {
                     ) : 
                     (
                         <View>
-                            {prevImg.length === 1 && prevImg[0] === null ?
+                            {prevImg.length === 1 && prevImg[0] !== null ?
                                 <CardApi uri={prevImg[0]} />
                                 // <TouchableHighlight onPress={shareScannedImage}><Feather name="share-2" size={24} color="black" /></TouchableHighlight>
                                 : ''

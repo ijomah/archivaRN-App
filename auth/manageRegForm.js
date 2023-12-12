@@ -8,6 +8,7 @@ import { isInputValid } from '../unitParts/errFunc';
 // import { saveData } from '../api/genApi';
 import axios from 'axios';
 import { readUserTable } from '../util/dbService';
+import { BACKEND_URL } from '../api/apiEnv';
 
 export default function ManageRegForm() {
     const [userForm, setUserForm] = useState({
@@ -33,9 +34,7 @@ export default function ManageRegForm() {
          }
         //  '/api/v1/register'
         // saveData(userForm);
-        axios.post(
-            'http://192.168.25.138:3000/api/v1/register',
-            // 'https://archiver-4de6.onrender.com/api/v1/register',
+        axios.post(BACKEND_URL+'/api/v1/register',
             userForm
         ).then((postRes) => {
             console.log('axios post reg(userId)', postRes.data[0]);

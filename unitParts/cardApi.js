@@ -42,8 +42,8 @@ function CardApi({prevImgObj}) {
                             borderRadius: 10
                         }}
                         source={prevImgObj.uri === undefined ? 
-                            // require('./../assets/bgpixel.jpg')
-                            blurhash 
+                            require('./../assets/arch-icon.png')
+                            // blurhash 
                             : 
                             {uri: prevImgObj.uri}
                         } 

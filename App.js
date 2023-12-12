@@ -43,12 +43,15 @@ function LogoTitle() {
 
 export default function App() {
  const [userDbId, setUserDbId] = useState()
+
   useEffect(() => {
     readUserTable().then((dbId) => {
       setUserDbId(dbId.rows._array[0].dbuser_id)
       // let dbUserId = dbId.rows._array[0].dbuser_id 
       // return dbUserId
+      console.log(dbId.rows._array)
     })
+    .catch((error) => console.log('readUserTable err: ',error))
     dbInit()
       .then(() => {
         //console.log('db is ready!');

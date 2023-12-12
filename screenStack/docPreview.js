@@ -45,6 +45,7 @@ function DocPreview({route}) {
         const downloadedFile = downloadScannedImg();
         saveDownloadedFileAsync(downloadedFile);
     }
+    
 
     const getDataForPrev = () => {
         let dataForDisplay;
@@ -104,6 +105,24 @@ function DocPreview({route}) {
                         // blurRadius={0}
                     />
         )
+    }
+    
+    setTimeout(() => {
+        console.log('imageData1 ', imageData, imageData.length)
+        downloadManyScannedImg(imageData).then((uriArray) => {
+            // if(imgRes)
+            console.log('download img res', uriArray)
+            const formedImgObj = shapingImgData(imageData, uriArray);
+            formFullData(fileManagerDataFromApi, formedImgObj);
+        })
+        .catch((error) => {
+            console.log('img download error', error);
+        });
+   }, 800)
+
+    const formFullData = (param1, param2) => {
+        dispatch(addFileManagerDet(Object.assign({}, param1, param2)));
+        setIsLoading(false)
     }
     
     useEffect(() => {

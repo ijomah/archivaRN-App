@@ -59,41 +59,12 @@ function DashboardPage({navigation, route}) {
         }
         saveDownloadedFileAsync(fullUri);
     }
-
+let dashboardItemArr = [];
     const getData = () => {
-
-        //old commented
-        // apiCalls('http://localhost:3000/api/v1/files/single')
-        // .then(data => {
-        //     console.log(data);
-        //     setDocumentList(...documentList, data)
-        // })
-    }
-
-    
-    const resetModal = (boolVal) => {
-        console.log('dashboard', boolVal);
-        setIsModalVisible(boolVal)
-        // navigation.navigate('/modal/documentType')
-    }
-
-    const displayApiData = ({item}) => {
-        console.log('render', item)
-        setIsLoading(false)
-        return (
-            <View>
-                <CardApi 
-                    prevImgObj={item} 
-                />
-            </View>
-        )
-    }
-
-    useEffect(() => {
-        let dashboardItemArr = [];
-        axios.get(BACKEND_URL.local+'/api/v1/persons')
+        
+        axios.get(BACKEND_URL+'/api/v1/persons')
             .then(res => {
-                console.log('res', res.data)
+                // console.log('res', res.data)
                 res.data.forEach((datum) => {
                     if(datum.applic_tag != null) {
                         let personApiData = new DashboardDataShape(
@@ -108,13 +79,45 @@ function DashboardPage({navigation, route}) {
                         
                     }
                 })
-                console.log('api data now', dashboardItemArr);
+                setDocumentList(dashboardItemArr);            
+                // console.log('api data now', documentList, );
+                setIsLoading(false);
             }   
         )
         .catch((error) => console.log('dash call err', error ));
 
-        setDocumentList(dashboardItemArr);
-        console.log('api data local state', documentList);
+        
+        // console.log('api data local state', documentList);
+
+        //old commented
+        // apiCalls('http://localhost:3000/api/v1/files/single')
+        // .then(data => {
+        //     console.log(data);
+        //     setDocumentList(...documentList, data)
+        // })
+    }
+
+    
+    const resetModal = (boolVal) => {
+        console.log('dashboar', boolVal);
+        setIsLoading(boolVal)
+        // navigation.navigate('/modal/documentType')
+    }
+
+    const displayApiData = ({item}) => {
+    // console.log('render', item)
+        return (
+            <View>
+                <CardApi 
+                    prevImgObj={item} 
+                />
+            </View>
+        )
+    }
+
+    
+    useEffect(() => {
+        getData();
         // console.log('frm persons api', getApplicDetails)
         // const resp = getDocumentInfo('url needed');
         // downloadScannedImg();
@@ -140,7 +143,7 @@ function DashboardPage({navigation, route}) {
                     <Button 
                         title="Goto Form"
                         color= 'green'
-                        onPress={() => navigation.navigate('pages/manFileDetail', {id: userIdDb})}
+                        onPress={() => navigation.navigate('pages/manFileDetail')}
                     />
 
                     </View>
@@ -148,7 +151,9 @@ function DashboardPage({navigation, route}) {
             <Text 
                 style={{fontSize: 18, textAlign: 'center'}}
             >
-                Categories of Files in your Cabinet
+                Categories of Files in your
+                {/* {documentList[5].fName}  */}
+                Cabinet
             </Text>
             {
                 isLoading? 
@@ -158,7 +163,7 @@ function DashboardPage({navigation, route}) {
                         style={styles.AprovalPage}
                         data={documentList}
                         renderItem={displayApiData}
-                        keyExtractor={(item) => item.id}
+                        // keyExtractor={(item) => item.fileId}
                     />
                 
             }
@@ -188,11 +193,11 @@ const styles = StyleSheet.create({
     AprovalPage: {
         // backgroundColor: '#' + Math.floor(Math.random()*16777215).toString(16)
         alignSelf: 'center',
-        marginTop: 10,
+        marginTop: 5,
     },
 
     btnAdjust: {
-        marginTop: 10,
+        marginTop: 5,
         flexDirection: 'row',
         justifyContent: 'space-evenly',
     }
