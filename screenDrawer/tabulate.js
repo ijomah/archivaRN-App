@@ -1,7 +1,6 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import { StyleSheet, TouchableOpacity, View, ScrollView, Text, SafeAreaView } from 'react-native';
 import { Table, TableWrapper, Row, Cell } from 'react-native-reanimated-table';
-import { useState } from 'react';
 import SearchBarComponent from '../search/searchBar';
 import LocalAuth from '../auth/localAuth';
 import { FileManAuthContext } from "../contextStore/authContextApi";
@@ -18,61 +17,12 @@ export default function Tablescore(props) {
         .fileManagerDetFromStore
         .detailsForFileManager
     )
-    
-    //Note titleImgDataFromStore is having doc form details in addition
-    const titleAndImgWithFormDet = useSelector(
-        (state) => state
-            .titleReducer
-            .titleImgDataFromStore
-            .titleWithImgUri);
-    // const docFormData = useSelector((state) => state.titleReducer.commonToDocAndFileFormFromStore.docFormForApplicAndApproval);
-    
-    const [filteredTableArr,  setfilteredTableArr] = useState([]);
+
+    // const [filteredTableArr,  setfilteredTableArr] = useState([]);
     const isLogIn = contextAuth.isAuth;
     const {tableHeadDet, tableBodyDet, navigation, route} = props
 
-    // const getFromDb = async () => {
-    //     let applicantDet = [];
-    //     //let apprAndApplicInDb = [];
-    //     //let imgDetInDb = [];
-    //     //const dbDataApprAndApplic = await readApprAndApplicTable();
-    //     //console.log('readApprAndApplicTable', dbDataApprAndApplic);
-    //     //const dbDataImgDet = await readScannerRes();
-    //     //console.log('readScanner', dbDataImgDet.rows._array);
-        
-    //     dbDataApprAndApplic.rows._array.forEach((oneRow) => {
-    //         // apprAndApplicInDb.push(oneRow)
-    //         delete oneRow.applic_id;
-    //         delete oneRow.applic_do;
-    //         delete oneRow.approv_id;
-    //         delete oneRow.approv_date;
-    //         delete oneRow.approv_type;
-            
-
-    //         dbDataImgDet.rows._array.forEach((rowInDb) => {
-    //             // imgDetInDb.push(rowInDb)
-    //             oneRow.uri = rowInDb.img_urls;
-    //             //oneRow.docValue = rowInDb.doc_value;
-    //             //oneRow.imgId = rowInDb.img_id;
-    //             //oneRow.dbId = rowInDb.id;
-    //             applicantDet.push(oneRow);
-    //         });
-
-    //     });
-
-    //     setScanResInDb(applicantDet);
-
-    //     // cominedDbData = Object.assign(
-    //     //     {},
-    //     //     dbDataApprAndApplic.rows._array,
-    //     //     dbDataImgDet.rows._array
-    //     // );
-
-    //     console.log('applicant Details from local state', scanResInDb)
-    // }
-
     
-    // console.log('table', titleAndImgWithFormDet)
 
     if (tableHeadDet === undefined && tableBodyDet === undefined) {
         const val = {
@@ -88,22 +38,25 @@ export default function Tablescore(props) {
 
             const formedObjArr = [];
             // const objValue = []
+            // const reShapeStoreData = () => {
+            //     apidataFromFileManagerSlice[0].forEach((dot) => {
+
+            //     })
+            // }
             //Reshape your data to suite the component
-            titleAndImgWithFormDet.forEach((datum) => {
+            apidataFromFileManagerSlice[0].forEach((datum) => {
                 let i = 0;
-                if (datum.value === props.route.params.value) {
+                if (datum.file_name === route.params.label) {
                     // objValue.push(datum.value)
                     // for (let key1 in datum) {
                         // if (typeof(datum[key1]) === 'object') {
                             var wellFormedData = new FileManTableDataShape(
                                 `${i+=1}`, 
-                                datum.applicationName, 
-                                datum.applicationNumber,
-                                datum.approvalDate,
-                                //new
-                                datum.value
-                                //old
-                                // datum[key1].uri
+                                datum.f_name,
+                                datum.l_name, 
+                                datum.applic_no,                
+                                datum.applic_dob,
+                                datum.file_no
                             );
                             formedObjArr.push(wellFormedData)
                         // }
@@ -141,9 +94,9 @@ export default function Tablescore(props) {
                 // return filtered;
             }
 
-            if (filteredTableArr.length === 0) {
-                setfilteredTableArr(tableData)
-            }
+ // if (filteredTableArr.length === 0) {
+            //     setfilteredTableArr(tableData)
+            // }
 
             // for (let i = 0; i < 30; i += 1) {
             //   const rowData = [];
@@ -196,13 +149,13 @@ export default function Tablescore(props) {
                    
                    <TableSearchBar 
                         style={{}}
-                        onFilterData ={filterTableVal}
+                       // onFilterData ={filterTableVal}
                     />
                     {/* file data display table */}
                     <View style={styles.container}>
                         <Text 
                             style={{alignSelf: 'center', paddingTop: 50, fontSize: 20, fontWeight: 500}}
-                        >{props.route.params.label}{''} Files</Text>
+                        >{route.params.label}{''} Files</Text>
                     
                         <ScrollView horizontal={true} >
                         <View>

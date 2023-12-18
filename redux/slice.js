@@ -104,7 +104,7 @@ const fileManagerSlice = createSlice({
         //     state.titles.push(action.payload)
         // },
         addFileManagerDet: (state, action) => {
-            state.titles.push(action.payload)
+            state.detailsForFileManager.push(action.payload)
         },
         // removeDocTitle: (state, action) => {
         //     state.titles.splice(state.titles.indexOf(action.payload.value), 1)
@@ -115,16 +115,34 @@ const fileManagerSlice = createSlice({
     }
 })
 
+const keepImgIdFromApi = createSlice({
+    name: 'ImgIdsFromApi',
+    initialState: {
+        imgIdsFromApi: []
+    },
+    reducers: {
+        addImgIdsFromApi: (state, action) => {
+            state.imgIdsFromApi.push(action.payload)
+        },
+
+        // removeImgIdsFromApi: (state, action) => {
+        //     state.imgIdsFromApi.slice()
+        // }
+    }
+})
+
 export const { addDocFormTo, removeDocFormFrom } = docFormForApplicAndApprovalSlice.actions;
 export const { addDocTitleWithImgUri, addFileTitleWithImgUri, removeDocTitleWithImgUri, removeFileTitleWithImgUri, removeImgUriOnly} = titleImgSlice.actions
 export const { addDocTitle, addFileTitle, removeDocTitle, removeFileTitle } = titleSlice.actions;
-export const { addFileManagerDet, removeFileManagerDet } = fileManagerSlice.actions
+export const { addFileManagerDet, removeFileManagerDet } = fileManagerSlice.actions;
+export const { addImgIdsFromApi } = keepImgIdFromApi.actions;
 const mergedReducer = combineReducers({
     titlesDataFromStore: titleSlice.reducer,
     titleImgDataFromStore: titleImgSlice.reducer,
     commonToDocAndFileFormFromStore: docFormForApplicAndApprovalSlice.reducer,
     fileManagerDetFromStore: fileManagerSlice.reducer,
-    registerForm: regFormSlice.reducer
+    registerForm: regFormSlice.reducer,
+    imgIdsFromApi: keepImgIdFromApi.reducer
 })
 export default mergedReducer
 

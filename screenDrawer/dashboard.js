@@ -37,6 +37,7 @@ function DashboardPage({navigation, route}) {
     const [userIdDb, setUserIdDb] = useState(0);
     const [documentList, setDocumentList] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [refreshComp, setRefreshComp] = useState(false);
     // const [isModalVisible, setIsModalVisible] = useState(false);
      
     //Make an api call to get applicant's name and db's id and applic_tag
@@ -84,7 +85,11 @@ let dashboardItemArr = [];
                 setIsLoading(false);
             }   
         )
-        .catch((error) => console.log('dash call err', error ));
+        .catch((error) => {
+            console.log('dash call err', error )
+            ToastAndroid.show('Error getting data ... Pull to refresh!', 5000);
+            setRefreshComp(false);
+        });
 
         
         // console.log('api data local state', documentList);
@@ -113,6 +118,15 @@ let dashboardItemArr = [];
                 />
             </View>
         )
+    }
+
+    const refresher = () => {
+        setIsLoading(true)
+        setRefreshComp(true);
+        setTimeout(()=>{
+            setRefreshComp(false)
+        }, 2000)
+        getData();
     }
 
     
@@ -163,6 +177,8 @@ let dashboardItemArr = [];
                         style={styles.AprovalPage}
                         data={documentList}
                         renderItem={displayApiData}
+                        onRefresh={refresher}
+                        refreshing={isLoading}
                         // keyExtractor={(item) => item.fileId}
                     />
                 

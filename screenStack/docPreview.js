@@ -8,11 +8,13 @@ import {
     View, 
     Text, 
     Button,
-    FlatList
+    FlatList,
+    TouchableOpacity
 } from "react-native";
-import { downloadScannedImg } from "../util/downloadFile";
+import { downloadScannedImg, downloadManyScannedImg } from "../util/downloadFile";
 import { saveDownloadedFileAsync } from "../util/saveDownloadedFile";
-
+import { shapingImgData } from "../api/apiDataForStore";
+import LoadingIndicator from "../unitParts/loadingOverlay";
 
 
 function DocPreview({route}) {
@@ -21,14 +23,12 @@ function DocPreview({route}) {
         .fileManagerDetFromStore
         .detailsForFileManager
     )
-    
-    const prevImgDataFromStore = useSelector((state) => 
-    (state
+
+    const apiImgIdsFromStore = useSelector((state) => state
         .titleReducer
-        .titleImgDataFromStore
-        .titleWithImgUri
+        .imgIdsFromApi
+        .imgIdsFromApi
     )
-);
 
 
     const [infoForPrev, setInfoForPreiew] = useState({})
@@ -37,55 +37,62 @@ function DocPreview({route}) {
   '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
     // const imgDataFromTable = route.params.imgUrl.slice(route.params.imgUrl.lastIndexOf('/')+1)
     //route.params.slice(uri.lastIndexOf('/')+1)
-    const imgDataFromTable = [];
+    const [imgUriDownload, setImgUriDownload] = useState([]);
+    const [refresh, setRefresh] = useState(false)
+    const [isLoading, setIsLoading] = useState(true);
 //    console.log(imgDataFromTable);
 
-    const downloadItem = () => {
+    const downloadOneItem = (imageInfo) => {
         //put logic
-        const downloadedFile = downloadScannedImg();
+        const downloadedFile = downloadScannedImg(imageInfo);
         saveDownloadedFileAsync(downloadedFile);
     }
     
+    const downloadManyImg = () => {
+        downloadManyScannedImg(apiImgIdsFromStore[0]).then((uriArray) => {
+            // if(imgRes)
+            console.log('download img res', uriArray)
+            const formedImgObj = shapingImgData(apiImgIdsFromStore[0], uriArray);
+            // formFullData(fileManagerDataFromApi, formedImgObj);
+            saveDownloadedFileAsync(uriArray);
+            setImgUriDownload(formedImgObj)
+            setIsLoading(false);
+        })
+        .catch((error) => {
+            console.log('img download error', error);
+            ToastAndroid.show('Error getting data ... Pull to refresh!', 5000);
+            setRefresh(false);
+        });
+        
+    }
+
+    
+    const formFullData = (param1, param2) => {
+        dispatch(addFileManagerDet(Object.assign({}, param1, param2)));
+        setIsLoading(false)
+    }
 
     const getDataForPrev = () => {
         let dataForDisplay;
-        prevImgDataFromStore.forEach((datum, index) => {
+        apidataFromFileManagerSlice[0].forEach((datum, index) => {
             
-                for(const keyVal of Object.values(datum)) {
-                    if(typeof(keyVal) === 'object') {
-                        imgDataFromTable.push(keyVal);
-                    }
-                }
-                // for (const key2 in datum) {
-                // if(typeof(datum[key2]) === 'object') {
-                //    for (const key3 in datum[key2]) {
-                //         if(datum[key2][key3].length > 100) {
-                //             let imgUriSlice = datum[key2][key3]
-                //                 .slice(datum[key2][key3].lastIndexOf('/')+1)
-                //             if(imgUriSlice === imgDataFromTable) {
-                                // dataForDisplay = new FileManPreviewDataShape(
-                                //     datum.applicationName,
-                                //     datum.applicationNumber,
-                                //     datum.approvalType,
-                                //     datum.applicationNumber,
-                                //     datum.approvalDO,
-                                //     datum.approvalDate,
-                                //     datum.applicationAddress,
-                                //     // route.params.imgUrl
-                                // )
-                //             }
-                //         }
-                //    }
+                // for(const keyVal of Object.values(datum)) {
+                //     if(typeof(keyVal) === 'object') {
+                //         imgDataFromTable.push(keyVal);
+                //     }
                 // }
-            // }
             dataForDisplay = new FileManPreviewDataShape(
-                datum.applicationName,
-                datum.applicationNumber,
-                datum.approvalType,
-                datum.applicationNumber,
-                datum.approvalDO,
-                datum.approvalDate,
-                datum.applicationAddress,
+                datum.f_name,
+                datum.l_name,
+                datum.applic_no,
+                datum.approv_type,
+                datum.dcb_no,
+                datum.approv_do,
+                datum.approv_date,
+                datum.house_no,
+                datum.street_name,
+                datum.area_name,
+                datum.state
                 // route.params.imgUrl
             ) 
         })
@@ -95,40 +102,36 @@ function DocPreview({route}) {
 
     const renderImage = ({item}) => {
         return (
-            <Image 
-                        style={styles.vendorLogo} 
-                        source={{uri:item.uri}} 
-                        resizeMethod="scale"
-                        // placeholder={blurhash}
-                        contentFit="cover"
-                        transition={1000}
-                        // blurRadius={0}
-                    />
+            <TouchableOpacity
+                // onPress={() => downloadOneItem(item.imageId)}
+            >
+                <Image 
+                            style={styles.vendorLogo} 
+                            source={{uri:item.imgUri}} 
+                            resizeMethod="scale"
+                            placeholder={blurhash}
+                            contentFit="cover"
+                            transition={1000}
+                            // blurRadius={0}
+                        />
+            </TouchableOpacity>
         )
     }
-    
-    setTimeout(() => {
-        console.log('imageData1 ', imageData, imageData.length)
-        downloadManyScannedImg(imageData).then((uriArray) => {
-            // if(imgRes)
-            console.log('download img res', uriArray)
-            const formedImgObj = shapingImgData(imageData, uriArray);
-            formFullData(fileManagerDataFromApi, formedImgObj);
-        })
-        .catch((error) => {
-            console.log('img download error', error);
-        });
-   }, 800)
 
-    const formFullData = (param1, param2) => {
-        dispatch(addFileManagerDet(Object.assign({}, param1, param2)));
-        setIsLoading(false)
+    const refresher = () => {
+        setRefresh(true)
+        setTimeout(()=> {
+            setRefresh(false)
+        }, 2000);
+        getDataForPrev();
+        downloadManyImg();
     }
     
     useEffect(() => {
         getDataForPrev();
+        downloadManyImg();
 
-    }, [prevImgDataFromStore])
+    }, [apidataFromFileManagerSlice])
 
     return (
         <SafeAreaView>
@@ -207,13 +210,18 @@ function DocPreview({route}) {
                             Application Address: {' '} {infoForPrev.applicationAddress}
                         </Text>
                     </View>
+                    {isLoading? <LoadingIndicator />
+                    :
                     <FlatList 
-                        data={imgDataFromTable}
+                        data={imgUriDownload}
                         renderItem={renderImage}
-                        keyExtractor={(item)=> item.imgId}
-                        scrollEnabled='true'
-                        showsHorizontalScrollIndicator='true'
+                        keyExtractor={(index)=> index.toString()}
+                        horizontal={true}
+                        onRefresh={refresher}
+                        refreshing={refresh}
                     />
+                    }
+                    
                     {/* <Image 
                         style={styles.vendorLogo} 
                         source={{uri:infoForPrev.imgUri}} 
@@ -227,7 +235,7 @@ function DocPreview({route}) {
             </View>
             <Button
                 title="DownLoad Item"
-                onPress={downloadItem}
+                //onPress={downloadManyImg}
                 //onPress={getFromDb}
             />
         </SafeAreaView>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { View, Image, Text, TouchableOpacity } from "react-native";
+import { View, Image, Text, TouchableOpacity, ToastAndroid } from "react-native";
 import Card from "../unitParts/card";
 import { dynamicColors } from "../util/Colors";
 import { useSelector, useDispatch} from "react-redux";
@@ -12,7 +12,7 @@ import {dataForStore, shapingImgData, makeStoreData} from "../api/apiDataForStor
 
 import LoadingIndicator from "../unitParts/loadingOverlay";
 import { downloadScannedImg, downloadManyScannedImg } from "../util/downloadFile";
-import { addFileManagerDet } from "../redux/slice";
+import { addFileManagerDet, addImgIdsFromApi } from "../redux/slice";
 import { BACKEND_URL } from "../api/apiEnv";
 import { UserIdContext } from "../contextStore/userIdContext";
 
@@ -90,22 +90,27 @@ export default function FileManager() {
                 .get(BACKEND_URL+`/api/v1/documents/${dbUserId}`
                     // BACKEND+`/api/v1/documents/${dbUserId}`
                 )
-                console.log('api doc 200', resp.data)
+                // console.log('api doc 200', resp.data)
         } catch(error) {
             console.log('api doc err', error)
         }
 
          setTimeout( async () => {
             const docDataFromApi = dataForStore(resp.data);
-            // dispatch(addFileManagerDet(Object.assign({}, param1, param2)));
+            dispatch(addFileManagerDet(resp.data));
+            setIsLoading(false)
             setFileManagerDataFromApi(docDataFromApi);
             try {
-                const imgResp = await Promise.all(docDataFromApi.map(oneDoc => axios
-                    .get(
-                        BACKEND_URL+`/api/v1/files/${Number(oneDoc.fileId)}`
-                        // BACKEND_URL+`https://archiver-4de6.onrender.com/api/v1/files/${Number(docDataFromApi.fileId)}`
+
+                const imgResp = await Promise
+                    .all(docDataFromApi
+                        .map(oneDoc => axios
+                            .get(
+                                BACKEND_URL+`/api/v1/files/${Number(oneDoc.fileId)}`
+                                // BACKEND_URL+`https://archiver-4de6.onrender.com/api/v1/files/${Number(docDataFromApi.fileId)}`
+                            )
+                        )
                     )
-                ))
                 // .then(axios.spread((...data) => console.log('spread data', data)));
                 // .then(([{data: img1}, {data: img2}, {data: img3}, {data: img4}]) => {
                 //     console.log('img4', {img1, img2, img3, img4})
@@ -116,6 +121,9 @@ export default function FileManager() {
                    
             } catch(error) {
                 console.log('Promise all err', error);
+                setIsLoading(false)
+                ToastAndroid.show('Error getting data ... Pull to refresh!', 5000);
+                
             }
             // })
         }, 100);
@@ -127,7 +135,8 @@ export default function FileManager() {
                     imgDataForState.push(imgArrayData[idx].data)
                 }
             }
-            setImageData(imgDataForState)
+            dispatch(addImgIdsFromApi(imgDataForState))
+            
         }
     //    const docDataFromApi = dataForStore(resp.data)
     //    const imgResp = await axios
@@ -159,8 +168,11 @@ export default function FileManager() {
                         <LoadingIndicator />
                         :
                         <Card 
-                            flatListData={apidataFromFileManagerSlice}
-                            dataForCounter={dataForLength}
+                            // flatListData={apidataFromFileManagerSlice}
+                            // dataForCounter={fileManagerDataFromApi}
+                            onSetIsLoading={setIsLoading}
+                            isLoading={isLoading}
+                            onGetFileManagerData={getFileManagerData}
                             navigation={navigation}
                         />
                 }

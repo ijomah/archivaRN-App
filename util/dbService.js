@@ -461,7 +461,7 @@ export const insertToApprAndApplicTable = (applicData) => {
 export const readUserTable = () => {
     const readUserPromise = new Promise((resolve, reject) => {
         db.transaction((tx) => {
-            tx.executeSql(`SELECT dbuser_id FROM apidbusers WHERE ID=24`,
+            tx.executeSql(`SELECT dbuser_id FROM apidbusers WHERE ID=10`,
             //ID=10 is dev env db testing
             //ID=21, 22, 23, 24is for live db testing
             [],

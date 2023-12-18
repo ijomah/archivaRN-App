@@ -1,10 +1,11 @@
 export default class FileManTableDataShape {
-    constructor(num, applicName, fileNo, dob, imgUri) {
-        this.value = num;
-        this.applicName = applicName;
-        this.fileNo = fileNo;
+    constructor(num, fName, lName, applicNo, dob, fileNo) {
+        this.num = num;
+        this.fName = fName + ' ' + lName;
+        this.applicNo = applicNo;
         this.dob = dob;
-        this.imgUri = imgUri;
+        this.value = fileNo;
+        // this.imgUri = imgUri;
 
     }
 

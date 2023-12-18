@@ -1,4 +1,5 @@
 import  * as FileSystem  from "expo-file-system";
+import { BACKEND_URL } from "../api/apiEnv";
 
 let download = false;
 const baseUrl = 'http://192.168.110.37:3000';
@@ -29,8 +30,7 @@ export async function downloadManyScannedImg(bunchData) {
             .all(bunchData
                 .map(singleImgData => FileSystem
                     .downloadAsync(
-                        `http://192.168.39.16:3000/api/v1/files/filessave/${singleImgData[0].img_name}`,
-                        // `https://archiver-4de6.onrender.com/api/v1/files/filessave/${singleImgData.imgName}`,
+                        BACKEND_URL+`/api/v1/files/filessave/${singleImgData[0].img_name}`,
                         imgFileUri(singleImgData[0].img_name)
                     )
                 )

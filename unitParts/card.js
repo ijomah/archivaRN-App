@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { StyleSheet, Text, View, SafeAreaView, Image, TouchableOpacity, TextInputComponent, TextInput, FlatList } from 'react-native';
 import { useSelector } from "react-redux";
 
@@ -8,7 +8,7 @@ import ItemsCounter from './counter';
 import { dynamicColors } from "../util/Colors";
 import { FontAwesome5 } from '@expo/vector-icons';
 
-function Card({navigation}) {
+function Card({navigation, onSetIsLoading, onGetFileManagerData }) {
     // const titleFromStore = useSelector((state) => state.titleReducer.titlesDataFromStore.titles)
     const fileManDataFromStore = useSelector((state) => state
         .titleReducer
@@ -16,136 +16,132 @@ function Card({navigation}) {
         .detailsForFileManager
     )
 
+    const [filteredTitles, setFilteredTitles ] = useState([]);
+    const [refreshMe, setRefreshMe] = useState(false)
     // const [itemNumber, setItemNumber] = useState(0)
-    const listOfDocTitle = [];
-    fileManDataFromStore.forEach((docDatum) => {
-        listOfDocTitle.push(docDatum.docTitle);
-    })
+    const extractTitles = () => {
+        const listOfDocTitle = [];
+        fileManDataFromStore[0].forEach((docDatum) => {
+            let newDocDatum = new FileManDataShape(
+                docDatum.file_no,
+                docDatum.file_name, 
+                fileManDataFromStore[0].length
+            )
+            listOfDocTitle.push(newDocDatum.docTitle);
+        })
+        return listOfDocTitle
+    }
 
-    
-    const countImgObj = (itm) => {
-        let counting = 0;
-        for( let key5 in itm ) {
-            if (typeof(Number(key5)) === 'number' && typeof(itm[key5]) === 'object') {
-                ++counting
-            }
-        }
-        return counting
+    const filterExtractedTitles = () => {
+        const titlesToFilter = extractTitles();
+        let titlesFiltered = titlesToFilter.filter((tit, ind) => {
+            return titlesToFilter.indexOf(tit) === ind;
+        })
+        // setFilteredTitles(titlesFiltered);
+        return titlesFiltered;
     }
     
-    let dataForCounter = [];
+
+    // const countImgObj = (itm) => {
+    //     let counting = 0;
+    //     for( let key5 in itm ) {
+    //         if (typeof(Number(key5)) === 'number' && typeof(itm[key5]) === 'object') {
+    //             ++counting
+    //         }
+    //     }
+    //     return counting
+    // }
+
+   
     
-    const itemsToRender = ({item, index}) => {
-        
-        // let itemNumber = countImgObj(item);
-        // let docTitle = item.docTitle;
+    
 
-       
-            // for (let key in item) {
+    const sortAllData = () => {
+        let docTitleWithCount = [];
+        const filteredList = filterExtractedTitles()
+        let noOfFiles = 0;
+        // let docTitleForCard 
+        // let item = null;
+        filteredList.forEach((titleDatum) => {
+            noOfFiles = 0
+            fileManDataFromStore[0].forEach((itmDatum) => {
+                // console.log('card data', titleDatum)
+                let newItmDatum = new FileManDataShape(
+                    itmDatum.file_no,
+                    itmDatum.file_name, 
+                    fileManDataFromStore[0].length
+                )
                 
-            //     if(typeof(item[key]) === 'object') {
-                
-            //         for (const key4 in item[key]) {
-            //             if (key4 === 'imgId') {
-            //                 let imgIdSliced = item[key][key4].slice(item[key][key4].indexOf('-')+1);
-            //                 if (imgIdSliced === item.value ) {
-                                
-            //                     dataForCounter.push(item[key]);
-                                
-            //                 }
-            //             }
-            //         }
-                    
-
-            //     }
-            // }
-        // console.log('item :', item);
-        listOfDocTitle.forEach((titleDatum) => {
-            fileManDataFromStore.forEach((itmDatum) => {
-                if(titleDatum === itmDatum.docTitle) {
-                    let presentTitle = itmDatum.docTitle;
-                    for (let key in item) {
-                
-                        if(typeof(item[key]) === 'object') {
-                        
-                            for (const key4 in item[key]) {
-                                if (key4 === 'imgId') {
-                                    let imgIdSliced = item[key][key4].slice(item[key][key4].indexOf('-')+1);
-                                    if (imgIdSliced === item.value ) {
-                                        
-                                        dataForCounter.push(item[key]);
-                                        
-                                    }
-                                }
-                            }
-                            
-        
-                        }
-                    }
-
-                    return (
-                        <TouchableOpacity 
-                            key={item.value}
-                            style={[styles.card, {borderColor: dynamicColors[3],}]}
-                            onPress={() => navigation.navigate('table', {value: itmDatum.value, label: itmDatum.docTitle})}  
-                        >
-                            <View>
-                                <Text style={styles.cardHead}>{presentTitle}</Text>
-                            </View>
-                            <View>
-                                <FontAwesome5 
-                                    name="file-image"  
-                                    size={40} 
-                                    // color="#AB906D" 
-                                    color={item.colour}
-                                />
-                            </View>
-                            <View>
-                                    {/* <View style={styles.counter}>  */}
-                                        {/* <Text style={{fontSize: 20, width: '200%', fontWeight: 400}}>
-                                            {numberOfItems === 0? '' : numberOfItems }
-                                        </Text> */}
-                                        <ItemsCounter numberOfItems={countImgObj(item)} />
-                            </View>
-                        </TouchableOpacity>
-                    )
+                if(titleDatum === newItmDatum.docTitle) {
+                    item = titleDatum;                
+                    ++noOfFiles;
+                    // console.log('item1 :',item, noOfFiles );
+                }
+                if(fileManDataFromStore[0].indexOf(itmDatum) === (fileManDataFromStore[0].length - 1)) {
+                    console.log('item2 :', item, noOfFiles);
+                    let docId = 0
+                    docTitleWithCount.push({
+                        count: noOfFiles,
+                        docIds: ++docId,
+                        docTitle: item
+                    })
                 }
             })
         })
-        // return (
-        //     <TouchableOpacity 
-        //         key={item.value}
-        //         style={[styles.card, {borderColor: dynamicColors[3],}]}
-        //         onPress={() => navigation.navigate('table', {value: item.value, label: item.docTitle})}  
-        //     >
-        //         <View>
-        //             <Text style={styles.cardHead}>{item.docTitle}</Text>
-        //         </View>
-        //         <View>
-        //             <FontAwesome5 
-        //                 name="file-image"  
-        //                 size={40} 
-        //                 // color="#AB906D" 
-        //                 color={item.colour}
-        //             />
-        //         </View>
-        //         <View>
-        //                 {/* <View style={styles.counter}>  */}
-        //                     {/* <Text style={{fontSize: 20, width: '200%', fontWeight: 400}}>
-        //                         {numberOfItems === 0? '' : numberOfItems }
-        //                     </Text> */}
-        //                     <ItemsCounter numberOfItems={countImgObj(item)} />
-        //         </View>
-        //     </TouchableOpacity>
-        // )
+        setFilteredTitles(docTitleWithCount)
+        return docTitleWithCount;
     }
+
+    const refresher = () => {
+        onSetIsLoading(true);
+        setTimeout(() => {
+            onSetIsLoading(false);
+        }, 2000)
+        onGetFileManagerData();
+    }
+    
+    const itemsToRender = ({item, index}) => {
+        return (
+            <TouchableOpacity 
+                // key={item.value}
+                style={[styles.card, {borderColor: dynamicColors[3],}]}
+                onPress={() => navigation.navigate('table', {label: item.docTitle})}  
+            >
+                <View>
+                    <Text style={styles.cardHead}>{item.docTitle}</Text>
+                </View>
+                <View>
+                    <FontAwesome5 
+                        name="file-image"  
+                        size={30} 
+                        // color="#AB906D" 
+                        color={item.colour}
+                    />
+                </View>
+                <View>
+                        {/* <View style={styles.counter}>  */}
+                            {/* <Text style={{fontSize: 20, width: '200%', fontWeight: 400}}>
+                                {numberOfItems === 0? '' : numberOfItems }
+                            </Text> */}
+                            <ItemsCounter numberOfItems={item.count} />
+                </View>
+            </TouchableOpacity>
+        )
+    }
+
+     useEffect(()=>{
+        sortAllData()
+    }, [])
     return (
         <SafeAreaView style={styles.fileListStyle}>
             <FlatList 
-                data={fileManDataFromStore}
+                data={filteredTitles}
                 renderItem={itemsToRender}
-                keyExtractor={item => item.value}
+                extraData={filterExtractedTitles}
+                keyExtractor={item => item.docIds}
                 numColumns= '3'
+                onRefresh={refresher}
+                refreshing={refreshMe}
             />  
         </SafeAreaView>
     )

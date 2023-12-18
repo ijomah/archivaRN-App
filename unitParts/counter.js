@@ -9,7 +9,7 @@ function ItemsCounter({numberOfItems}) {
     // }
     return (
             <View style={styles.counter}> 
-                <Text style={{fontSize: 20, textAlign: 'auto', width: '200%', fontWeight: 400}}>
+                <Text style={{fontSize: 15, textAlign: 'center', width: '100%', fontWeight: 400}}>
                     {numberOfItems === 0? '' : numberOfItems }
                 </Text>
                 <Text>
@@ -25,6 +25,5 @@ const styles = StyleSheet.create({
     counter: {
         width: 50,
         height: 30,
-        textAlign: ''
     }
 })

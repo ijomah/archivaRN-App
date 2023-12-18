@@ -42,7 +42,7 @@ const FileDetailForm = ({setFileDetForm, errCheck, submitFileDetForm, navigation
                             inputErr={errCheck.applicationNumber}
                             inputConfig={{
                                 placeholder:"Application Number",
-                                keyboardType:"phone-pad",
+//                                keyboardType:"phone-pad",
                                 onChangeText: setFileDetForm.bind(this, 'applicationNumber')
                             }}
                         />
@@ -83,7 +83,7 @@ const FileDetailForm = ({setFileDetForm, errCheck, submitFileDetForm, navigation
                             inputErr={errCheck.dcbNumber} 
                             inputConfig={{
                                 placeholder:"DCB Nunmber:",
-                                keyboardType:"phone-pad",
+  //                              keyboardType:"phone-pad",
                                 onChangeText:setFileDetForm.bind(this, 'dcbNumber')
                             }}
                         />
@@ -280,7 +280,7 @@ styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         // backgroundColor: 'red',
-        marginTop: 25
+      marginTop: '5%'
         
     },
     appliNo: {
@@ -294,7 +294,7 @@ styles = StyleSheet.create({
     },
 
     btn: {
-        marginTop: 5,
+        marginTop: '2%',
         color: 'red'
     }
     // applicationNo: {
