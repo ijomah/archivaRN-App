@@ -64,14 +64,19 @@ const styles = StyleSheet.create({
         width: 410,
         borderColor: '#B7E0F7',
         borderWidth: 1,
+        justifyContent: 'center',
+        alignContent: 'center'
         //backgroundColor: '#F7DBB6',
         //opacity: 0.5
     },
     vendorLogo: {
         height: 250,
         width: 250,
-        marginTop: 300,
-        marginLeft: 80,
+        alignSelf: 'center',
+        // marginTop: 300,
+        // marginTop: '25%',
+        // marginLeft: 80,
+        // marginLeft: '20%',
         borderRadius: 20
     },
 

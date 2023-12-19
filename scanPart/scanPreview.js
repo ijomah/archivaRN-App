@@ -145,23 +145,23 @@ export default ScanPreview = ({navigation}) => {
                 }
                 
             }
-        console.log('I need to upload ScannedImages');
+
         ToastAndroid.show('Uploading..., please wait!', ToastAndroid.SHORT)
        //Empty the store at this point
     //    if(serverRes.status === 200) {
             // dispatch(removeAllDocTitleWithImgUri(0))
             // goto dashboard after uploading
-            // navigation.dispatch(
-            //     CommonActions.reset({
-            //         index: 0,
-            //         routes: [
-            //             // {name: 'home'},
-            //             // {name: 'auth/login'},
-            //             {name: 'screenDrawer/myDrawer'},
-            //             // {name: 'screenStack/docPreview'}
-            //         ]
-            //     })
-            // )
+            navigation.dispatch(
+                CommonActions.reset({
+                    index: 0,
+                    routes: [
+                        // {name: 'home'},
+                        // {name: 'auth/login'},
+                        {name: 'screenDrawer/myDrawer'},
+                        // {name: 'screenStack/docPreview'}
+                    ]
+                })
+            )
         // } else {
             //do somethg
         // }

@@ -37,8 +37,8 @@ export default function ManageRegForm() {
         axios.post(BACKEND_URL+'/api/v1/register',
             userForm
         ).then((postRes) => {
-            console.log('axios post reg(userId)', postRes.data[0]);
-            console.log('looking', {...postRes.data[0], date: new Date()})
+            // console.log('axios post reg(userId)', postRes.data[0]);
+            // console.log('looking', {...postRes.data[0], date: new Date()})
             storeData({...postRes.data[0], date: new Date().toISOString()})
         })
         .catch((error) => {
@@ -52,7 +52,7 @@ export default function ManageRegForm() {
             'Form Submitted!',
             [{  
                 text: 'Ok',
-                // onPress: navigation.navigate('auth/login')
+                onPress: navigation.navigate('auth/login')
             }]
             )
 
