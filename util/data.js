@@ -307,7 +307,7 @@ export const places = [{
     //       "x-render-origin-server": "Render",
     //     },
     //     "status": 404,
-    //     "uri": "file:///data/user/0/host.exp.exponent/files/archiving/b3e038e575b3b07b9c77a0bf9fe4e8ed.jpg", 
+    //     "uri": "file:///data/user/0/host.exp.exponent/files/archiving/b3e038e575b3b07b9c77a0bf9fe  4e8ed.jpg", 
     //   },
 
     //res from img download for local server (200)

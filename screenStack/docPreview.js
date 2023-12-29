@@ -150,8 +150,8 @@ function DocPreview({route}) {
                     height: 700, 
                     borderWidth: 2, 
                     borderColor: 'red', 
-                    // marginTop: 7, 
-                    marginTop: '3%',
+                    marginTop: 7, 
+                    // marginTop: '3%',
                     borderStyle: 'solid', 
                     width: 370, 
                     borderTopLeftRadius: 20,
@@ -248,8 +248,8 @@ function DocPreview({route}) {
 const styles = StyleSheet.create({
     formPage: {
 
-        // marginTop: 7,
-        marginTop: '2%'
+        marginTop: 7,
+        // marginTop: '2%'
     },
     vendorLogo: {
         // alignItems: 'center',
@@ -258,8 +258,8 @@ const styles = StyleSheet.create({
         height: 520,
         width: 330,
         borderRadius: 20,
-        // marginTop: 10
-        marginTop: '3%'
+        marginTop: 10
+        // marginTop: '3%'
     },
 
     navLink: {

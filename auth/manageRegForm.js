@@ -11,6 +11,7 @@ import { readUserTable } from '../util/dbService';
 import { BACKEND_URL } from '../api/apiEnv';
 
 export default function ManageRegForm() {
+    const [date, setDate] = useState(new Date(1598051730000));
     const [userForm, setUserForm] = useState({
         userKey: Math.random().toString(35).substring(1),
         // label: '',
@@ -20,6 +21,30 @@ export default function ManageRegForm() {
 
     const dispatch = useDispatch();
     const navigation = useNavigation();
+
+
+    const onChange = (event, selectedDate) => {
+        const currentDate = selectedDate;
+        setDate(currentDate);
+        
+      };
+    
+      const showMode = (currentMode) => {
+      //   DateTimePickerAndroid.open({
+      DateTimePickerAndroid.open({
+          value: date,
+          onChange,
+          mode: currentMode,
+          is24Hour: true,
+        });
+      };
+    
+      const showDatepicker = () => {
+        showMode('date');
+      };
+  
+
+
     const setApplyNo = (valIdentifier, typedVal) => {
         // console.log('identifier-val', valIdentifier, typedVal)
         setUserForm({...userForm, [valIdentifier]: typedVal})
@@ -52,7 +77,7 @@ export default function ManageRegForm() {
             'Form Submitted!',
             [{  
                 text: 'Ok',
-                onPress: navigation.navigate('auth/login')
+                // onPress: navigation.navigate('auth/login')
             }]
             )
 

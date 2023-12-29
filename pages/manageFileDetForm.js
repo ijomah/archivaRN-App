@@ -19,7 +19,7 @@ export default function ManageFileDetail({navigation}) {
     //     setphoneDbId(remoteDbId)
     //     console.log('phoneDbId', phoneDbId)
     // })
-    
+    const [date, setDate] = useState(new Date(1598051730000));
     const [errForInput, setErrForInput] = useState({});   
     const [fileDetail, setFileDetail] = useState({
         applicationNumber: "",
@@ -46,6 +46,28 @@ export default function ManageFileDetail({navigation}) {
         // dcbNumber: null || " ",
     });
     const [phoneDbId, setPhoneDbId] = useState(0)
+
+
+    const onChange = (event, selectedDate) => {
+        const currentDate = selectedDate;
+        setDate(currentDate);
+        
+      };
+    
+      const showMode = (currentMode) => {
+      //   DateTimePickerAndroid.open({
+      DateTimePickerAndroid.open({
+          value: date,
+          onChange,
+          mode: currentMode,
+          is24Hour: true,
+        });
+      };
+    
+      const showDatepicker = () => {
+        showMode('date');
+      };
+
 
     const setFileDetForm = (fileIdentifier, typedFileDetail) => {
         // console.log('identifier-val', valIdentifier, typedVal)
@@ -121,7 +143,10 @@ export default function ManageFileDetail({navigation}) {
                 errCheck ={errForInput}
                 setFileDetForm={setFileDetForm} 
                 navigation={navigation}
-                submitFileDetForm={submitFileDetForm} />
+                submitFileDetForm={submitFileDetForm} 
+                date={date}
+                onShowDate={showDatepicker}
+            />
         </View>
     )
 }

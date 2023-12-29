@@ -68,7 +68,7 @@ function Card({navigation, onSetIsLoading, onGetFileManagerData }) {
                 // console.log('card data', titleDatum)
                 let newItmDatum = new FileManDataShape(
                     itmDatum.file_no,
-                    itmDatum.file_name, 
+                    itmDatum.applic_name, 
                     fileManDataFromStore[0].length
                 )
                 
@@ -139,7 +139,7 @@ function Card({navigation, onSetIsLoading, onGetFileManagerData }) {
                 renderItem={itemsToRender}
                 extraData={filterExtractedTitles}
                 keyExtractor={item => item.docIds}
-                numColumns= '3'
+                numColumns= '2'
                 onRefresh={refresher}
                 refreshing={refreshMe}
             />  

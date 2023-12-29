@@ -5,7 +5,7 @@ import { ScrollView } from "react-native";
 
 
 
-const FileDetailForm = ({setFileDetForm, errCheck, submitFileDetForm, navigation}) => {
+const FileDetailForm = ({date, onShowDate, setFileDetForm, errCheck, submitFileDetForm, navigation}) => {
     
     return (
         <SafeAreaView 
@@ -108,10 +108,17 @@ const FileDetailForm = ({setFileDetForm, errCheck, submitFileDetForm, navigation
                                 keyboardType="default"
                                 style={styles.StreetInput}
                                 inputConfig={{
+                                    value: date.toLocaleDateString(),
                                     placeholder:"Approval Date:",
                                     onChangeText:setFileDetForm.bind(this, 'approvalDate')
                                 }}
                             />
+                            <TouchableOpacity 
+                                style={styles.dateBtn} 
+                                onPress={onShowDate}
+                            >
+                                <Text>Date picker!</Text>
+                            </TouchableOpacity>
                         </View>
 
                         <View style={styles.areaName}>
@@ -129,14 +136,21 @@ const FileDetailForm = ({setFileDetForm, errCheck, submitFileDetForm, navigation
 
                         <View style={styles.appliName}>
                             <MyTextInput 
-                                label= 'Year file was Opened:'
+                                label= 'Date file was Opened:'
                                 inputErr={errCheck.fileYear}
                                 style={styles.input}
                                 inputConfig={{
+                                    value: date.toLocaleDateString(),
                                     placeholder:"File Year:",
                                     onChangeText: setFileDetForm.bind(this, 'fileYear')
                                 }}
                             />
+                            <TouchableOpacity 
+                                style={styles.dateBtn} 
+                                onPress={onShowDate}
+                            >
+                                <Text>Date picker!</Text>
+                            </TouchableOpacity>
                         </View>
 
                         {/* <View style={styles.state}>
@@ -283,8 +297,13 @@ styles = StyleSheet.create({
       marginTop: '5%'
         
     },
-    appliNo: {
-
+    dateBtn: {
+        height:23, 
+        marginBottom:3, 
+        alignSelf:'flex-end', 
+        alignItems:'center', 
+        width:100, 
+        backgroundColor:'#5CBFAB'
     },
     input: {
 

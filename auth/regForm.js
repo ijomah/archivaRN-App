@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity, Button, TextInput } from 'react-native';
-import MyTextInput from "../unitParts/reuseTextInput";
-import { ScrollView } from "react-native";
-import { SafeAreaView } from "react-native";
+import { StyleSheet, Text, View, ScrollView, Image, SafeAreaView, TouchableOpacity, Button, TextInput } from 'react-native';
 
-const RegForm = ({setApplyNo, submitForm, errInData}) => {
+import { PickDate } from "../unitParts/date";
+
+import MyTextInput from "../unitParts/reuseTextInput";
+
+const RegForm = ({date, onShowDate, setApplyNo, submitForm, errInData}) => {
     
     return (
         <SafeAreaView style={{conentContainerStyle: {justifyContent: 'center'}}}>
@@ -142,17 +143,23 @@ const RegForm = ({setApplyNo, submitForm, errInData}) => {
                     </View>
                 </View>
                 
-                
-                    <View style={styles.appliName}>
+                <View 
+                    // style={styles.appliName}
+                    >
                         <MyTextInput 
-                            label= 'Year file was Opened:'
+                            label= 'Date file was Opened:'
                             inputErr={errInData.fileYear}
-                            style={styles.input}
+                            // style={styles.input}
+                            style={{width:50}}
                             inputConfig={{
                                 placeholder:"File Year:",
-                                onChangeText: setApplyNo.bind(this, 'fileYear')
+                                value: date.toLocaleDateString(),
+                                onChangeText: setReg.bind(this, 'fileYear')
                             }}
-                        />
+                        />                        
+                        <TouchableOpacity style={{height:23, marginBottom:3, alignSelf:'flex-end', alignItems:'center', width:100, backgroundColor:'#5CBFAB'}} onPress={onShowDate}>
+                            <Text>Date picker!</Text>
+                        </TouchableOpacity>
                     </View>
                 {/* Ability to add additional input field by the user
                 Use a fontawesome icon to give the use this ability */}

@@ -111,13 +111,36 @@ export default ScanPreview = ({navigation}) => {
     }
 
     const uploadScannedImg = async () => {
-        // console.log('copy', prevImgFromStore)
+        
+        console.log('copy', prevImgFromStore.length)
             for (const oneBigObj of prevImgFromStore) {
+                let countMe = 0;
+                // To avoid double entry in the db
+                // try {
+                    
+                //     await FileSystem
+                //         .uploadAsync(BACKEND_URL+'/api/v1/files',
+                //             '',
+                //             {
+                //                 uploadType: FileSystem.FileSystemUploadType.MULTIPART,
+                //                 headers: {},
+                //                 fieldName: 'photo',
+                //                 httpMethod: 'POST',
+                //                 parameters: {"data":JSON.stringify(oneBigObj) }
+                //                 // parameters: JSON.stringify(oneBigObj)
+                //             }
+                //     )
+                //     // setServerRes(serverResp)
+                //     console.log('res from me: good');
+                //     // console.log('res from server: ', serverRes);
+                // } catch (error) {
+                //     console.log('err from try', error);
+                // }
                 for (const objkeys in oneBigObj) {
                     if (typeof(oneBigObj[objkeys]) === 'object') {
+                        ++countMe
                         let imgUriForServer = oneBigObj[objkeys].uri;
                         let imgId = oneBigObj[objkeys].imgId;
-                        let noImg = delete oneBigObj[objkeys];
                         // console.log('xpected deleted uri: ', oneBigObj[objkeys]);
                         try {
                             //api url from render
@@ -131,7 +154,7 @@ export default ScanPreview = ({navigation}) => {
                                         headers: {},
                                         fieldName: 'photo',
                                         httpMethod: 'PATCH',
-                                        parameters: {"imgId":imgId, "data":JSON.stringify(oneBigObj) }
+                                        parameters: countMe===1?{"imgId":imgId, "data":JSON.stringify(oneBigObj) }:{"imgId":imgId}
                                         // parameters: JSON.stringify(oneBigObj)
                                     }
                             )
@@ -232,8 +255,8 @@ export default ScanPreview = ({navigation}) => {
                     </TouchableOpacity>
             </View>
             <View style={{height: 690,}}>
-                {prevImg.length > 1 && prevImg != undefined ? 
-                    (
+                {/* {prevImg.length > 0 && prevImg != undefined ? 
+                    ( */}
                         <View style={styles.preview}>
                             <FlatList 
                                 data={prevImg}
@@ -242,18 +265,19 @@ export default ScanPreview = ({navigation}) => {
                                 // style={{backgroundColor: 'green',}}
                             />
                         </View>
-                    ) : 
-                    (
-                        <View>
-                            {prevImg.length === 1 && prevImg[0] !== null ?
-                                <CardApi uri={prevImg[0]} />
-                                // <TouchableHighlight onPress={shareScannedImage}><Feather name="share-2" size={24} color="black" /></TouchableHighlight>
-                                : ''
-                            }
-                            {/* <Image style={{width: 150, height: 150}} source={{uri: prevImgFromStore[0]}} /> */}
-                        </View>
-                    )
-                }
+                     {/* ) 
+                    : 
+                     (
+                         <View>
+                             {prevImg.length === 1 && prevImg[0] !== null ?
+                                 <CardApi uri={prevImg[0]} />
+                                 // <TouchableHighlight onPress={shareScannedImage}><Feather name="share-2" size={24} color="black" /></TouchableHighlight>
+                                 : ''
+                             }
+                             <Image style={{width: 150, height: 150}} source={{uri: prevImgFromStore[0]}} />
+                         </View>
+                     ) */}
+                {/* } */}
             </View>
         </View>
     )
