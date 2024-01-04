@@ -165,7 +165,7 @@ let dashboardItemArr = [];
             <Text 
                 style={{fontSize: 18, textAlign: 'center'}}
             >
-                Categories of Files in your 
+                Categories of Files in your {' '}
                 {/* {documentList[5].fName}  */}
                 Cabinet
             </Text>

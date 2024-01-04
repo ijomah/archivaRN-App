@@ -8,6 +8,8 @@ import FileDetailForm from './fileDetailForm';
 import { insertToApprAndApplicTable, readUserTable } from '../util/dbService';
 import { isInputValid } from '../unitParts/errFunc';
 
+import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
+
 export default function ManageFileDetail({navigation}) {
     const dispatch = useDispatch();
     // let phoneDbId = 
@@ -25,7 +27,7 @@ export default function ManageFileDetail({navigation}) {
         applicationNumber: "",
         fName: "",
         lName: "",
-        fileYear: "",
+        // fileYear: "",
         approvalDo: "",
         approvalDate: "",
         approvalType: "",

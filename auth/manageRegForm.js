@@ -10,6 +10,8 @@ import axios from 'axios';
 import { readUserTable } from '../util/dbService';
 import { BACKEND_URL } from '../api/apiEnv';
 
+import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
+
 export default function ManageRegForm() {
     const [date, setDate] = useState(new Date(1598051730000));
     const [userForm, setUserForm] = useState({
@@ -94,6 +96,8 @@ export default function ManageRegForm() {
                 setApplyNo={setApplyNo} 
                 submitForm={submitForm}
                 errInData={errForRegInput}
+                date={date}
+                onShowDate={showDatepicker}
                 />
         </View>
     )

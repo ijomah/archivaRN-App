@@ -200,7 +200,7 @@ function ScanWithCamera({route, navigation}) {
             onPress={retake}
           >
           {/* put icon here. redo or retake icon */}
-          <MaterialCommunityIcons name="camera-retake-outline" size={35} color="white" />
+          <MaterialCommunityIcons name="camera-retake-outline" size={35} color="black" />
           </TouchableOpacity>
           
           <TouchableOpacity 
@@ -216,7 +216,7 @@ function ScanWithCamera({route, navigation}) {
             style={styles.button}
           >
             {/* put icon here. plus icon */}
-            <FontAwesome name="save" size={35} color="white" />
+            <FontAwesome name="save" size={35} color="black" />
           </TouchableOpacity>
         </View>
       </View>

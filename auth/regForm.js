@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, ScrollView, Image, SafeAreaView, TouchableOpacity, Button, TextInput } from 'react-native';
+import { StyleSheet, Pressable, Text, View, ScrollView, Image, SafeAreaView, TouchableOpacity, Button, TextInput } from 'react-native';
 
 import { PickDate } from "../unitParts/date";
 
@@ -48,6 +48,7 @@ const RegForm = ({date, onShowDate, setApplyNo, submitForm, errInData}) => {
                         inputErr={errInData.lname}
                         inputConfig={{
                             placeholder:"password",
+                            secureTextEntry: true,
                             onChangeText:setApplyNo.bind(this, 'password')
                         }}
                     />
@@ -146,20 +147,22 @@ const RegForm = ({date, onShowDate, setApplyNo, submitForm, errInData}) => {
                 <View 
                     // style={styles.appliName}
                     >
-                        <MyTextInput 
-                            label= 'Date file was Opened:'
-                            inputErr={errInData.fileYear}
-                            // style={styles.input}
-                            style={{width:50}}
-                            inputConfig={{
-                                placeholder:"File Year:",
-                                value: date.toLocaleDateString(),
-                                onChangeText: setReg.bind(this, 'fileYear')
-                            }}
-                        />                        
-                        <TouchableOpacity style={{height:23, marginBottom:3, alignSelf:'flex-end', alignItems:'center', width:100, backgroundColor:'#5CBFAB'}} onPress={onShowDate}>
+                        <Pressable onPress={onShowDate}>
+                            <MyTextInput 
+                                label= 'Date file was Opened:'
+                                inputErr={errInData.fileYear}
+                                // style={styles.input}
+                                style={{width:50}}
+                                inputConfig={{
+                                    placeholder:"File Year:",
+                                    value: date.toLocaleDateString(),
+                                    onChangeText: setApplyNo.bind(this, 'fileYear')
+                                }}
+                            />         
+                        </Pressable>               
+                        {/* <TouchableOpacity style={{height:23, marginBottom:3, alignSelf:'flex-end', alignItems:'center', width:100, backgroundColor:'#5CBFAB'}} >
                             <Text>Date picker!</Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                     </View>
                 {/* Ability to add additional input field by the user
                 Use a fontawesome icon to give the use this ability */}

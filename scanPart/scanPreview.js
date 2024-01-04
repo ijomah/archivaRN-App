@@ -169,7 +169,7 @@ export default ScanPreview = ({navigation}) => {
                 
             }
 
-        ToastAndroid.show('Uploading..., please wait!', ToastAndroid.SHORT)
+        ToastAndroid.show('Uploading..., please wait!', ToastAndroid.LONG)
        //Empty the store at this point
     //    if(serverRes.status === 200) {
             // dispatch(removeAllDocTitleWithImgUri(0))

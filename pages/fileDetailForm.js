@@ -134,7 +134,7 @@ const FileDetailForm = ({date, onShowDate, setFileDetForm, errCheck, submitFileD
                             />
                         </View>
 
-                        <View style={styles.appliName}>
+                        {/* <View style={styles.appliName}>
                             <MyTextInput 
                                 label= 'Date file was Opened:'
                                 inputErr={errCheck.fileYear}
@@ -151,7 +151,7 @@ const FileDetailForm = ({date, onShowDate, setFileDetForm, errCheck, submitFileD
                             >
                                 <Text>Date picker!</Text>
                             </TouchableOpacity>
-                        </View>
+                        </View> */}
 
                         {/* <View style={styles.state}>
                             <MyTextInput 
